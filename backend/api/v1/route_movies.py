@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 
-@router.post("/", response_model=ShowMovie)
+@router.post("/", response_model=ShowMovie,status_code=201)
 def create_movie(
     movie: MovieCreate,
     db: Session = Depends(get_db),
