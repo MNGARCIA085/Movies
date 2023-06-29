@@ -12,7 +12,7 @@ def test_create_user(client):
         "password": "testing",
     }
     response = client.post("/users/", data=json.dumps(data))
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.json()["email"] == "testuser@nofoobar.com"
     assert response.json()["is_active"] == True
 
