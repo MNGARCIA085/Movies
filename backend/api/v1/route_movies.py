@@ -1,7 +1,7 @@
 from typing import List
 from db.repository.movies import create_new_movie,retreive_movie,delete_movie_by_id,update_movie_by_id,list_movies
 from db.session import get_db
-from fastapi import APIRouter,Depends,HTTPException,status
+from fastapi import APIRouter,Depends,HTTPException, Query,status
 from schemas.movies import MovieCreate,ShowMovie
 from sqlalchemy.orm import Session
 
@@ -32,13 +32,16 @@ def read_movie(id: int, db: Session = Depends(get_db)):
     return movie
 
 
+
+
 @router.get("/", response_model=List[ShowMovie])
-def read_movies(db: Session = Depends(get_db)):
+def read_movies(db: Session = Depends(get_db),title: list = Query(default=None)):
+    print(title)
     return list_movies(db=db)
 
 
 
-@router.put("/{id}")
+@router.put("/{id}",status_code=201)
 def update_movie(id: int, movie: MovieCreate, db: Session = Depends(get_db)):
     aux = update_movie_by_id(id=id, movie=movie, db=db)
     if not aux:

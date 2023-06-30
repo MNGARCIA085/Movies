@@ -12,4 +12,5 @@ class Movie(Base):
     description = Column(String, nullable=False)
     date = Column(Date)
     reviews = relationship("Review", back_populates="movie")
+    # genres
 

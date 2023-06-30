@@ -5,8 +5,6 @@ from pydantic import BaseModel
 
 
 
-
-
 # helper
 class Review(BaseModel):
     score: int
@@ -23,7 +21,7 @@ class MovieBase(BaseModel):
     title: Optional[str] = None #title: Optional[str] = None
     description: Optional[str] = None
     #date: Optional[date] = datetime.now().date()
-    reviews:  List[Review]
+
 
 
 # this will be used to validate data while creating a movie
@@ -35,6 +33,7 @@ class MovieCreate(MovieBase):
 # this will be used to format the response
 class ShowMovie(MovieBase):
     id: int
+    reviews:  List[Review]
 
     class Config:  # to convert non dict obj to json
         orm_mode = True

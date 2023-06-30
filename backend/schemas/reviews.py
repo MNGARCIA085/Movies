@@ -1,11 +1,8 @@
 from datetime import date
-from typing import Optional
-
-from pydantic import BaseModel
-
-
+from typing import List, Optional
+from fastapi import Query
+from pydantic import BaseModel, Field
 from . import users
-
 
 
 # helper
@@ -14,7 +11,6 @@ class Movie(BaseModel):
 
     class Config:
         orm_mode = True
-
 
 
 # shared properties
@@ -37,3 +33,15 @@ class ShowReview(ReviewBase):
 
     class Config:  # to convert non dict obj to json
         orm_mode = True
+
+
+# for filtering
+class FilterReview(BaseModel):
+    problematic: Optional[List[str]] = Field(Query([])) #https://github.com/tiangolo/fastapi/issues/4445
+    movie_id:int | None = None
+    movie_title:str | None = None
+    movie_title__contains:str | None = None
+    user_id:int | None = None
+
+
+
