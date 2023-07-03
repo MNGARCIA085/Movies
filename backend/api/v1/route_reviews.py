@@ -23,7 +23,7 @@ def create_review(
     db: Session = Depends(get_db),
     #current_user: User = Depends(get_current_user_from_token),
 ):
-    return create_new_review(review=review, db=db, user_id=1)   #owner_id=current_user.id
+    return create_new_review(review=review, user_id=1, db=db)   #owner_id=current_user.id
 
 
 

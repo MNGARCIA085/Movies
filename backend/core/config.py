@@ -27,6 +27,11 @@ class Settings:
 
     TEST_USER_EMAIL = "test@example.com"
 
+    # superuser
+    FIRST_SUPERUSER: str
+    FIRST_SUPERUSER_PASSWORD: str
+
+
 
 settings = Settings()
 

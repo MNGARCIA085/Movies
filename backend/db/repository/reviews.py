@@ -6,7 +6,7 @@ from db.models.users import User
 from sqlalchemy import or_,and_
 
 
-def create_new_review(review: ReviewCreate, db: Session, user_id: int):
+def create_new_review(review: ReviewCreate, user_id: int,db: Session):
     review_object = Review(**review.dict(),user_id=user_id)
     db.add(review_object)
     db.commit()
