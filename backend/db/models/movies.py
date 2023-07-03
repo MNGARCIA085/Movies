@@ -1,9 +1,8 @@
 from db.base_class import Base
-from sqlalchemy import Column
-from sqlalchemy import Date
-from sqlalchemy import Integer
-from sqlalchemy import String
+from sqlalchemy import Column,LargeBinary,Date,Integer,String
 from sqlalchemy.orm import relationship
+from .movie_genre import MovieGenre
+from .genres import Genre
 
 
 class Movie(Base):
@@ -12,5 +11,6 @@ class Movie(Base):
     description = Column(String, nullable=False)
     date = Column(Date)
     reviews = relationship("Review", back_populates="movie")
-    # genres
+    genres = relationship('Genre', secondary='moviegenre',back_populates='movies')
+    imagen = Column(LargeBinary)
 

@@ -3,7 +3,8 @@ from schemas.movies import MovieCreate
 from sqlalchemy.orm import Session
 
 
-def create_new_movie(movie: MovieCreate, db: Session):
+def create_new_movie(movie: MovieCreate,db: Session):
+    # obtengo el dict; le separo los ids de los géneros y luego inserto apropiadamente
     movie_object = Movie(**movie.dict())
     db.add(movie_object)
     db.commit()

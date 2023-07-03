@@ -63,12 +63,16 @@ def init_db(db: Session) -> None:
     u2 = users.create_new_user(user_in,db)
 
     # genres
+    #genre_object = {'description':'action'}
+    #g = db.add(genre_object)
+    #db.commit()
+
 
 
     # movies
     movie_in = schemas.movies.MovieCreate(
         title='braveheart',
-        description='dsfs, sdfdsf'
+        description='dsfs, sdfdsf',
     )
     m1 = movies.create_new_movie(movie_in,db)
     movie_in = schemas.movies.MovieCreate(

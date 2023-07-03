@@ -3,7 +3,7 @@ from typing import List, Optional
 from fastapi import Query
 from pydantic import BaseModel, Field
 from . import users
-
+from datetime import datetime
 
 # helper
 class Movie(BaseModel):
@@ -17,7 +17,8 @@ class Movie(BaseModel):
 class ReviewBase(BaseModel):
     score: int
     description: str
-    date: Optional[date]
+    #date: Optional[date]
+    date: datetime = Field(default_factory=datetime.now)
 
 
 # create review

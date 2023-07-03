@@ -1,5 +1,5 @@
 from db.base_class import Base
-from sqlalchemy import Boolean
+from sqlalchemy import Boolean,LargeBinary
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
@@ -14,3 +14,4 @@ class User(Base):
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
     reviews = relationship("Review", back_populates="user")
+    imagen = Column(LargeBinary)

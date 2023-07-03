@@ -9,10 +9,17 @@ from pydantic import BaseModel
 class Review(BaseModel):
     score: int
     description: str
-    date: Optional[date]
+    date: Optional[datetime] = datetime.now().date()
 
     class Config:  # to convert non dict obj to json
         orm_mode = True
+
+
+
+# helper for genres
+class Genres(BaseModel):
+    description: str
+
 
 
 
@@ -21,6 +28,8 @@ class MovieBase(BaseModel):
     title: Optional[str] = None #title: Optional[str] = None
     description: Optional[str] = None
     #date: Optional[date] = datetime.now().date()
+    
+
 
 
 
@@ -28,12 +37,15 @@ class MovieBase(BaseModel):
 class MovieCreate(MovieBase):
     title: str
     description: str
+    #genres: List[int]
 
 
 # this will be used to format the response
 class ShowMovie(MovieBase):
     id: int
     reviews:  List[Review]
+    
+
 
     class Config:  # to convert non dict obj to json
         orm_mode = True
