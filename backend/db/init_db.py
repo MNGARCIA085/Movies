@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 import schemas
-from .repository import users,movies,reviews
+from .repository import users,movies,reviews,genres
 from core.config import settings
 
 
@@ -36,6 +36,8 @@ def init_db(db: Session) -> None:
     db.query(Movie).delete()
     db.query(User).delete()
     db.query(Review).delete()
+    db.query(Genre).delete()
+    db.query(MovieGenre).delete()
     db.commit()
 
 
@@ -71,10 +73,13 @@ def init_db(db: Session) -> None:
     u2 = users.create_new_user(user_in,db)
 
     # genres
-    db_genre = Genre(description='action')
-    db.add(db_genre)
-    db.commit()
+    genre_in = schemas.genres.GenreCreate(description='action')
+    g1 = genres.create_new_genre(genre=genre_in,db=db)
+    genre_in = schemas.genres.GenreCreate(description='comedy')
+    g2 = genres.create_new_genre(genre=genre_in,db=db)
 
+
+    
 
 
 
@@ -82,17 +87,19 @@ def init_db(db: Session) -> None:
     movie_in = schemas.movies.MovieCreate(
         title='braveheart',
         description='dsfs, sdfdsf',
+        genres=[g1.id,g2.id],
     )
     m1 = movies.create_new_movie(movie_in,db)
     movie_in = schemas.movies.MovieCreate(
         title='matrix reloaded',
-        description='dsfs, sdfdsf'
+        description='dsfs, sdfdsf',
+        genres=[g1.id]
     )
     m2 = movies.create_new_movie(movie_in,db)
 
 
 
-
+    """
     # genres for movies
     movie_genre_in = MovieGenre(movie_id=m1.id,genre_id=1)
     db.add(movie_genre_in)
@@ -101,6 +108,8 @@ def init_db(db: Session) -> None:
     movie_genre_in = MovieGenre(movie_id=m2.id,genre_id=1)
     db.add(movie_genre_in)
     db.commit()
+
+    """
 
 
 

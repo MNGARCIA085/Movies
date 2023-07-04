@@ -40,7 +40,7 @@ class MovieBase(BaseModel):
 class MovieCreate(MovieBase):
     title: str
     description: str
-    #genres: List[int]
+    genres: List[int]
 
 
 # this will be used to format the response
