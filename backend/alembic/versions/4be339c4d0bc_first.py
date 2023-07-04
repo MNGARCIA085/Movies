@@ -1,8 +1,8 @@
 """first
 
-Revision ID: 6e9ab4ec0c3d
+Revision ID: 4be339c4d0bc
 Revises: 
-Create Date: 2023-07-03 20:29:55.468669
+Create Date: 2023-07-03 21:09:17.688940
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6e9ab4ec0c3d'
+revision = '4be339c4d0bc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -48,11 +48,11 @@ def upgrade() -> None:
     op.create_index(op.f('ix_user_id'), 'user', ['id'], unique=False)
     op.create_table('moviegenre',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('movie_id', sa.Integer(), nullable=False),
-    sa.Column('genre_id', sa.Integer(), nullable=False),
+    sa.Column('movie_id', sa.Integer(), nullable=True),
+    sa.Column('genre_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['genre_id'], ['genre.id'], ),
     sa.ForeignKeyConstraint(['movie_id'], ['movie.id'], ),
-    sa.PrimaryKeyConstraint('id', 'movie_id', 'genre_id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_moviegenre_id'), 'moviegenre', ['id'], unique=False)
     op.create_table('review',

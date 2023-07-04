@@ -20,6 +20,9 @@ class Review(BaseModel):
 class Genres(BaseModel):
     description: str
 
+    class Config:
+        orm_mode = True
+
 
 
 
@@ -44,6 +47,7 @@ class MovieCreate(MovieBase):
 class ShowMovie(MovieBase):
     id: int
     reviews:  List[Review]
+    genres: List[Genres]
     
 
 

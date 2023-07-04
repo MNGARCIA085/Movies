@@ -11,6 +11,7 @@ class Movie(Base):
     description = Column(String, nullable=False)
     date = Column(Date)
     reviews = relationship("Review", back_populates="movie")
-    genres = relationship('Genre', secondary='moviegenre',back_populates='movies')
     imagen = Column(LargeBinary)
+    genres = relationship('Genre', secondary='moviegenre',back_populates='movies')
+    
 

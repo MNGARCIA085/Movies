@@ -13,6 +13,14 @@ from core.config import settings
 from db.models.users import User
 from db.models.movies import Movie
 from db.models.reviews import Review
+from db.models.genres import Genre
+from db.models.movie_genre import MovieGenre
+
+
+
+
+
+
 
 
 def init_db(db: Session) -> None:
@@ -63,9 +71,10 @@ def init_db(db: Session) -> None:
     u2 = users.create_new_user(user_in,db)
 
     # genres
-    #genre_object = {'description':'action'}
-    #g = db.add(genre_object)
-    #db.commit()
+    db_genre = Genre(description='action')
+    db.add(db_genre)
+    db.commit()
+
 
 
 
@@ -80,6 +89,19 @@ def init_db(db: Session) -> None:
         description='dsfs, sdfdsf'
     )
     m2 = movies.create_new_movie(movie_in,db)
+
+
+
+
+    # genres for movies
+    movie_genre_in = MovieGenre(movie_id=m1.id,genre_id=1)
+    db.add(movie_genre_in)
+    db.commit()
+
+    movie_genre_in = MovieGenre(movie_id=m2.id,genre_id=1)
+    db.add(movie_genre_in)
+    db.commit()
+
 
 
     # reviews for movies
