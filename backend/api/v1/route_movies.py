@@ -2,7 +2,7 @@ from typing import List
 from db.repository.movies import create_new_movie,retreive_movie,delete_movie_by_id,update_movie_by_id,list_movies
 from db.session import get_db
 from fastapi import APIRouter,Depends,HTTPException, Query,status
-from schemas.movies import MovieCreate,ShowMovie
+from schemas.movies import MovieCreate,ShowMovie,FilterMovie
 from sqlalchemy.orm import Session
 
 
@@ -35,9 +35,8 @@ def read_movie(id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/", response_model=List[ShowMovie])
-def read_movies(db: Session = Depends(get_db),title: list = Query(default=None)):
-    print(title)
-    return list_movies(db=db)
+def read_movies(f: FilterMovie = Depends(),db: Session = Depends(get_db)):
+    return list_movies(db=db,f=f)
 
 
 

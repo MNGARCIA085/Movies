@@ -1,6 +1,4 @@
 from typing import List, Optional
-
-
 #from apis.version1.route_login import get_current_user_from_token
 from db.models.users import User
 from db.repository.reviews import create_new_review,list_reviews

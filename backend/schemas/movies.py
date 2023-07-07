@@ -1,8 +1,8 @@
 from datetime import date
 from datetime import datetime
 from typing import Optional,List
-from pydantic import BaseModel
-
+from fastapi import Query
+from pydantic import BaseModel, Field
 
 
 # helper
@@ -25,13 +25,13 @@ class Genres(BaseModel):
 
 
 
+from datetime import date as dtdate
 
 # shared properties
 class MovieBase(BaseModel):
     title: Optional[str] = None #title: Optional[str] = None
     description: Optional[str] = None
-    #date: Optional[date] = datetime.now().date()
-    
+    date: Optional[dtdate] = Field(default_factory=date.today())
 
 
 
@@ -53,3 +53,15 @@ class ShowMovie(MovieBase):
 
     class Config:  # to convert non dict obj to json
         orm_mode = True
+
+
+
+# for filtering
+class FilterMovie(BaseModel):
+    title: str | None = None
+    title__contains: str | None = None
+    date: Optional[date]
+    date__gte: Optional[date]
+    date__lte: Optional[date]
+    reviews_scores_range: Optional[List[int]] = Field(Query([]))
+    genres: Optional[List[int]] = Field(Query([]))

@@ -1,6 +1,7 @@
+from sqlalchemy import and_
 from core.hashing import Hasher
 from db.models.users import User
-from schemas.users import UserCreate
+from schemas.users import UserCreate,FilterUser
 from sqlalchemy.orm import Session
 
 
@@ -24,7 +25,26 @@ def get_user_by_email(email: str, db: Session):
     return user
 
 
-def get_users(db: Session):
-    users = db.query(User).limit(20).all()
+def get_users(db: Session,f:FilterUser):
+
+    filters = []
+
+    if f.username:
+        filters.append(User.username==f.username)
+
+    if f.username__contains:
+        filters.append(User.username.contains(f.username__contains))
+
+    if f.email:
+        filters.append(User.email==f.email)
+
+    if f.email__contains:
+        filters.append(User.email.contains(f.email__contains))
+
+    # junto todo
+    filters = and_(*filters)
+
+    # consulta
+    users = db.query(User).filter(filters).limit(f.limit).offset(f.offset).all()
     return users
 

@@ -43,6 +43,9 @@ class FilterReview(BaseModel):
     movie_title:str | None = None
     movie_title__contains:str | None = None
     user_id:int | None = None
+    date:Optional[date]
+    date__gte:Optional[date]
+    date__lte:Optional[date]
 
 
 

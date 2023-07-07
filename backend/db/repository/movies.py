@@ -1,7 +1,11 @@
 from db.models.movies import Movie
-from schemas.movies import MovieCreate
+from schemas.movies import MovieCreate,FilterMovie
 from .movie_genres import create_movie_genres,delete_movie_genres
 from sqlalchemy.orm import Session
+from db.models.genres import Genre
+from db.models.reviews import Review
+from sqlalchemy import or_,and_
+
 
 
 def create_new_movie(movie: MovieCreate,db: Session):
@@ -27,13 +31,34 @@ def retreive_movie(id: int, db: Session):
     return db.query(Movie).filter(Movie.id == id).first()
 
 
+def list_movies(db: Session,f:FilterMovie):
 
-def list_movies(db: Session):
-    return db.query(Movie).all()
+    filters = [Movie.id>0]
+
+    if f.title:
+        filters.append(Movie.title==f.title)
+
+    if f.title__contains:
+        filters.append(Movie.title.contains(f.title__contains))
+
+    if f.genres:
+        generos = db.query(Genre.id).filter(Genre.id.in_(f.genres))
+        filters.append(Genre.id.in_(generos))
+
+    # rango de fechas
+    if f.date__gte:
+        filters.append( Movie.date >=  f.date__gte)
+    if f.date__lte:
+        filters.append( Movie.date <=  f.date__lte)
+
+    # junto todo
+    filters = and_(*filters)
+    return db.query(Movie).join(Movie.genres).filter(filters).all()
 
 
 
 def update_movie_by_id(id: int, movie: MovieCreate, db: Session):
+
     existing_movie = db.query(Movie).filter(Movie.id == id)
     if not existing_movie.first():
         return 0
@@ -63,15 +88,6 @@ def delete_movie_by_id(id: int, db: Session):
     existing_movie.delete(synchronize_session=False) # ver esto
     db.commit()
     return 1
-
-
-
-"""
-def search_job(query: str, db: Session):
-    jobs = db.query(Job).filter(Job.title.contains(query))
-    return jobs
-"""
-
 
 
 

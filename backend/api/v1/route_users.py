@@ -2,7 +2,7 @@ from db.repository.users import create_new_user,get_users
 from db.session import get_db
 from fastapi import APIRouter
 from fastapi import Depends
-from schemas.users import ShowUser
+from schemas.users import ShowUser,FilterUser
 from schemas.users import UserCreate
 from sqlalchemy.orm import Session
 
@@ -19,6 +19,6 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/") #,response_model=List[ShowUser]
-def get_all_users(db: Session = Depends(get_db)):
-    return get_users(db=db)
+def get_all_users(db: Session = Depends(get_db),f: FilterUser = Depends()):
+    return get_users(db=db,f=f)
 

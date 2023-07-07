@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from db.models.movies import Movie 
 from db.models.users import User
 from sqlalchemy import or_,and_
+from datetime import datetime,time
 
 
 def create_new_review(review: ReviewCreate, user_id: int,db: Session):
@@ -45,10 +46,19 @@ def list_reviews(db: Session,score,f:FilterReview):#,movie_id,movie_title,movie_
     if f.user_id:
         filters.append(Review.user_id==f.user_id)
 
+
+    # dates
+    if f.date__gte:
+        filters.append( Review.date >=  datetime.combine(f.date__gte,datetime.min.time()))
+    if f.date__lte:
+        filters.append( Review.date <=  datetime.combine(f.date__lte,time(23,59)))
+
+
     # junto todo
     filters = and_(*filters)
 
 
+    # respuesta
     return db.query(Review).join(Movie).join(User).filter(filters).all()
 
 
