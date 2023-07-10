@@ -71,4 +71,16 @@ alembic upgrade head
 
 ----> https://medium.com/@julgq/migraciones-en-fastapi-usando-alembic-19379607db70
 
+
+
+volver al inicio: alembic downgrade base
+
+alembic downgrade -1
+
+
+
+target db not up to dare (ojo que limpia todo)
+almebic stamp head
+
+
 """

@@ -4,6 +4,7 @@ from fastapi import Query
 from pydantic import BaseModel, Field
 from . import users
 from datetime import datetime
+from .common import Pagination
 
 # helper
 class Movie(BaseModel):
@@ -37,8 +38,8 @@ class ShowReview(ReviewBase):
 
 
 # for filtering
-class FilterReview(BaseModel):
-    problematic: Optional[List[str]] = Field(Query([])) #https://github.com/tiangolo/fastapi/issues/4445
+class FilterReview(Pagination):
+    score: Optional[List[str]] = Field(Query([])) #https://github.com/tiangolo/fastapi/issues/4445
     movie_id:int | None = None
     movie_title:str | None = None
     movie_title__contains:str | None = None

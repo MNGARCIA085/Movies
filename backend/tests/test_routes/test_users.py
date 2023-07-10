@@ -8,6 +8,8 @@ import json
 def test_create_user(client):
     data = {
         "username": "testuser",
+        "first_name": "n1",
+        "last_name": "a1",
         "email": "testuser@nofoobar.com",
         "password": "testing",
     }
@@ -23,8 +25,8 @@ def test_create_user(client):
 def test_get_users(client,add_user):
     
     # given
-    user_one = add_user('nico','desc1@gmail.com','12345')
-    user_two = add_user('mar','desc2@gmail.com','1234')
+    user_one = add_user('nico','u1','a1','desc1@gmail.com','12345')
+    user_two = add_user('mar','u2','a2','desc2@gmail.com','1234')
 
     # when
     response = client.get("/users/")

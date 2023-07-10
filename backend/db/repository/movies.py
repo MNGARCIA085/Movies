@@ -53,7 +53,9 @@ def list_movies(db: Session,f:FilterMovie):
 
     # junto todo
     filters = and_(*filters)
-    return db.query(Movie).join(Movie.genres).filter(filters).all()
+    
+    # respuesta
+    return db.query(Movie).join(Movie.genres).filter(filters).limit(f.limit).offset(f.offset).all()
 
 
 

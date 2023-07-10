@@ -46,6 +46,8 @@ def init_db(db: Session) -> None:
     if not user:
         user_in = schemas.users.UserCreate(
             username='admin',
+            first_name='admin',
+            last_name='admin',
             email='bla@gmil.com',
             password='1234',
             is_superuser=True,
@@ -60,6 +62,8 @@ def init_db(db: Session) -> None:
     # standard users
     user_in = schemas.users.UserCreate(
             username='u1',
+            first_name='f1',
+            last_name='ln1',
             email='u1@gmil.com',
             password='1234',
         )
@@ -67,6 +71,8 @@ def init_db(db: Session) -> None:
 
     user_in = schemas.users.UserCreate(
             username='u2',
+            first_name='f2',
+            last_name='ln2',
             email='u2@gmil.com',
             password='1234',
         )
@@ -79,23 +85,23 @@ def init_db(db: Session) -> None:
     g2 = genres.create_new_genre(genre=genre_in,db=db)
 
 
-    
-
-
 
     # movies
     movie_in = schemas.movies.MovieCreate(
         title='braveheart',
         description='dsfs, sdfdsf',
         genres=[g1.id,g2.id],
+        date='2018-07-03'
     )
     m1 = movies.create_new_movie(movie_in,db)
     movie_in = schemas.movies.MovieCreate(
         title='matrix reloaded',
         description='dsfs, sdfdsf',
-        genres=[g1.id]
+        genres=[g1.id],
+        date='2016-07-03'
     )
     m2 = movies.create_new_movie(movie_in,db)
+
 
 
 

@@ -19,16 +19,18 @@ def create_new_review(review: ReviewCreate, user_id: int,db: Session):
 
 
 
-def list_reviews(db: Session,score,f:FilterReview):#,movie_id,movie_title,movie_title__contains
+def list_reviews(db: Session,f:FilterReview):
     
     filters = [Review.id>0]
 
-    if score:
+
+    if f.score:
         score_filter = []
-        for s in score:
+        for s in f.score:
             score_filter.append(Review.score == s)
         combined_filter_scores = or_(*score_filter)
         filters.append(combined_filter_scores)
+
 
     if f.movie_id:
         movie_id_filter = (Movie.id==int(f.movie_id))
@@ -59,7 +61,7 @@ def list_reviews(db: Session,score,f:FilterReview):#,movie_id,movie_title,movie_
 
 
     # respuesta
-    return db.query(Review).join(Movie).join(User).filter(filters).all()
+    return db.query(Review).join(Movie).join(User).filter(filters).limit(f.limit).offset(f.offset).all()
 
 
 

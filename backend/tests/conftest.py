@@ -80,10 +80,14 @@ def client(
 # fixture para agregar un usuario (quizás luego en un lugar separado)
 @pytest.fixture(scope='function')
 def add_user(db_session:SessionTesting):
-    def _add_user(username,email,password):
+    def _add_user(username,first_name, last_name,email,password):
         from db.models.users import User
 
-        db_user = User(username=username,email=email, hashed_password=password)
+        db_user = User(username=username,
+                       first_name=first_name,
+                       last_name=last_name,
+                       email=email, 
+                       hashed_password=password)
         db_session.add(db_user)
         db_session.commit()
         db_session.refresh(db_user)

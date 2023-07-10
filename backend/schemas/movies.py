@@ -1,8 +1,9 @@
-from datetime import date
-from datetime import datetime
+from datetime import datetime,date
 from typing import Optional,List
 from fastapi import Query
 from pydantic import BaseModel, Field
+from datetime import date as dtdate
+from .common import Pagination
 
 
 # helper
@@ -25,13 +26,12 @@ class Genres(BaseModel):
 
 
 
-from datetime import date as dtdate
-
 # shared properties
 class MovieBase(BaseModel):
-    title: Optional[str] = None #title: Optional[str] = None
+    title: Optional[str] = None
     description: Optional[str] = None
-    date: Optional[dtdate] = Field(default_factory=date.today())
+    date: Optional[dtdate]
+    #date: Optional[dtdate] = Field(default_factory=dtdate.today())
 
 
 
@@ -57,7 +57,7 @@ class ShowMovie(MovieBase):
 
 
 # for filtering
-class FilterMovie(BaseModel):
+class FilterMovie(Pagination):
     title: str | None = None
     title__contains: str | None = None
     date: Optional[date]
