@@ -13,5 +13,6 @@ class Movie(Base):
     reviews = relationship("Review", back_populates="movie")
     imagen = Column(LargeBinary)
     genres = relationship('Genre', secondary='moviegenre',back_populates='movies')
+    image_link = Column(String)
     
 

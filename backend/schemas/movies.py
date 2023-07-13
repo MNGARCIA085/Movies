@@ -31,16 +31,17 @@ class MovieBase(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     date: Optional[dtdate]
+    image_link: Optional[str] = None
     #date: Optional[dtdate] = Field(default_factory=dtdate.today())
-
-
-
+    
 
 # this will be used to validate data while creating a movie
 class MovieCreate(MovieBase):
     title: str
     description: str
     genres: List[int]
+    
+
 
 
 # this will be used to format the response
@@ -48,9 +49,8 @@ class ShowMovie(MovieBase):
     id: int
     reviews:  List[Review]
     genres: List[Genres]
+    #image: bytes = Field(default=None, description="Imagen en formato de bytes")
     
-
-
     class Config:  # to convert non dict obj to json
         orm_mode = True
 

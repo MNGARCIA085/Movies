@@ -1,12 +1,20 @@
 from typing import List
 from db.repository.movies import create_new_movie,retreive_movie,delete_movie_by_id,update_movie_by_id,list_movies
 from db.session import get_db
-from fastapi import APIRouter,Depends,HTTPException, Query,status
+from fastapi import APIRouter, Body,Depends, Form,HTTPException, Query,status,File,UploadFile
 from schemas.movies import MovieCreate,ShowMovie,FilterMovie
 from sqlalchemy.orm import Session
 
 
+
+
 router = APIRouter()
+
+
+#https://stackoverflow.com/questions/69950072/pydantic-params-validation-with-file-upload
+# cant combine
+
+
 
 
 
@@ -15,7 +23,7 @@ def create_movie(
     movie: MovieCreate,
     db: Session = Depends(get_db),
 ):
-    movie = create_new_movie(movie=movie, db=db)
+    movie = create_new_movie(movie=movie,db=db)
     return movie
 
 
