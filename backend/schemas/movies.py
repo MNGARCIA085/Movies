@@ -4,13 +4,14 @@ from fastapi import Query
 from pydantic import BaseModel, Field
 from datetime import date as dtdate
 from .common import Pagination
-
+from . import users
 
 # helper
 class Review(BaseModel):
     score: int
     description: str
     date: Optional[datetime] = datetime.now().date()
+    user: users.ShowUser
 
     class Config:  # to convert non dict obj to json
         orm_mode = True
