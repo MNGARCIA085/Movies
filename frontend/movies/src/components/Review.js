@@ -10,10 +10,31 @@ const Review = (props) => {
             <div>
                 <div class="row">
                     <div class="col-md-12">
-                        {review.description}
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>{review.user.username} : </b> {review.score}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                {review.date}
+                            </div>
+                        </div>
+
                         <br></br>
-                        {review.user.username}
-                        {review.score}
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                {review.description}
+                            </div>
+                        </div>
+
+                        <hr></hr>
+
+                        
                     </div>
                 </div>
                 <br></br>

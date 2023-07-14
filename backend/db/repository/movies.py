@@ -66,7 +66,7 @@ def update_movie_by_id(id: int, movie: MovieCreate, db: Session):
         return 0
     
     # actualizo la peli y sus géneros
-    data = movie.dict()
+    data = movie.dict(exclude_unset=True) # ipte
     genres = data.pop('genres')
 
     # géneros: borro los viejos y agrego los nuevos
@@ -74,7 +74,7 @@ def update_movie_by_id(id: int, movie: MovieCreate, db: Session):
     create_movie_genres(id,genres,db)
 
     # la peli
-    existing_movie.update(data)
+    existing_movie.update(data) 
     #existing_movie.update(movie.__dict__)
     db.commit()
     return 1
