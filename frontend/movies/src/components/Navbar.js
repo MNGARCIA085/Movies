@@ -49,6 +49,12 @@ const Navbar = () => {
               Movies
             </NavLink>
 
+
+            <NavLink to="/admin/movies" className="nav-link">
+              Admin Movies
+            </NavLink>
+
+
           </div>
         </div>
       </div>

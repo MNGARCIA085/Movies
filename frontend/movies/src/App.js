@@ -5,8 +5,8 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Movies from "./pages/Movies";
 import MovieDetail from "./pages/MovieDetail";
-
-
+import AdminMovies from "./pages/admin/Movies";
+import MovieEditForm from "./components/admin/MovieEditForm";
 
 function App() {
   return (
@@ -18,6 +18,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />     
         <Route path="/movies/:id" element={<MovieDetail />} />  
+
+
+        <Route path="/admin/movies" element={<AdminMovies />} />
+        <Route path="/admin/movies/edit/:id" element={<MovieEditForm />} />
+
+
+
       </Routes>
     </Router>
   );
