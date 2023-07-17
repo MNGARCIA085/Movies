@@ -15,7 +15,6 @@ const MyForm = (props) => {
   const [descriptionError, setDescriptionError] = useState('');
 
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Logic to send data to the server
@@ -26,10 +25,19 @@ const MyForm = (props) => {
         // Logic to process the server response
         //const data = await response.json();
        //console.log(data); // You can update your component state with the response here
+       const datos = response.data;
+        // actualizo eleemnto del padre
+        const data = {
+              "user":{
+                "username":datos.user.username},
+                 "score":datos.score,
+                 "date":datos.date,
+                 "description":datos.description};
+        props.myReview(data);
+        // cierro el modal
         props.onClose();
     } catch (error) {
       //console.error(error.response.data.detail);
-
       error.response.data.detail.forEach(
             element => {
                 console.log(element);
@@ -73,11 +81,7 @@ const MyForm = (props) => {
         </small> 
       </Form.Group>
 
-      
-
-        
         <br></br>
-
 
       <Form.Group controlId="description">
         <Form.Label>Description</Form.Label>
@@ -91,8 +95,6 @@ const MyForm = (props) => {
             {descriptionError}
         </small> 
       </Form.Group>
-      
-      
       
       <br></br>
       <Button variant="primary" type="submit">

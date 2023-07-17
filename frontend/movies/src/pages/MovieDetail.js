@@ -6,6 +6,11 @@ import axios from "axios";
 import Reviews from '../components/Reviews';
 import MyForm from '../components/Form';
 import { Modal, Button } from 'react-bootstrap';
+import Review from '../components/Review';
+
+
+
+
 
 const MovieDetail = () => {
 
@@ -43,12 +48,28 @@ const MovieDetail = () => {
 
 
 
-        
-        
-        
+        // my review
+        const [myrev, setMyrev] = useState(
+                                    {"user":{
+                                        "username":''},
+                                        "score":0,"date":"",
+                                    "description":""});
 
 
-        
+
+
+        //function myReview0(datos) {
+        //    setMyrev(datos);
+        //  }
+
+
+        const [aux,setAux] = useState(false);
+          
+        const myReview = (data) =>{
+            setAux(true);
+            setMyrev({...data});
+        }
+ 
 
         return (
             <div>
@@ -76,6 +97,16 @@ const MovieDetail = () => {
                                 <br></br>
                                 <Button onClick={handleOpenModal}>Add my review</Button>
                                 <br></br> <br></br>
+
+
+                                
+                                {aux &&
+                                <font color='green'>
+                                    <Review review={myrev}></Review>
+                                </font>
+                                }
+
+
                                 <Reviews reviews={rev}/>
                             </div>
                         </div>
@@ -88,6 +119,7 @@ const MovieDetail = () => {
                             <Modal.Body>
 
                                     <MyForm movie_id={id}  
+                                        myReview={myReview}
                                         onClose={handleCloseModal}/>
               
                             </Modal.Body>
