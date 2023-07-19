@@ -6,6 +6,10 @@ import MovieFilterForm from "./MovieFilterForm";
 
 import { useNavigate } from 'react-router-dom';
 
+
+
+
+
 const removeItem = (array, item) => {
   const newArray = array.slice();
   newArray.splice(newArray.findIndex(a => a === item), 1);
@@ -92,17 +96,10 @@ const MoviesTable = () => {
 
   const handleEdit = useCallback(
     row => async () => {
-      
-      
-
-        console.log(row.id);
+        console.log('edit',row.id);
         navigate(`/admin/movies/edit/${row.id}`, { replace: true });
-        console.log('edit');
     }
   )
-
-
-
 
 
 
@@ -125,12 +122,15 @@ const MoviesTable = () => {
       },
       {
         // eslint-disable-next-line react/button-has-type
-        cell: row => <button class="btn btn-danger" onClick={handleDelete(row)}>Delete</button>
+        cell: row => <button class="btn btn-info" onClick={handleEdit(row)}>Detail</button>
       },
       {
-        // eslint-disable-next-line react/button-has-type
         cell: row => <button class="btn btn-warning" onClick={handleEdit(row)}>Edit</button>
+      },
+      {
+        cell: row => <button class="btn btn-danger" onClick={handleDelete(row)}>Delete</button>
       }
+     
     ],
     [handleDelete,handleEdit],
     //[handleEdit]

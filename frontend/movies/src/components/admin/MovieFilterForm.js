@@ -9,20 +9,11 @@ const MovieFilterForm = (props) => {
     date:''
   });
 
-
-
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Logic to send data to the server
     try {
-
-
-        console.log(formData.title);
-
-
         props.filterData(0,20,formData.title); //page, size, title
-
     } catch (error) {
       console.error(error);
     }
@@ -37,8 +28,6 @@ const MovieFilterForm = (props) => {
   };
 
 
-
-  
 
 
   return (
