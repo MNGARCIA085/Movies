@@ -20,6 +20,7 @@ class Review(BaseModel):
 
 # helper for genres
 class Genres(BaseModel):
+    id: int
     description: str
 
     class Config:
