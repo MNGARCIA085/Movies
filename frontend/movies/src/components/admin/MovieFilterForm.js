@@ -1,19 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { formatDateToString, parseStringToDate } from '../../common/common';
+import DatePicker from 'react-datepicker';
+import Select from 'react-select';
+
+
+
+
 
 const MovieFilterForm = (props) => {
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    date:''
-  });
+  
+  
+    const [formData, setFormData] = useState({
+      title: '',
+    });
+
+
+    // cambios en la fecha
+    // 1. Inicial
+    const [selectedDate, setSelectedDate] = useState(null);
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+    };
+    // 2. Final
+    const [selectedDateFinal, setSelectedDateFinal] = useState(null);
+    const handleDateChangeFinal = (date) => {
+      setSelectedDateFinal(date);
+    };
+
+
+
+
+
+    // para cargar los géneros
+    const [options, setOptions] = useState([]);
+
+    // Función para obtener el valor de cada opción (id en este caso)
+    const getOptionValue = (option) => option.id;
+    // Función para obtener la etiqueta de cada opción (description en este caso)
+    const getOptionLabel = (option) => option.description;
+
+    const [genres, setGenres] = useState([]);
+    const handleGenres = (genre) => {
+      setGenres(genre);
+    };
+
+    
+    // para cargar los valores iniciales
+    useEffect(() => {
+      // géneros
+      const fetchOptions = async () => {
+          try {
+            const response = await axios.get('http://127.0.0.1:8000/genres/');
+            const data = await response.data;
+            setOptions(data);
+          } catch (error) {
+            console.error('Error fetching options from API:', error);
+          }
+        };
+        fetchOptions();
+      // fin
+    }, []);
+
+
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Logic to send data to the server
     try {
-        props.filterData(0,20,formData.title); //page, size, title
+
+        // convierto los géneros a lista de ids
+        const genres_list = [];
+        for ( let g in genres) {
+          genres_list.push(genres[g]['id']);
+        }
+
+        const dateInit = selectedDate !== null ? formatDateToString(selectedDate) : '';
+        const dateFinal = selectedDateFinal !== null ? formatDateToString(selectedDateFinal) : '';
+
+        props.filterData(0,20,formData.title,
+                          dateInit,
+                          dateFinal,
+                          genres_list
+                        ); //page, size, title,datess, genres
     } catch (error) {
       console.error(error);
     }
@@ -33,41 +106,74 @@ const MovieFilterForm = (props) => {
   return (
     
     <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="score">
-        <Form.Label>Title</Form.Label>
-        <Form.Control
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-        />
-      </Form.Group>
 
-        <br></br>
 
-      <Form.Group controlId="description">
-        <Form.Label>Description</Form.Label>
-        <Form.Control
-          type="text"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-      </Form.Group>
+            <div class="form-row row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="title"
+                                value={formData.title}
+                                onChange={handleChange}
+                              />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputPassword4">Géneros</label>
+                            <Select
+                                isMulti
+                                options={options}
+                                value={genres}
+                                onChange={handleGenres}
+                                getOptionValue={getOptionValue}
+                                getOptionLabel={getOptionLabel} 
+                                className="selectpicker" 
+                                data-live-search="true" 
+                                data-actions-box="true"  
+                              />
+                        </div>
+                    </div>
+                </div>
 
-      <Form.Group controlId="description">
-        <Form.Label>Date</Form.Label>
-        <Form.Control
-          type="text"
-          name="date"
-          value={formData.description}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      
+
+                <br></br>
+
+
+                <div class="form-row row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label htmlFor="datePicker">Fecha Inicial</label>
+                                      <DatePicker
+                                        id="datePicker"
+                                        selected={selectedDate} //selectedDate
+                                        onChange={handleDateChange} //handleDateChange
+                                        dateFormat="yyyy-MM-dd"
+                                        className="form-control"
+                              />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label htmlFor="datePicker">Fecha Final</label>
+                              <DatePicker
+                                id="datePicker"
+                                selected={selectedDateFinal} //selectedDate
+                                onChange={handleDateChangeFinal} //handleDateChange
+                                dateFormat="yyyy-MM-dd"
+                                className="form-control"
+                          />
+                        </div>
+                    </div>
+                </div>
+
+
+      <br></br>
       <br></br>
       <Button variant="primary" type="submit">
-        Submit
+        Search
       </Button>
     </Form>
   );

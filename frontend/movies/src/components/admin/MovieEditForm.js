@@ -8,8 +8,24 @@ import Select from 'react-select';
 import { ReactSelectBootstrap } from 'react-select-bootstrap';
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'; // Estilos del Bootstrap Select Picker
 import 'bootstrap-select/dist/js/bootstrap-select.min.js'; 
-
 import { useParams } from "react-router-dom";
+import { formatDateToString } from '../../common/common';
+import { parseStringToDate } from '../../common/common';
+
+
+
+//https://react-select.com/home#react-select-bootstrap
+
+
+
+
+
+
+
+
+
+
+
 
 const MovieEditForm = (props) => {
 
@@ -22,7 +38,7 @@ const MovieEditForm = (props) => {
     const [formData, setFormData] = useState({
         //id:id,
         title: '',
-        description: '',
+        //description: '',
         date:'',
         image_link:'',
         genres:[]
@@ -31,24 +47,13 @@ const MovieEditForm = (props) => {
 
 
     // para cargar los géneros
-    const [selectedOptions, setSelectedOptions] = useState([]);
-
-
-
-
-
     const [options, setOptions] = useState([]);
 
-    
-
-
+  
     // para cargar los valores iniciales
     useEffect(() => {
 
-
-
         // géneros
-        const API_GENRES = 'http://127.0.0.1:8000/genres/';
         const fetchOptions = async () => {
             try {
               const response = await axios.get('http://127.0.0.1:8000/genres/');
@@ -72,49 +77,40 @@ const MovieEditForm = (props) => {
             setFormData(
                 {
                     'title':data.title,
-                    'description':data.description,
-                    'date':data.date,
+                    //'description':data.description,
+                    //'date':data.date,
                     'image_link':data.image_link,
-                    'genres':data.genres
+                    //'genres':data.genres
                 }
             );
-            setSelectedDate(new Date(data.date));
+            // inicialización del textarea
+            setTextareaValue(data.description);
+            // inicialización de la fecha
+            setSelectedDate(parseStringToDate(data.date));
+            // inicialización de genres
+            const init_genres = [];
+            let claves = Object.keys(data.genres);
+            for(let i=0; i< claves.length; i++){
+              let clave = claves[i];
+              init_genres.push({'id':data.genres[clave]['id'],'description':data.genres[clave]['description']});
+            }
+            setGenres(init_genres);
           } catch (error) {
             console.error('Error fetching data from API:', error);
           }
         };
         fetchData();
-
-
         // fin
       }, []);
 
 
       // Función para obtener el valor de cada opción (id en este caso)
-        const getOptionValue = (option) => option.id;
-        // Función para obtener la etiqueta de cada opción (description en este caso)
-        const getOptionLabel = (option) => option.description;
-
-
-
-
-
-      // cambios en el select      
-      const handleSelectChange = (event) => {
-        const selectedValues = Array.from(event.target.selectedOptions, (option) => option.value);
-        console.log(selectedValues);
-        setSelectedOptions(selectedValues);
-      };
-
+      const getOptionValue = (option) => option.id;
+      // Función para obtener la etiqueta de cada opción (description en este caso)
+      const getOptionLabel = (option) => option.description;
 
 
       const [genres, setGenres] = useState([]);
-      const handleGenres2 = (event) => {
-        const selectedGenres = Array.from(event.target.selectedOptions, (option) => option.value);
-        console.log('genres',selectedGenres);
-        setGenres(selectedGenres);
-      };
-
       const handleGenres = (genre) => {
         setGenres(genre);
       };
@@ -126,9 +122,7 @@ const MovieEditForm = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         // Logic to send data to the server
-        try {
-            //const res = await axios.put('https://httpbin.org/put', { hello: 'world' });
-            
+        try {            
             /**
             const response = await axios.put(
                 API_URL,
@@ -144,33 +138,25 @@ const MovieEditForm = (props) => {
             */
 
 
-            console.log('genressss',genres);
-
-
+            // convierto genres a solamente los ids para la API; me está pasando description en vez de 1
             let aux2 = [];
-
             for (const g of genres) {
                 aux2.push(g.id);
               }
+            let aux = {...formData,
+                    "genres":aux2,
+                    "date":formatDateToString(selectedDate),
+                    "description":textareaValue};
 
-
-            let aux = {...formData,"genres":aux2}; // me está pasando description en vez de 1.
-
-
-            console.log(aux);
-
-
-            
-            
+            // consumo el servicio
             const response = await axios.put(
                 API_URL,
                 aux
             );
             // todo ok, redirect a ver todos los datos
-            //navigate('/admin/movies/', { replace: true });
+            navigate('/admin/movies/', { replace: true });
         } catch (error) {
-            console.log('dsfs');
-            //console.error(error);
+            console.error(error);
         // manejo de errores
         }
     };
@@ -185,99 +171,141 @@ const MovieEditForm = (props) => {
     };
 
 
+  // cambios en la fecha
   const [selectedDate, setSelectedDate] = useState(null);
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
   
 
+  // cambios en el textarea
+  const [textareaValue, setTextareaValue] = useState('');
+  const handleTextareaChange = (event) => {
+    setTextareaValue(event.target.value);
+  };
+  
+
 
   return (
-    
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="score">
-        <Form.Label>Title</Form.Label>
-        <Form.Control
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-        />
-      </Form.Group>
-
-        <br></br>
-
-      <Form.Group controlId="description">
-        <Form.Label>Description</Form.Label>
 
 
-        <textarea
-          id="myTextarea"
-          value={formData.description}
-          onChange={handleChange}
-          className="form-control"
-          rows="4" // Puedes ajustar la cantidad de filas que se muestran
-        />
+    <div>
 
+        <div class="row">
+            <div class="col-md-3 offset-md-4">
+                <center><b><font color='red'>EDIT MOVIE</font></b></center>
+                <hr></hr>
+              </div>
+        </div>
 
         
-      </Form.Group>
+        <Form onSubmit={handleSubmit}>
 
-      <div className="form-group">
-      <label htmlFor="datePicker">Fecha</label>
-      <DatePicker
-        id="datePicker"
-        selected={selectedDate}
-        onChange={handleDateChange} //handleDateChange
-        dateFormat="yyyy-MM-dd"
-        className="form-control"
-      />
-    </div>
+          <div class="row">
+            <div class="col-md-3 offset-md-4">
+                <Form.Group controlId="title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+                </Form.Group>
+            </div>
+          </div>
 
-      <Form.Group controlId="description">
-        <Form.Label>Image Link</Form.Label>
-        <Form.Control
-          type="text"
-          name="image_link"
-          value={formData.image_link}
-          onChange={handleChange}
-        />
-      </Form.Group>
+          <br></br>
 
-
-
-
-
-      <div className="form-group">
-        <label>Selecciones múltiples:</label>
-        <Select
-          isMulti
-          options={options}
-          value={genres}
-          onChange={handleGenres}
-          getOptionValue={getOptionValue} // Especifica cómo obtener el valor de cada opción
-          getOptionLabel={getOptionLabel} // Especifica cómo obtener la etiqueta de cada opción
-          className="selectpicker" // Clase para habilitar Bootstrap Select Picker
-          data-live-search="true" // Habilitar búsqueda en tiempo real
-          data-actions-box="true" // Mostrar las opciones seleccionadas en una caja
-        />
-      </div>
+          <div class="row">
+            <div class="col-md-3 offset-md-4">
+            <Form.Group controlId="description">
+            <Form.Label>Description</Form.Label>
+            <textarea
+              value={textareaValue}
+              onChange={handleTextareaChange}
+              className="form-control"
+              rows="5"
+            />
+          </Form.Group>
+          </div>
+          </div>
 
 
+          <br></br>
+          
 
-     
+          <div class="row">
+            <div class="col-md-3 offset-md-4">
+              <div className="form-group">
+                <label htmlFor="datePicker">Fecha</label>
+                <DatePicker
+                  id="datePicker"
+                  selected={selectedDate} //selectedDate
+                  onChange={handleDateChange} //handleDateChange
+                  dateFormat="yyyy-MM-dd"
+                  className="form-control"
+                />
+              </div>
+            </div>
+          </div>
+
+          <br></br>
+
+          
+
+          <div class="row">
+            <div class="col-md-3 offset-md-4">
+                <Form.Group controlId="description">
+                <Form.Label>Image Link</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="image_link"
+                  value={formData.image_link}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </div>
+          </div>
+
+          <br></br>
+        
+
+          <div class="row">
+            <div class="col-md-3 offset-md-4">
+            <div className="form-group">
+                  <label>Géneros:</label>
+                  <Select
+                    isMulti
+                    options={options}
+                    value={genres}
+                    onChange={handleGenres}
+                    getOptionValue={getOptionValue} // Especifica cómo obtener el valor de cada opción
+                    getOptionLabel={getOptionLabel} // Especifica cómo obtener la etiqueta de cada opción
+                    className="selectpicker" // Clase para habilitar Bootstrap Select Picker
+                    data-live-search="true" // Habilitar búsqueda en tiempo real
+                    data-actions-box="true" // Mostrar las opciones seleccionadas en una caja
+                  />
+                </div>
+              </div>
+        </div>
+          
+          <br></br>
 
 
-           
-      
+          <div class="row">
+            <div class="col-md-3 offset-md-4">
+                <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </div>
+          </div>
 
 
-      
-      <br></br>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+        </Form>
+
+  </div>
+
   );
 };
 

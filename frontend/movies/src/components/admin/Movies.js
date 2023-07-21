@@ -3,37 +3,22 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import MovieFilterForm from "./MovieFilterForm";
-
 import { useNavigate } from 'react-router-dom';
-
-
-
 
 
 const removeItem = (array, item) => {
   const newArray = array.slice();
   newArray.splice(newArray.findIndex(a => a === item), 1);
-
   return newArray;
 };
-
-
-
-
-
 
 
 //https://react-data-table-component.netlify.app/?path=/docs/examples-filtering--filtering
 
 
 
-
-
 const MoviesTable = () => {
-
-
   const navigate = useNavigate();
-
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState(0);
@@ -41,110 +26,129 @@ const MoviesTable = () => {
   const [currentPage, setCurrentPage] = useState(0);
   // const [deleted, setDeleted] = useState([]);
 
-  const fetchUsers = async (page, size = perPage, title='') => {
-    setLoading(true);
 
-    let url = '';
-    if (title !== ''){
-       url = `http://127.0.0.1:8000/movies/?limit=${size}&offset=${page}&title__contains=${title}`
-    }
-    else {
-      url = `http://127.0.0.1:8000/movies/?limit=${size}&offset=${page}`
-    }
-
-
-    console.log(url);
-
-
-    const response = await axios.get(
-      //`http://127.0.0.1:8000/movies/?limit=${size}&offset=${page}`
-      url
-    );
-
-    //console.log(response);
-
-    setData(response.data); //response.data.data
-    setTotalRows(20565); //response.data.total
-    setLoading(false);
+  // para mostrar u ocultar el form. de búsqueda
+  const [isFormVisible, setFormVisible] = useState(false);
+  const toggleForm = () => {
+    setFormVisible(!isFormVisible);
   };
 
-  useEffect(() => {
-    fetchUsers(0); //1
-  }, []);
-
-  const handleDelete = useCallback(
-    row => async () => {
 
 
 
-      await axios.delete(`http://127.0.0.1:8000/moviefdgfdgfdgfds/${row.id}`);
-      const response = await axios.get(
-        //`https://reqres.in/api/users?page=${currentPage}&per_page=${perPage}`
-        'http://127.0.0.1:8000/movies/?limit=${perPage}&offset=${currentPage}'
+  const fetchUsers = async (page, size = perPage, title='',date='',dateFinal='',genres=[]) => {
+    
+        // loading
+        setLoading(true);
+
+
+        // filters
+        let search = `?limit=${size}&offset=${page}`;
+        if (title !==''){
+            search +=  `&title__contains=${title}`;
+        }
+        if ((date !=='') && (date !== null) ){
+          search +=  `&date__gte=${date}`;
+        }
+        if ((dateFinal !=='') && (dateFinal !== null) ){
+          search +=  `&date__lte=${dateFinal}`;
+        }
+
+        genres.forEach(function(value, index) {
+          search += `&genres=${value}`;
+        });
+
+        // url
+        const url = `http://127.0.0.1:8000/movies/${search}`;
+
+        // consumo el servicio
+        const response = await axios.get(
+          url
+        );
+
+
+        // ......
+        setData(response.data); //response.data.data
+        setTotalRows(20565); //response.data.total
+        setLoading(false);
+      };
+
+      useEffect(() => {
+        fetchUsers(0); //1
+      }, []);
+
+      const handleDelete = useCallback(
+        row => async () => {
+          await axios.delete(`http://127.0.0.1:8000/moviefdgfdgfdgfds/${row.id}`);
+          const response = await axios.get(
+            'http://127.0.0.1:8000/movies/?limit=${perPage}&offset=${currentPage}'
+          );
+          // lo borra, pero ojo que devuelve 422
+          setData(removeItem(response.data, row));
+          setTotalRows(totalRows - 1);
+        },
+        [currentPage, perPage, totalRows]
       );
 
-      // lo borra, pero ojo que devuelve 422
-
-      setData(removeItem(response.data, row));
-      setTotalRows(totalRows - 1);
-    },
-    [currentPage, perPage, totalRows]
-  );
 
 
 
-
-  const handleEdit = useCallback(
-    row => async () => {
-        console.log('edit',row.id);
-        navigate(`/admin/movies/edit/${row.id}`, { replace: true });
-    }
-  )
-
+      const handleEdit = useCallback(
+        row => async () => {
+            console.log('edit',row.id);
+            navigate(`/admin/movies/edit/${row.id}`, { replace: true });
+        }
+      )
 
 
-  const columns = useMemo(
-    () => [
-      {
-        name: "ID",
-        selector: (row) => row.id,
-        sortable: true
-      },
-      {
-        name: "TITLE",
-        selector: (row) => row.title,
-        sortable: true
-      },
-      {
-        name: "DATE",
-        selector: (row) => row.date,
-        sortable: true
-      },
-      {
-        // eslint-disable-next-line react/button-has-type
-        cell: row => <button class="btn btn-info" onClick={handleEdit(row)}>Detail</button>
-      },
-      {
-        cell: row => <button class="btn btn-warning" onClick={handleEdit(row)}>Edit</button>
-      },
-      {
-        cell: row => <button class="btn btn-danger" onClick={handleDelete(row)}>Delete</button>
-      }
-     
-    ],
-    [handleDelete,handleEdit],
-    //[handleEdit]
-  );
 
-  const handlePageChange = page => {
-    fetchUsers(page);
-    setCurrentPage(page);
-  };
+      const columns = useMemo(
+        () => [
+          {
+            name: "ID",
+            selector: (row) => row.id,
+            sortable: true
+          },
+          {
+            name: "TITLE",
+            selector: (row) => row.title,
+            sortable: true
+          },
+          {
+            name: "DATE",
+            selector: (row) => row.date,
+            sortable: true
+          },
+          {
+            name: "GENRES",
+            selector: (row) => row.genres.map(g => g.description + "  "),
+            sortable: true
+          },
+          {
+            // eslint-disable-next-line react/button-has-type
+            cell: row => <button class="btn btn-info" onClick={handleEdit(row)}>Detail</button>
+          },
+          {
+            cell: row => <button class="btn btn-warning" onClick={handleEdit(row)}>Edit</button>
+          },
+          {
+            cell: row => <button class="btn btn-danger" onClick={handleDelete(row)}>Delete</button>
+          }
+        
+        ],
+        [handleDelete,handleEdit],
+        //[handleEdit]
+      );
 
-  const handlePerRowsChange = async (newPerPage, page) => {
-    fetchUsers(page, newPerPage);
-    setPerPage(newPerPage);
-  };
+      const handlePageChange = page => {
+        fetchUsers(page);
+        setCurrentPage(page);
+      };
+
+      const handlePerRowsChange = async (newPerPage, page) => {
+        fetchUsers(page, newPerPage);
+        setPerPage(newPerPage);
+      };
 
   return (
 
@@ -153,8 +157,18 @@ const MoviesTable = () => {
 
 
         <div class="row">
-          <div class="col-md-4 offset-md-4">
-          <MovieFilterForm filterData={fetchUsers}/>
+          <div class="col-md-6 offset-md-0">
+
+            <a href="#" onClick={toggleForm}>
+                  {isFormVisible ? 'Ocultar Filtros' : 'Mostrar Filtros'}
+                  <br></br><br></br>
+            </a>
+
+              {isFormVisible && (
+                   <MovieFilterForm filterData={fetchUsers}/>
+              )}
+
+
           </div>
         </div>
 
