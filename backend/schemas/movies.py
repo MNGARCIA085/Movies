@@ -1,7 +1,7 @@
 from datetime import datetime,date
 from typing import Optional,List
 from fastapi import Query
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, constr
 from datetime import date as dtdate
 from .common import Pagination
 from . import users
@@ -30,7 +30,7 @@ class Genres(BaseModel):
 
 # shared properties
 class MovieBase(BaseModel):
-    title: Optional[str] = None
+    title: str 
     description: Optional[str] = None
     date: Optional[dtdate]
     image_link: Optional[str] = None
@@ -39,9 +39,11 @@ class MovieBase(BaseModel):
 
 # this will be used to validate data while creating a movie
 class MovieCreate(MovieBase):
-    title: str
-    description: str
-    genres: List[int]
+    title: str = Field(..., min_length=1, description="Required")
+    description: str = Field(..., min_length=1)
+    image_link: str = Field(..., min_length=1)
+    #date: dtdate
+    genres: List[int] #= constr(min_length=1)
     
 
 
@@ -51,7 +53,7 @@ class ShowMovie(MovieBase):
     id: int
     reviews:  List[Review]
     genres: List[Genres]
-    #image: bytes = Field(default=None, description="Imagen en formato de bytes")
+
     
     class Config:  # to convert non dict obj to json
         orm_mode = True

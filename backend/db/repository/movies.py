@@ -55,7 +55,8 @@ def list_movies(db: Session,f:FilterMovie):
     filters = and_(*filters)
     
     # respuesta
-    return db.query(Movie).join(Movie.genres).filter(filters).limit(f.limit).offset(f.offset).all()
+    return db.query(Movie).join(Movie.genres).filter(filters).limit(f.limit).offset(f.offset-1).all()
+                # ver bien el offset!!!!!!
 
 
 

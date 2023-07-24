@@ -3,7 +3,11 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import MovieFilterForm from "./MovieFilterForm";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+
+
+
+
 
 
 const removeItem = (array, item) => {
@@ -23,7 +27,7 @@ const MoviesTable = () => {
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1); //0
   // const [deleted, setDeleted] = useState([]);
 
 
@@ -32,8 +36,6 @@ const MoviesTable = () => {
   const toggleForm = () => {
     setFormVisible(!isFormVisible);
   };
-
-
 
 
   const fetchUsers = async (page, size = perPage, title='',date='',dateFinal='',genres=[]) => {
@@ -77,29 +79,46 @@ const MoviesTable = () => {
         fetchUsers(0); //1
       }, []);
 
+      
+
+
+
       const handleDelete = useCallback(
         row => async () => {
-          await axios.delete(`http://127.0.0.1:8000/moviefdgfdgfdgfds/${row.id}`);
-          const response = await axios.get(
-            'http://127.0.0.1:8000/movies/?limit=${perPage}&offset=${currentPage}'
-          );
-          // lo borra, pero ojo que devuelve 422
-          setData(removeItem(response.data, row));
-          setTotalRows(totalRows - 1);
+          const confirmacion = window.confirm("¿Estás seguro de eliminar este elemento?");
+          if (confirmacion) {            
+            try {
+              await axios.delete(`http://127.0.0.1:8000/movies/${row.id}`);
+              const response = await axios.get(
+                `http://127.0.0.1:8000/movies/?limit=${perPage}&offset=${currentPage}`
+              );
+              // lo borra, pero ojo que devuelve 422
+              setData(removeItem(response.data, row));
+              setTotalRows(totalRows - 1);
+            } catch (error) {
+              console.error("Error al eliminar el elemento:", error);
+            }
+          }
         },
         [currentPage, perPage, totalRows]
       );
+      
+
 
 
 
 
       const handleEdit = useCallback(
         row => async () => {
-            console.log('edit',row.id);
             navigate(`/admin/movies/edit/${row.id}`, { replace: true });
         }
       )
 
+      const handleDetail = useCallback(
+        row => async () => {
+            navigate(`/movies/${row.id}`, { replace: true });
+        }
+      )
 
 
       const columns = useMemo(
@@ -126,7 +145,7 @@ const MoviesTable = () => {
           },
           {
             // eslint-disable-next-line react/button-has-type
-            cell: row => <button class="btn btn-info" onClick={handleEdit(row)}>Detail</button>
+            cell: row => <button class="btn btn-info" onClick={handleDetail(row)}>Detail</button>
           },
           {
             cell: row => <button class="btn btn-warning" onClick={handleEdit(row)}>Edit</button>
@@ -136,7 +155,7 @@ const MoviesTable = () => {
           }
         
         ],
-        [handleDelete,handleEdit],
+        [handleDetail,handleDelete,handleEdit],
         //[handleEdit]
       );
 
@@ -168,13 +187,21 @@ const MoviesTable = () => {
                    <MovieFilterForm filterData={fetchUsers}/>
               )}
 
+              <br></br>
+
+              <hr></hr>
+
 
           </div>
         </div>
 
         <br></br>
 
-          
+        
+
+        <Link to="/admin/movies/add"><font color='violet'>Add</font></Link>
+
+        <br></br> <br></br>
 
 
           <DataTable

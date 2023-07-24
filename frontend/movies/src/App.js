@@ -21,6 +21,7 @@ function App() {
 
 
         <Route path="/admin/movies" element={<AdminMovies />} />
+        <Route path="/admin/movies/add" element={<MovieEditForm />} />
         <Route path="/admin/movies/edit/:id" element={<MovieEditForm />} />
 
 

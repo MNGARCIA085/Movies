@@ -88,17 +88,19 @@ def init_db(db: Session) -> None:
 
     # movies
     movie_in = schemas.movies.MovieCreate(
-        title='braveheart',
+        title='Smile',
         description='dsfs, sdfdsf',
         genres=[g1.id,g2.id],
-        date='2018-07-03'
+        date='2018-07-03',
+        image_link='https://i0.wp.com/imgs.hipertextual.com/wp-content/uploads/2022/09/Smile.png?fit=1200%2C598&quality=50&strip=all&ssl=1',
     )
     m1 = movies.create_new_movie(movie_in,db)
     movie_in = schemas.movies.MovieCreate(
         title='matrix reloaded',
         description='dsfs, sdfdsf',
         genres=[g1.id],
-        date='2016-07-03'
+        date='2016-07-03',
+        image_link='https://www.ecartelera.com/carteles/fondos/5200/5270-n2.jpg'
     )
     m2 = movies.create_new_movie(movie_in,db)
 
