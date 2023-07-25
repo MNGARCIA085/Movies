@@ -1,4 +1,5 @@
 from typing import List
+from api.v1.route_login import get_current_user_from_token
 #from apis.version1.route_login import get_current_user_from_token
 from db.models.users import User
 from db.repository.reviews import create_new_review,list_reviews
@@ -6,6 +7,9 @@ from db.session import get_db
 from fastapi import APIRouter, Depends,HTTPException,status
 from schemas.reviews import ReviewCreate,ShowReview,FilterReview
 from sqlalchemy.orm import Session
+
+
+
 
 
 router = APIRouter()
@@ -16,8 +20,9 @@ router = APIRouter()
 def create_review(
     review: ReviewCreate,
     db: Session = Depends(get_db),
-    #current_user: User = Depends(get_current_user_from_token),
+    current_user: User = Depends(get_current_user_from_token),
 ):
+    print(current_user)
     return create_new_review(review=review, user_id=1, db=db)   #owner_id=current_user.id
 
 

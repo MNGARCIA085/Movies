@@ -231,7 +231,10 @@ const MovieEditForm = (props) => {
 
         <div class="row">
             <div class="col-md-3 offset-md-4">
-                <center><b><font color='red'>EDIT MOVIE</font></b></center>
+                <center><b><font color='red'>
+                        {  id !== undefined ? 'EDIT' : 'ADD' } MOVIE
+                    </font></b>
+                  </center>
                 <hr></hr>
               </div>
         </div>
