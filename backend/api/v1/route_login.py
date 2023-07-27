@@ -39,8 +39,16 @@ def login_for_access_token(
             detail="Incorrect username or password",
         )
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+
+
+    # mejorar dsp.
+    if user.is_superuser:
+        groups = 'admin'
+    else:
+        groups = 'std'
+
     access_token = create_access_token(
-        data={"username": user.username, "groups":"admin"}, expires_delta=access_token_expires
+        data={"sub": user.username, "groups":groups}, expires_delta=access_token_expires
     )
     response.set_cookie(
         key="access_token", value=f"Bearer {access_token}", httponly=True
