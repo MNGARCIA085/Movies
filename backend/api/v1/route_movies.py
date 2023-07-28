@@ -10,7 +10,6 @@ from db.models.users import User
 
 router = APIRouter()
 
-
 #https://stackoverflow.com/questions/69950072/pydantic-params-validation-with-file-upload
 # cant combine
 
@@ -37,16 +36,16 @@ def read_movie(id: int, db: Session = Depends(get_db)):
     return movie
 
 
-
-
 @router.get("/", response_model=List[ShowMovie])
 def read_movies(f: FilterMovie = Depends(),db: Session = Depends(get_db)):
     return list_movies(db=db,f=f)
 
-
-
 @router.put("/{id}",status_code=201)
-def update_movie(id: int, movie: MovieCreate, db: Session = Depends(get_db)):
+def update_movie(
+                id: int, 
+                movie: MovieCreate, 
+                db: Session = Depends(get_db),
+                current_user: User = Depends(get_current_user_from_token)):
     aux = update_movie_by_id(id=id, movie=movie, db=db)
     if not aux:
         raise HTTPException(
@@ -59,6 +58,7 @@ def update_movie(id: int, movie: MovieCreate, db: Session = Depends(get_db)):
 def delete_movie(
     id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user_from_token)
 ):
     movie = retreive_movie(id=id, db=db)
     if not movie:

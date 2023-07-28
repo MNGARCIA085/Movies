@@ -4,7 +4,8 @@ import axios from 'axios';
 import { formatDateToString, parseStringToDate } from '../../common/common';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
-
+import { consume_service } from '../../api/api';
+import { URL_GENRES_BASE } from '../../api/constantes';
 
 
 
@@ -30,9 +31,6 @@ const MovieFilterForm = (props) => {
     };
 
 
-
-
-
     // para cargar los géneros
     const [options, setOptions] = useState([]);
 
@@ -52,7 +50,7 @@ const MovieFilterForm = (props) => {
       // géneros
       const fetchOptions = async () => {
           try {
-            const response = await axios.get('http://127.0.0.1:8000/genres/');
+            const response = await consume_service(URL_GENRES_BASE,'get','',{},false);
             const data = await response.data;
             setOptions(data);
           } catch (error) {
@@ -64,10 +62,7 @@ const MovieFilterForm = (props) => {
     }, []);
 
 
-
-
-
-
+  // submit
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Logic to send data to the server

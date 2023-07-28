@@ -2,46 +2,43 @@
 import axios from "axios";
 import React,{useState} from "react";
 import MovieList from "../components/MovieList";
+import { consume_service } from "../api/api";
+import { URL_MOVIES_BASE } from "../api/constantes";
+
+
 
 const Movies = () => {
 
-      const baseURL = 'http://127.0.0.1:8000/movies/';
+      //const baseURL = 'http://127.0.0.1:8000/movies/';
       //const [pelis, setPelis] = React.useState(null);
 
 
       /**
-      
-
-
       if (!pelis) return null;
       */
-
-
 
     const [searchInput, setSearchInput] = useState("");
     const [pelis, setPelis] = useState([]);
 
 
-    const handleChange = (e) => {
+    const handleChange = async(e) => {
         e.preventDefault();
         setSearchInput(e.target.value);
+        // datos filtrados o no según corresponda
+        let url = URL_MOVIES_BASE;
         if (e.target.value.length > 0) {
-            const url = baseURL + '?title__contains=' + e.target.value;
-            axios.get(url).then((response) => {
-                setPelis(response.data);
-            });
+            url += `/?title__contains=${e.target.value}`;  
         }
-        else{
-            axios.get(baseURL).then((response) => {
-                setPelis(response.data);
-            });
-        }
+        const response = await consume_service(url,'get','',{},false);
+        setPelis(response.data);
     };
 
     React.useEffect(() => {
-        axios.get(baseURL).then((response) => {
+        const fetchData = async() => {
+            const response = await consume_service(URL_MOVIES_BASE,'get','',{},false);
             setPelis(response.data);
-        });
+        }
+        fetchData();
     }, []);
 
 

@@ -8,23 +8,13 @@ const AdminMovies = () => {
 
       return (
           <div className="ui container" style={{ marginTop: '10px' }}>
-
                 <center><h2><font color='red'>ADMIN: MOVIES</font></h2></center>
-
                 <hr></hr>
-
-
-               
-                
                 <div class="row">
                     <div class="col-md-10">
                     <MoviesTable/>
                     </div>
                 </div>
-
-                
-
-                
           </div>
       );
 }

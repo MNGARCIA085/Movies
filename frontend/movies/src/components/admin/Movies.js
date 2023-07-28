@@ -4,8 +4,8 @@ import axios from "axios";
 import DataTable from "react-data-table-component";
 import MovieFilterForm from "./MovieFilterForm";
 import { useNavigate, Link } from 'react-router-dom';
-
-
+import { URL_MOVIES_BASE } from "../../api/constantes";
+import { consume_service } from "../../api/api";
 
 
 
@@ -60,14 +60,8 @@ const MoviesTable = () => {
           search += `&genres=${value}`;
         });
 
-        // url
-        const url = `http://127.0.0.1:8000/movies/${search}`;
-
-        // consumo el servicio
-        const response = await axios.get(
-          url
-        );
-
+        // obtengo los datos
+        const response = await consume_service(`${URL_MOVIES_BASE}/${search}`,'get','',{},false);
 
         // ......
         setData(response.data); //response.data.data
@@ -80,18 +74,16 @@ const MoviesTable = () => {
       }, []);
 
       
-
-
-
       const handleDelete = useCallback(
         row => async () => {
           const confirmacion = window.confirm("¿Estás seguro de eliminar este elemento?");
           if (confirmacion) {            
             try {
-              await axios.delete(`http://127.0.0.1:8000/movies/${row.id}`);
-              const response = await axios.get(
-                `http://127.0.0.1:8000/movies/?limit=${perPage}&offset=${currentPage}`
-              );
+              const jwtToken = localStorage.getItem('access_token');
+              const response_del = await consume_service(`${URL_MOVIES_BASE}/${row.id}`,'delete',
+                                      jwtToken,{},true);
+              const response = await consume_service(`${URL_MOVIES_BASE}/?limit=${perPage}&offset=${currentPage}`,
+                    'get','',{},false);
               // lo borra, pero ojo que devuelve 422
               setData(removeItem(response.data, row));
               setTotalRows(totalRows - 1);
@@ -103,11 +95,6 @@ const MoviesTable = () => {
         [currentPage, perPage, totalRows]
       );
       
-
-
-
-
-
       const handleEdit = useCallback(
         row => async () => {
             navigate(`/admin/movies/edit/${row.id}`, { replace: true });
@@ -119,7 +106,6 @@ const MoviesTable = () => {
             navigate(`/movies/${row.id}`, { replace: true });
         }
       )
-
 
       const columns = useMemo(
         () => [

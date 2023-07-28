@@ -7,36 +7,39 @@ import Reviews from '../components/Reviews';
 import MyForm from '../components/Form';
 import { Modal, Button } from 'react-bootstrap';
 import Review from '../components/Review';
-
-
-
+import { consume_service } from '../api/api';
+import { URL_MOVIES_BASE } from '../api/constantes';
 
 
 const MovieDetail = () => {
 
-        const [data, setData] = useState([]);
-
-        const [rev, setRev] = useState([]);
-
         let { id } = useParams();
 
-        const baseURL = 'http://127.0.0.1:8000/movies/' + id;
+        const [data, setData] = useState([]);
+        const [rev, setRev] = useState([]);
 
         
         React.useEffect(() => {
+            const fetchData = async() => {
+                const response = await consume_service(`${URL_MOVIES_BASE}/${id}`,'get','',{},false);
+                setData(response.data);
+                setRev(response.data.reviews);
+            }
+            fetchData();
+            /**
+            const baseURL = 'http://127.0.0.1:8000/movies/' + id;
             axios.get(baseURL).then((response) => {
                 setData(response.data);
                 setRev(response.data.reviews); // rev es por review
             });
+            */
         }, []);
 
 
 
         // MODAL PARA EL FORMULARIO
-
         const [showModal, setShowModal] = useState(false);
         
-      
         const handleOpenModal = () => {
           setShowModal(true);
         };
@@ -46,21 +49,14 @@ const MovieDetail = () => {
         };
       
 
-
-
         // my review
         const [myrev, setMyrev] = useState(
                                     {"user":{
                                         "username":''},
-                                        "score":0,"date":"",
-                                    "description":""});
+                                     "score":0,
+                                     "date":"",
+                                     "description":""});
 
-
-
-
-        //function myReview0(datos) {
-        //    setMyrev(datos);
-        //  }
 
 
         const [aux,setAux] = useState(false);

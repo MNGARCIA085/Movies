@@ -12,15 +12,9 @@ import { useParams } from "react-router-dom";
 import { formatDateToString } from '../../common/common';
 import { parseStringToDate } from '../../common/common';
 import './styles.css';
-
-
 //https://react-select.com/home#react-select-bootstrap
-
-
-
-
-
-
+import { consume_service } from '../../api/api';
+import { URL_MOVIES_BASE, URL_GENRES_BASE } from '../../api/constantes';
 
 
 
@@ -84,11 +78,10 @@ const MovieEditForm = (props) => {
         // géneros
         const fetchOptions = async () => {
             try {
-              const response = await axios.get('http://127.0.0.1:8000/genres/');
+              //const response = await axios.get('http://127.0.0.1:8000/genres/');
+              const response = await consume_service(URL_GENRES_BASE,'get','',{},false);
               const data = await response.data;
               setOptions(data);
-              //setOptions(data.options); // Suponemos que la API devuelve un array de opciones
-              //setOptions([{'label':'dsfds','value':17},{'label':'marcos','value':18}]);
             } catch (error) {
               console.error('Error fetching options from API:', error);
             }
@@ -96,16 +89,19 @@ const MovieEditForm = (props) => {
           fetchOptions();
 
 
-        // intial data
+        // initial data
 
 
         if (id !== undefined){
-
               const fetchData = async () => {
                 try {
+                  /**
                   const API_URL =`http://127.0.0.1:8000/movies/${id}`;
                   const response = await fetch(API_URL);
                   const data = await response.json();
+                  */
+                  const response = await consume_service(`${URL_MOVIES_BASE}/${id}`,'get','',{},false);
+                  const data = await response.data;
                   //setFormData(data);
                   setFormData(
                       {
@@ -133,11 +129,7 @@ const MovieEditForm = (props) => {
                 }
               };
               fetchData();
-
         };
-
-
-
 
         // fin
       }, []);
@@ -158,44 +150,15 @@ const MovieEditForm = (props) => {
                     "genres":aux2,
                     "date":formatDateToString(selectedDate),
                     "description":textareaValue};
-
             // consumo el servicio
-
-
-            
-            
-            
-
-
-
+            const jwtToken = localStorage.getItem('access_token');
+            // dependiendo si es post o put
             if (id !== undefined){
-              const response = await axios.put(
-                `http://127.0.0.1:8000/movies/${id}`,
-                  aux
-              );
+                const response = consume_service(`${URL_MOVIES_BASE}/${id}`,'put',jwtToken,aux,true);
             }
             else {
-
-
-              const jwtToken = localStorage.getItem('access_token');
-            console.log(jwtToken); //
-            const config = {
-              headers: {
-                Authorization: `Bearer ${jwtToken}` // Agrega "Bearer" antes del JWT
-              }
-            };
-
-            
-
-
-              
-              const response = await axios.post(
-                `http://127.0.0.1:8000/movies`,
-                aux,
-                config
-              );
-            }
-            
+                const response = consume_service(URL_MOVIES_BASE,'post',jwtToken,aux,true);
+             }
             // todo ok, redirect a ver todos los datos
             navigate('/admin/movies/', { replace: true });
         } catch (error) {
