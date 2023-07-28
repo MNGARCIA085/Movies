@@ -6,7 +6,7 @@ from core.security import create_access_token
 from db.repository.login import get_user
 from db.session import get_db
 from fastapi import APIRouter, Depends, HTTPException,Response, status
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from schemas.tokens import Token
 from sqlalchemy.orm import Session
@@ -57,7 +57,11 @@ def login_for_access_token(
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")
+
+
+#oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/token")
 
 
 def get_current_user_from_token(

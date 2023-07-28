@@ -12,43 +12,42 @@ import jwt_decode from 'jwt-decode';
 
 import NavbarAdmin from "./components/NavbarAdmin";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-
+import { decodeToken } from "./utils";
 
 import Login from "./pages/login";
 
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
+
+
+
+
+
 function App() {
 
-  const [user, setUser] = useState('admin');
+    const accessToken = localStorage.getItem('access_token');
+    const {username, groups} = decodeToken(accessToken);
 
 
 
-  const accessToken = localStorage.getItem('access_token');
-  console.log(accessToken);
-
-  // Decodificar el token para obtener información adicional
-  //const decodedToken = jwt_decode(accessToken);
-  //console.log(decodedToken);
-  //const userGroups = decodedToken.groups;
-  //console.log("Grupos del usuario:", userGroups);
-
-
+ 
   return (
     <Router>
 
       {
-        user==='admin' ? 
+        groups==='admin' ? 
             <div className="App">
-              <NavbarAdmin />
+              <NavbarAdmin  username={username} />
             </div>
           : 
             <div className="App">
-              <Navbar />
+              <NavbarAdmin username={username} />
             </div>
-        }
-
+      }
+    
 
 
       <Routes>
@@ -56,9 +55,38 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />     
         <Route path="/movies/:id" element={<MovieDetail />} />  
-        <Route path="/admin/movies" element={<AdminMovies />} />
-        <Route path="/admin/movies/add" element={<MovieEditForm />} />
-        <Route path="/admin/movies/edit/:id" element={<MovieEditForm />} />
+
+
+
+        <Route
+          path="/admin/movies"
+          element={
+            <ProtectedRoute user={username}>
+              <AdminMovies />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/movies/add"
+          element={
+            <ProtectedRoute user={username}>
+              <MovieEditForm />
+            </ProtectedRoute>
+          }
+        />
+
+      <Route
+          path="/admin/movies/edit/:id"
+          element={
+            <ProtectedRoute user={username}>
+              <MovieEditForm />
+            </ProtectedRoute>
+          }
+        />
+
+             
+      
       </Routes>
 
 
@@ -66,6 +94,13 @@ function App() {
     </Router>
   );
 }
+
+
+
+//https://www.robinwieruch.de/react-router-private-routes/   (protected routes)
+
+
+
 
 const Home = () => {
   return (

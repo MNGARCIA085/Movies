@@ -4,8 +4,8 @@ from db.session import get_db
 from fastapi import APIRouter, Body,Depends, Form,HTTPException, Query,status,File,UploadFile
 from schemas.movies import MovieCreate,ShowMovie,FilterMovie
 from sqlalchemy.orm import Session
-
-
+from api.v1.route_login import get_current_user_from_token
+from db.models.users import User
 
 
 router = APIRouter()
@@ -14,14 +14,11 @@ router = APIRouter()
 #https://stackoverflow.com/questions/69950072/pydantic-params-validation-with-file-upload
 # cant combine
 
-
-
-
-
 @router.post("/", response_model=ShowMovie,status_code=201)
 def create_movie(
     movie: MovieCreate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user_from_token),
 ):
     movie = create_new_movie(movie=movie,db=db)
     return movie

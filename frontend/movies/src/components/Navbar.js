@@ -1,12 +1,22 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { NavLink, Link } from "react-router-dom";
-
 import { Dropdown } from 'react-bootstrap';
+import LogoutLink from "./LogoutLink";
 
-const Navbar = () => {
+
+import { decodeToken } from "../utils";
+
+
+const Navbar = (props) => {
+
+  const accessToken = localStorage.getItem('access_token');
+  console.log('access toekn',accessToken);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
       <div className="container">
+
+
         
         <Link to="/" className="navbar-brand fs-3 ubuntu">
             MOVIES
@@ -47,6 +57,31 @@ const Navbar = () => {
                   Movies
                 </NavLink>
           </div>
+
+
+
+          { 
+                  props.username !== null ?
+                                    <Dropdown>
+                                          <Dropdown.Toggle variant="light" id="dropdown-basic" className="nav-link fs-5">
+                                                      Welcome {props.username}
+                                          </Dropdown.Toggle>
+                                          <Dropdown.Menu>
+                                          <NavLink to="/admin/movies/add" className="nav-link">
+                                                Edit profile
+                                          </NavLink>
+                                          <LogoutLink />                                 
+                                          </Dropdown.Menu>
+                                    </Dropdown>
+                              :
+                                    <NavLink to="/login" className="nav-link fs-5">
+                                          Log In
+                                    </NavLink>
+                }
+
+
+
+
         </div>
       </div>
     </nav>

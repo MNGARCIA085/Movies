@@ -2,8 +2,13 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Dropdown } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap';
+import LogoutLink from "./LogoutLink";
+import { useEffect, useState } from "react";
 
-const NavbarAdmin = () => {
+
+const NavbarAdmin = (props) => {
+
+
   return (
     <Navbar bg="light" expand="lg">
       <Link to="/" className="navbar-brand fs-3 ubuntu">
@@ -28,12 +33,47 @@ const NavbarAdmin = () => {
                           </NavLink>
                       </Dropdown.Menu>
                 </Dropdown>
-                <NavLink to="/movies" className="nav-link fs-5">
-                      Analize Reviews
-                </NavLink>
+
+                <Dropdown>
+                      <Dropdown.Toggle variant="light" id="dropdown-basic" className="nav-link fs-5">
+                          Analize
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                          <NavLink to="/admin/movies/" className="nav-link">
+                                Movies
+                          </NavLink>
+                      </Dropdown.Menu>
+                </Dropdown>
+
+
+
+            
+                { 
+                  props.username !== null ?
+                                    <Dropdown>
+                                          <Dropdown.Toggle variant="light" id="dropdown-basic" className="nav-link fs-5">
+                                                      Welcome {props.username} 
+                                          </Dropdown.Toggle>
+                                          <Dropdown.Menu>
+                                          <NavLink to="/admin/movies/add" className="nav-link">
+                                                Edit profile
+                                          </NavLink>
+                                          <LogoutLink />                                 
+                                          </Dropdown.Menu>
+                                    </Dropdown>
+                              :
+                                    <NavLink to="/login" className="nav-link fs-5">
+                                          Log In
+                                    </NavLink>
+                }
+
+
         </Nav>
       </Navbar.Collapse>
     </Navbar>
+
+
+
   );
 };
 

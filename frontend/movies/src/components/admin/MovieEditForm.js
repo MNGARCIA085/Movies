@@ -31,13 +31,6 @@ const MovieEditForm = (props) => {
 
     let { id } = useParams();
 
-
-
-
-    
-
-    
-
     const navigate = useNavigate(); // for navigation
 
     const [formData, setFormData] = useState({
@@ -167,6 +160,14 @@ const MovieEditForm = (props) => {
                     "description":textareaValue};
 
             // consumo el servicio
+
+
+            
+            
+            
+
+
+
             if (id !== undefined){
               const response = await axios.put(
                 `http://127.0.0.1:8000/movies/${id}`,
@@ -174,9 +175,24 @@ const MovieEditForm = (props) => {
               );
             }
             else {
+
+
+              const jwtToken = localStorage.getItem('access_token');
+            console.log(jwtToken); //
+            const config = {
+              headers: {
+                Authorization: `Bearer ${jwtToken}` // Agrega "Bearer" antes del JWT
+              }
+            };
+
+            
+
+
+              
               const response = await axios.post(
                 `http://127.0.0.1:8000/movies`,
-                  aux
+                aux,
+                config
               );
             }
             
