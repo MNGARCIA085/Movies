@@ -1,10 +1,13 @@
 from sqlalchemy import and_
 from core.hashing import Hasher
 from db.models.users import User
+from db.models.user_groups import UserGroups
 from schemas.users import UserCreate,FilterUser
 from sqlalchemy.orm import Session
+from typing import List
+from db.models.groups import Groups
 
-
+# create new user
 def create_new_user(user: UserCreate, db: Session):
     user = User(
         username=user.username,
@@ -14,6 +17,7 @@ def create_new_user(user: UserCreate, db: Session):
         hashed_password=Hasher.get_password_hash(user.password),
         is_active=True,
         is_superuser = user.is_superuser,
+        # default group
     )
     db.add(user)
     db.commit()
@@ -21,51 +25,62 @@ def create_new_user(user: UserCreate, db: Session):
     return user
 
 
+# get user by email
 def get_user_by_email(email: str, db: Session):
     user = db.query(User).filter(User.email == email).first()
     return user
 
 
+# get user by id
+def get_user(id:int, db: Session):
+    user = db.query(User).filter(User.id == id).first()
+    return user
+
+
+
+# get all users with filters
 def get_users(db: Session,f:FilterUser):
-
     filters = []
-
     if f.username:
         filters.append(User.username==f.username)
-
     if f.username__contains:
         filters.append(User.username.contains(f.username__contains))
-
     if f.email:
         filters.append(User.email==f.email)
-
     if f.email__contains:
         filters.append(User.email.contains(f.email__contains))
-
-
     if f.first_name:
         filters.append(User.first_name==f.first_name)
-
     if f.first_name__contains:
         filters.append(User.first_name.contains(f.first_name__contains))
-
-
     if f.last_name:
         filters.append(User.last_name==f.last_name)
-
     if f.last_name__contains:
         filters.append(User.last_name.contains(f.last_name__contains))
-
-
-
     # junto todo
     filters = and_(*filters)
-
     # consulta
     users = db.query(User).filter(filters).limit(f.limit).offset(f.offset).all()
-
-
     return users
+
+
+# add a group to an user
+def add_group_user(id:int,groups:List[int],db:Session):
+    for g in groups:
+        group_user_object = UserGroups(user_id=id,group_id=g)
+        db.add(group_user_object)
+    db.commit()
+    return 
+
+
+# get all the groups a user belongs to
+def get_groups_user(id:int,db:Session):
+    groups_users = db.query(UserGroups, Groups).join(Groups).filter(UserGroups.user_id==id)
+    return [g.description for _,g in groups_users]
+
+
+
+
 
 
 

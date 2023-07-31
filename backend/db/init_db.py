@@ -15,7 +15,8 @@ from db.models.movies import Movie
 from db.models.reviews import Review
 from db.models.genres import Genre
 from db.models.movie_genre import MovieGenre
-
+from db.models.groups import Groups
+from db.models.user_groups import UserGroups
 
 
 
@@ -38,10 +39,19 @@ def init_db(db: Session) -> None:
     db.query(Review).delete()
     db.query(Genre).delete()
     db.query(MovieGenre).delete()
+    db.query(Groups).delete()
+    db.query(UserGroups).delete()
     db.commit()
 
 
 
+
+    # GROUPS
+    
+ 
+
+    # USERS
+    
     user = users.get_user_by_email('bla@gmil.com',db) #settings.FIRST_SUPERUSER
     if not user:
         user_in = schemas.users.UserCreate(

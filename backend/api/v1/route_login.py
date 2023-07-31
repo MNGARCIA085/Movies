@@ -10,6 +10,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt, JWTError
 from schemas.tokens import Token
 from sqlalchemy.orm import Session
+from db.repository.users import get_groups_user
 
 # from fastapi.security import OAuth2PasswordBearer
 
@@ -42,11 +43,14 @@ def login_for_access_token(
 
 
     # mejorar dsp.
-    if user.is_superuser:
-        groups = 'admin'
-    else:
-        groups = 'std'
+    #if user.is_superuser:
+    #    groups = 'admin'
+    #else:
+    #    groups = 'std'
 
+    # obtento la lista de grupos
+    groups = get_groups_user(user.id,db)
+    # devuelvo el token
     access_token = create_access_token(
         data={"sub": user.username, "groups":groups}, expires_delta=access_token_expires
     )

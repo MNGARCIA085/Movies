@@ -1,25 +1,43 @@
-from pydantic import BaseModel
-from pydantic import EmailStr
+from pydantic import BaseModel,EmailStr
+from typing import List, Optional
 from .common import Pagination
 
 
-# properties required during user creation
-class UserCreate(BaseModel):
+# groups
+class Groups(BaseModel):
+    id: int
+    description:str
+
+    class Config:
+        orm_mode = True
+
+# common properties
+class User(BaseModel):
+    id:int
     username: str
     first_name: str
     last_name: str
     email: EmailStr
+    #groups:List[int] = [2]  # por default es std.
+
+    class Config:
+        orm_mode = True
+
+
+#
+class ShowUser(User):
+    is_active: bool
+    groups: Optional[List[Groups]]
+
+    class Config:
+        orm_mode = True
+
+
+
+# properties required during user creation
+class UserCreate(User):
     password: str
     is_superuser: bool = False
-
-
-class ShowUser(BaseModel):
-    username: str
-    email: EmailStr
-    is_active: bool
-
-    class Config:  # to convert non dict obj to json
-        orm_mode = True
 
 
 # for filtering
