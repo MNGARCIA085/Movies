@@ -1,14 +1,19 @@
 from typing import List
 from db.repository.movies import create_new_movie,retreive_movie,delete_movie_by_id,update_movie_by_id,list_movies
 from db.session import get_db
-from fastapi import APIRouter, Body,Depends, Form,HTTPException, Query,status,File,UploadFile
+from fastapi import APIRouter, Depends, HTTPException,status
 from schemas.movies import MovieCreate,ShowMovie,FilterMovie
 from sqlalchemy.orm import Session
 from api.v1.route_login import get_current_user_from_token
+from api.dependencies import RoleChecker
 from db.models.users import User
 
 
 router = APIRouter()
+
+
+allow_create_resource = RoleChecker(['admin']) # quizás dsp. por id
+
 
 #https://stackoverflow.com/questions/69950072/pydantic-params-validation-with-file-upload
 # cant combine
@@ -17,7 +22,8 @@ router = APIRouter()
 def create_movie(
     movie: MovieCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user_from_token),
+    current_user: User = Depends(allow_create_resource),
+    #current_user: User = Depends(get_current_user_from_token),
 ):
     movie = create_new_movie(movie=movie,db=db)
     return movie
@@ -45,7 +51,7 @@ def update_movie(
                 id: int, 
                 movie: MovieCreate, 
                 db: Session = Depends(get_db),
-                current_user: User = Depends(get_current_user_from_token)):
+                current_user: User = Depends(allow_create_resource)):
     aux = update_movie_by_id(id=id, movie=movie, db=db)
     if not aux:
         raise HTTPException(
