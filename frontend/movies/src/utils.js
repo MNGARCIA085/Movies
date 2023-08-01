@@ -2,12 +2,11 @@ import jwt_decode from 'jwt-decode';
 
 // decodificar el token de acceso para obtener info.adicional
 export const decodeToken = (token) => {
-
   if ( token !== null) {
     const decodedToken = jwt_decode(token);
     return {
              'username':decodedToken.sub, 
-             'groups':decodeToken.groups
+             'groups':decodedToken.groups
            }
         }
   else {

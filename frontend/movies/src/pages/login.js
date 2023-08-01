@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate} from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
+import { decodeToken } from '../utils';
+
 
 
 const Login = () => {
+
+
+
+  //
+  const location = useLocation();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -29,6 +37,25 @@ const Login = () => {
 
 
 
+      // decodifico el token y según si estoy en login u admin/login a dónde voy
+      //const {user, groups} = decodeToken(access_token);
+
+
+      
+      console.log(location.pathname);
+
+      if (location.pathname.includes('admin')){
+        window.location.href = '/admin';
+      }
+      else {
+        window.location.href = '/movies';
+      }
+
+
+
+
+
+
 
 
 
@@ -37,7 +64,7 @@ const Login = () => {
 
       // redirecciono 
       //navigate('/',{ replace: true });
-      window.location.href = '/admin';
+      //window.location.href = '/admin';
 
 
 

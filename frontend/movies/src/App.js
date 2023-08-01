@@ -32,7 +32,6 @@ function App() {
     const {username, groups} = decodeToken(accessToken);
 
 
-
  
   return (
     <Router>
@@ -44,7 +43,7 @@ function App() {
             </div>
           : 
             <div className="App">
-              <NavbarAdmin username={username} />
+              <Navbar username={username} />
             </div>
       }
     
@@ -58,10 +57,13 @@ function App() {
 
 
 
+
+        <Route path="/admin/login" element={<Login />} />  
+
         <Route
           path="/admin/movies"
           element={
-            <ProtectedRoute user={username}>
+            <ProtectedRoute user={username} groups={groups}>
               <AdminMovies />
             </ProtectedRoute>
           }
@@ -70,7 +72,7 @@ function App() {
         <Route
           path="/admin/movies/add"
           element={
-            <ProtectedRoute user={username}>
+            <ProtectedRoute user={username} groups={groups}>
               <MovieEditForm />
             </ProtectedRoute>
           }
@@ -79,7 +81,7 @@ function App() {
       <Route
           path="/admin/movies/edit/:id"
           element={
-            <ProtectedRoute user={username}>
+            <ProtectedRoute user={username} groups={groups}>
               <MovieEditForm />
             </ProtectedRoute>
           }

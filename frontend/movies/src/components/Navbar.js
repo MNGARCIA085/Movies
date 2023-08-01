@@ -70,7 +70,7 @@ const Navbar = (props) => {
                                           <NavLink to="/admin/movies/add" className="nav-link">
                                                 Edit profile
                                           </NavLink>
-                                          <LogoutLink />                                 
+                                                &nbsp; <LogoutLink />                                 
                                           </Dropdown.Menu>
                                     </Dropdown>
                               :
