@@ -1,3 +1,4 @@
+from fastapi import HTTPException,status
 from sqlalchemy import and_
 from core.hashing import Hasher
 from db.models.users import User
@@ -7,8 +8,26 @@ from sqlalchemy.orm import Session
 from typing import List
 from db.models.groups import Groups
 
+
+
+
+
 # create new user
 def create_new_user(user: UserCreate, db: Session):
+    # chequeo que el usuario no exista ya
+    if db.query(User).filter_by(username=user.username).first():
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, 
+                            detail=[
+                                {
+                                    "loc": [
+                                        "body",
+                                        "username"
+                                    ],
+                                    "msg": "user already taken",
+                                    "type": "exc_type"
+                                    }
+                            ])
+    # lo ingreso
     user = User(
         username=user.username,
         first_name=user.first_name,

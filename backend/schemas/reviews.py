@@ -32,6 +32,9 @@ class ShowReview(ReviewBase):
     id: int
     user: users.ShowUser
     movie: Movie
+    date: datetime
+
+
 
     class Config:  # to convert non dict obj to json
         orm_mode = True

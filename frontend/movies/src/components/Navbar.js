@@ -10,7 +10,7 @@ import { decodeToken } from "../utils";
 const Navbar = (props) => {
 
   const accessToken = localStorage.getItem('access_token');
-  console.log('access toekn',accessToken);
+
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
@@ -68,7 +68,7 @@ const Navbar = (props) => {
                                           </Dropdown.Toggle>
                                           <Dropdown.Menu>
                                           <NavLink to="/admin/movies/add" className="nav-link">
-                                                Edit profile
+                                                &nbsp; Edit profile
                                           </NavLink>
                                                 &nbsp; <LogoutLink />                                 
                                           </Dropdown.Menu>

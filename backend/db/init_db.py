@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 import schemas
-from .repository import users,movies,reviews,genres
+from .repository import users,movies,reviews,genres,groups
 from core.config import settings
 
 
@@ -47,7 +47,12 @@ def init_db(db: Session) -> None:
 
 
     # GROUPS
-    
+    list_groups = ['admin','std']
+    group_ids = []
+    for l in list_groups:
+        group = schemas.groups.GroupCreate(description=l)
+        g = groups.create_new_group(group,db)
+        group_ids.append(g.id)
  
 
     # USERS
@@ -60,9 +65,12 @@ def init_db(db: Session) -> None:
             last_name='admin',
             email='bla@gmil.com',
             password='1234',
+            password2='1234',
             is_superuser=True,
         )
         user = users.create_new_user(user_in,db)
+        # lo agrego a su grupo
+        users.add_group_user(user.id,[group_ids[0]],db)
 
 
 
@@ -76,8 +84,10 @@ def init_db(db: Session) -> None:
             last_name='ln1',
             email='u1@gmil.com',
             password='1234',
+            password2='1234',
         )
     u1 = users.create_new_user(user_in,db)
+    users.add_group_user(u1.id,[group_ids[1]],db)
 
     user_in = schemas.users.UserCreate(
             username='u2',
@@ -85,8 +95,13 @@ def init_db(db: Session) -> None:
             last_name='ln2',
             email='u2@gmil.com',
             password='1234',
+            password2='1234',
         )
     u2 = users.create_new_user(user_in,db)
+    users.add_group_user(u2.id,[group_ids[1]],db)
+
+
+
 
     # genres
     genre_in = schemas.genres.GenreCreate(description='action')

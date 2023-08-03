@@ -1,4 +1,4 @@
-from pydantic import BaseModel,EmailStr
+from pydantic import BaseModel,EmailStr,Field, validator
 from typing import List, Optional
 from .common import Pagination
 
@@ -13,10 +13,9 @@ class Groups(BaseModel):
 
 # common properties
 class User(BaseModel):
-    id:int
-    username: str
-    first_name: str
-    last_name: str
+    username: str = Field(..., min_length=1, description="Required")
+    first_name: str = Field(..., min_length=1, description="Required")
+    last_name: str = Field(..., min_length=1, description="Required")
     email: EmailStr
     #groups:List[int] = [2]  # por default es std.
 
@@ -26,6 +25,7 @@ class User(BaseModel):
 
 #
 class ShowUser(User):
+    id: int
     is_active: bool
     groups: Optional[List[Groups]]
 
@@ -36,7 +36,16 @@ class ShowUser(User):
 
 # properties required during user creation
 class UserCreate(User):
-    password: str
+    password: str = Field(..., min_length=4)
+    password2: str = Field(..., min_length=4)
+    
+    
+    @validator('password2')
+    def passwords_match(cls, v, values):
+        if 'password' in values and v != values['password']:
+            raise ValueError('Passwords do not match')
+        return v
+    
     is_superuser: bool = False
 
 

@@ -12,7 +12,7 @@ export const decodeToken = (token) => {
   else {
     return {
         'username':null,
-        'groups':null
+        'groups':[]
     }
   }
   //console.log(decodedToken);

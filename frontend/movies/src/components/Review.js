@@ -4,7 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Review = (props) => {
 
+    
+
         const review = props.review;
+
+
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour:'2-digit', minute:'2-digit' };
+        const dateObject = new Date(review.date);
+        const formattedDate = dateObject.toLocaleDateString('es-ES', options);
+
+
+
 
         return (
             <div>
@@ -20,7 +30,7 @@ const Review = (props) => {
 
                         <div class="row">
                             <div class="col-md-12">
-                                {review.date}
+                                {formattedDate}
                             </div>
                         </div>
 

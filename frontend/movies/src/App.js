@@ -20,6 +20,7 @@ import Login from "./pages/login";
 
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import SignUp from "./pages/SignUp";
 
 
 
@@ -31,13 +32,12 @@ function App() {
     const accessToken = localStorage.getItem('access_token');
     const {username, groups} = decodeToken(accessToken);
 
-
  
   return (
     <Router>
 
       {
-        groups==='admin' ? 
+        groups.includes('admin') ? 
             <div className="App">
               <NavbarAdmin  username={username} />
             </div>
@@ -51,11 +51,10 @@ function App() {
 
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />     
         <Route path="/movies/:id" element={<MovieDetail />} />  
-
-
 
 
         <Route path="/admin/login" element={<Login />} />  

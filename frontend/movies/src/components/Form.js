@@ -2,11 +2,24 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 
-const MyForm = (props) => {
+
+
+
+
+
+
+
+ const MyForm = (props) => {
+   
+  
+  
+  // obtener el usuario a partir del token
+
+
   const [formData, setFormData] = useState({
-    movie_id:props.movie_id,
-    score: '',
-    description: ''
+      movie_id:props.movie_id,
+      score: '',
+      description: ''
   });
 
 

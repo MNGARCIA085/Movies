@@ -93,9 +93,7 @@ const MovieDetail = () => {
                                 <br></br>
                                 <Button onClick={handleOpenModal}>Add my review</Button>
                                 <br></br> <br></br>
-
-
-                                
+    
                                 {aux &&
                                 <font color='green'>
                                     <Review review={myrev}></Review>
@@ -104,6 +102,7 @@ const MovieDetail = () => {
 
 
                                 <Reviews reviews={rev}/>
+                                
                             </div>
                         </div>
 

@@ -2,26 +2,22 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation} from "react-router-dom";
 import { decodeToken } from '../utils';
-
+import { URL_LOGIN_TOKEN } from '../api/constantes';
 
 
 const Login = () => {
 
-
-
   //
   const location = useLocation();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/login/token',
+      const response = await axios.post(URL_LOGIN_TOKEN,
       
             {username:username,password:password},
             {
@@ -30,18 +26,11 @@ const Login = () => {
                     },
                 }
       );
-
       const { access_token } = response.data;
       localStorage.setItem('access_token', access_token);
       setMessage('Inicio de sesión exitoso');
-
-
-
       // decodifico el token y según si estoy en login u admin/login a dónde voy
       //const {user, groups} = decodeToken(access_token);
-
-
-      
       console.log(location.pathname);
 
       if (location.pathname.includes('admin')){
@@ -51,23 +40,10 @@ const Login = () => {
         window.location.href = '/movies';
       }
 
-
-
-
-
-
-
-
-
       // quizás acá deba decodificar
-
-
       // redirecciono 
       //navigate('/',{ replace: true });
       //window.location.href = '/admin';
-
-
-
 
     } catch (error) {
       setMessage('Error en la solicitud');
@@ -110,6 +86,13 @@ const Login = () => {
         <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
       </form>
       <p>{message}</p>
+
+
+      <br></br>
+      Don't have an account? <a href="/signup">Sign Up</a> 
+
+
+
     </div>
   );
 }

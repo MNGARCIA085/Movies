@@ -42,11 +42,6 @@ def login_for_access_token(
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
 
 
-    # mejorar dsp.
-    #if user.is_superuser:
-    #    groups = 'admin'
-    #else:
-    #    groups = 'std'
 
     # obtento la lista de grupos
     groups = get_groups_user(user.id,db)

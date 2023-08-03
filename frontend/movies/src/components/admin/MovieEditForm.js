@@ -154,10 +154,10 @@ const MovieEditForm = (props) => {
             const jwtToken = localStorage.getItem('access_token');
             // dependiendo si es post o put
             if (id !== undefined){
-                const response = consume_service(`${URL_MOVIES_BASE}/${id}`,'put',jwtToken,aux,true);
+                const response = await consume_service(`${URL_MOVIES_BASE}/${id}`,'put',jwtToken,aux,true);
             }
             else {
-                const response = consume_service(URL_MOVIES_BASE,'post',jwtToken,aux,true);
+                const response = await consume_service(URL_MOVIES_BASE,'post',jwtToken,aux,true);
              }
             // todo ok, redirect a ver todos los datos
             navigate('/admin/movies/', { replace: true });
