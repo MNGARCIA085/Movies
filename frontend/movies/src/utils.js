@@ -6,7 +6,7 @@ export const decodeToken = (token) => {
     const decodedToken = jwt_decode(token);
     return {
              'username':decodedToken.sub, 
-             'groups':decodedToken.groups
+             'groups':decodedToken.groups,
            }
         }
   else {

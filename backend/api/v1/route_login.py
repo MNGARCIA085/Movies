@@ -47,7 +47,7 @@ def login_for_access_token(
     groups = get_groups_user(user.id,db)
     # devuelvo el token
     access_token = create_access_token(
-        data={"sub": user.username, "groups":groups}, expires_delta=access_token_expires
+        data={"sub": user.username, "groups":groups, "id":user.id}, expires_delta=access_token_expires
     )
     response.set_cookie(
         key="access_token", value=f"Bearer {access_token}", httponly=True

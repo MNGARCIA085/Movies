@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-
-
-
+import { decodeToken } from '../utils';
+import { consume_service } from '../api/api';
+import { URL_REVIEWS_BASE } from '../api/constantes';
 
 
 
@@ -14,6 +14,8 @@ import axios from 'axios';
   
   
   // obtener el usuario a partir del token
+  const accessToken = localStorage.getItem('access_token');
+
 
 
   const [formData, setFormData] = useState({
@@ -32,7 +34,10 @@ import axios from 'axios';
     event.preventDefault();
     // Logic to send data to the server
     try {
-        const response = await axios.post('http://127.0.0.1:8000/reviews',formData);
+
+
+        const response = await consume_service(URL_REVIEWS_BASE,'post',accessToken,formData,true);
+         // const response = await axios.post('http://127.0.0.1:8000/reviews',formData);
         //console.log(response.data);
         // si tiene un id es que salió bien
         // Logic to process the server response
