@@ -4,7 +4,6 @@ from db.session import get_db
 from fastapi import APIRouter, Depends, HTTPException,status
 from schemas.movies import MovieCreate,ShowMovie,FilterMovie
 from sqlalchemy.orm import Session
-from api.v1.route_login import get_current_user_from_token
 from api.dependencies import RoleChecker
 from db.models.users import User
 
@@ -63,7 +62,7 @@ def update_movie(
 def delete_movie(
     id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user_from_token)
+    current_user: User = Depends(allow_create_resource)
 ):
     movie = retreive_movie(id=id, db=db)
     if not movie:
