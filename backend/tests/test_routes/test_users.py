@@ -12,6 +12,7 @@ def test_create_user(client):
         "last_name": "a1",
         "email": "testuser@nofoobar.com",
         "password": "testing",
+        "password2":"testing",
     }
     response = client.post("/users/", data=json.dumps(data))
     assert response.status_code == 201

@@ -1,5 +1,4 @@
 
-import axios from "axios";
 import React,{useState} from "react";
 import MovieList from "../components/MovieList";
 import { consume_service } from "../api/api";
@@ -9,13 +8,6 @@ import { URL_MOVIES_BASE } from "../api/constantes";
 
 const Movies = () => {
 
-      //const baseURL = 'http://127.0.0.1:8000/movies/';
-      //const [pelis, setPelis] = React.useState(null);
-
-
-      /**
-      if (!pelis) return null;
-      */
 
     const [searchInput, setSearchInput] = useState("");
     const [pelis, setPelis] = useState([]);

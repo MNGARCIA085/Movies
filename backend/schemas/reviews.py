@@ -1,7 +1,7 @@
 from datetime import date
 from typing import List, Optional
 from fastapi import Query
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from . import users
 from datetime import datetime
 from .common import Pagination
@@ -17,6 +17,13 @@ class Movie(BaseModel):
 # shared properties
 class ReviewBase(BaseModel):
     score: int
+
+    @validator('score')
+    def validate_score(cls, value):
+        if value < 1 or value > 5:
+            raise ValueError('Choose a value between 1 and 5')
+        return value
+
     description: str
     #date: Optional[date]
     date: datetime = Field(default_factory=datetime.now)

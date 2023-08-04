@@ -13,6 +13,10 @@ import { URL_MOVIES_BASE } from '../api/constantes';
 
 const MovieDetail = () => {
 
+        const estiloTexto = {
+        textAlign: 'justify'
+      };
+
         let { id } = useParams();
 
         const [data, setData] = useState([]);
@@ -79,7 +83,9 @@ const MovieDetail = () => {
                                             width="440px" height="400px"></img> 
                                 </center>
                                 <br></br>
-                                {data.description}
+                                <div style={estiloTexto}>
+                                    {data.description}
+                                </div>
                             </div>
                         </div>
 
@@ -95,11 +101,10 @@ const MovieDetail = () => {
                                 <br></br> <br></br>
     
                                 {aux &&
-                                <font color='green'>
-                                    <Review review={myrev}></Review>
-                                </font>
+                                    <font color='green'>
+                                        <Review review={myrev}></Review>
+                                    </font>
                                 }
-
 
                                 <Reviews reviews={rev}/>
                                 

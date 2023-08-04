@@ -23,7 +23,6 @@ def create_movie(
     movie: MovieCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(allow_create_resource),
-    #current_user: User = Depends(get_current_user_from_token),
 ):
     movie = create_new_movie(movie=movie,db=db)
     return movie

@@ -20,6 +20,32 @@ from db.models.user_groups import UserGroups
 
 
 
+# large texts for descriptions
+
+matrix_des = """
+Thomas A. Anderson is a man living two lives. 
+By day he is an average computer programmer and by night a hacker known as Neo. 
+Neo has always questioned his reality, but the truth is far beyond his imagination. 
+Neo finds himself targeted by the police when he is contacted by Morpheus, 
+a legendary computer hacker branded a terrorist by the government. As a rebel against the machines, 
+Neo must confront the agents:  super-powerful computer programs devoted to stopping Neo and 
+the entire human rebellion.
+"""
+
+
+smile_des = """
+After witnessing a bizarre, traumatic incident involving a patient, a psychiatrist 
+becomes increasingly convinced she is being threatened by an uncanny entity.
+Having spent years trying to flee her own childhood trauma by working her fingers 
+to the bone, compassionate psychiatrist Dr Rose Cotter is used to treating 
+the most damaged and vulnerable members of society. Laura's puzzling case, however, 
+is a different story. And as unsuspecting Dr Cotter attempts to rationalise 
+the dreadful delusions of the deeply disturbed young woman, hair-raising encounters 
+with the unexplained cause the therapist to reconsider. Now she is losing her grip on reality. 
+Can Rose deal with the ugly past and confront the smile, the unsettling grin of death?
+"""
+
+
 
 
 
@@ -30,9 +56,6 @@ def init_db(db: Session) -> None:
     # the tables un-commenting the next line
     # Base.metadata.create_all(bind=engine)
 
-
-
-
     # borro datos anteriores
     db.query(Movie).delete()
     db.query(User).delete()
@@ -42,8 +65,6 @@ def init_db(db: Session) -> None:
     db.query(Groups).delete()
     db.query(UserGroups).delete()
     db.commit()
-
-
 
 
     # GROUPS
@@ -114,7 +135,7 @@ def init_db(db: Session) -> None:
     # movies
     movie_in = schemas.movies.MovieCreate(
         title='Smile',
-        description='dsfs, sdfdsf',
+        description=smile_des,
         genres=[g1.id,g2.id],
         date='2018-07-03',
         image_link='https://i0.wp.com/imgs.hipertextual.com/wp-content/uploads/2022/09/Smile.png?fit=1200%2C598&quality=50&strip=all&ssl=1',
@@ -122,10 +143,10 @@ def init_db(db: Session) -> None:
     m1 = movies.create_new_movie(movie_in,db)
     movie_in = schemas.movies.MovieCreate(
         title='matrix reloaded',
-        description='dsfs, sdfdsf',
+        description=matrix_des,
         genres=[g1.id],
         date='2016-07-03',
-        image_link='https://www.ecartelera.com/carteles/fondos/5200/5270-n2.jpg'
+        image_link='https://www.slashfilm.com/img/gallery/the-wachowskis-wanted-the-matrix-trilogy-to-change-the-way-we-watch-movies/l-intro-1657156429.jpg'
     )
     m2 = movies.create_new_movie(movie_in,db)
 
