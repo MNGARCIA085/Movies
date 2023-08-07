@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useLocation} from "react-router-dom";
 import { decodeToken } from '../utils';
 import { URL_LOGIN_TOKEN } from '../api/constantes';
-
+import { NavLink, Link } from "react-router-dom";
 
 const Login = () => {
 
@@ -89,10 +89,14 @@ const Login = () => {
 
 
       <br></br>
-      Don't have an account? <a href="/signup">Sign Up</a> 
 
 
-
+      Don't have an account? <NavLink to="/signup">
+        <font color='blue'><b>Sign Up</b></font></NavLink>
+ 
+      
+      
+  
     </div>
   );
 }

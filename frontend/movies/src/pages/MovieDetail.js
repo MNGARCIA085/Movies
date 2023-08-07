@@ -43,8 +43,20 @@ const MovieDetail = () => {
 
         // MODAL PARA EL FORMULARIO
         const [showModal, setShowModal] = useState(false);
+        //para saber qué muestro en el modal
+        const [auxModal,setAuxModal] = useState();
         
         const handleOpenModal = () => {
+            // dsp. mejorar el código
+            // que esté logueado
+            const accessToken = localStorage.getItem('access_token');
+            if (accessToken!==null){
+                setAuxModal('form');
+            }
+            else {
+                // idealmente, chequear que no haya hecho ya una review
+                setAuxModal('mensaje');
+            }
           setShowModal(true);
         };
       
@@ -118,9 +130,17 @@ const MovieDetail = () => {
                             </Modal.Header>
                             <Modal.Body>
 
-                                    <MyForm movie_id={id}  
-                                        myReview={myReview}
-                                        onClose={handleCloseModal}/>
+
+                                {
+                                    (auxModal === 'form') ?
+                                        <MyForm movie_id={id}  
+                                            myReview={myReview}
+                                            onClose={handleCloseModal}/> :
+
+                                            'You must be logged in to post a review'
+                                }
+
+                                    
               
                             </Modal.Body>
                             <Modal.Footer>
