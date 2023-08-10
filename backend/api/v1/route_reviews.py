@@ -1,7 +1,7 @@
 from typing import List
 from api.dependencies import get_current_user_from_token
 from db.models.users import User
-from db.repository.reviews import create_new_review,list_reviews
+from db.repository.reviews import create_new_review,list_reviews,calculate_average_score
 from db.session import get_db
 from fastapi import APIRouter, Depends,HTTPException,status
 from schemas.reviews import ReviewCreate,ShowReview,FilterReview
@@ -39,3 +39,10 @@ def read_reviews(
                  ):
     return list_reviews( db=db ,f=f )
 
+
+
+
+# devuelve el promedio de reviews de la peli
+@router.get("/{id}/score") #, response_model=float
+def average_score(id:int,db: Session = Depends(get_db)):
+    return calculate_average_score(movie_id=id,db=db)

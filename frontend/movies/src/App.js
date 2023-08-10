@@ -23,6 +23,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import SignUp from "./pages/SignUp";
 
 
+import NavbarStd from "./components/NavbarStd";
+import UsersTable from "./components/admin/Users/Users";
+
+
+
+
 
 
 
@@ -43,7 +49,7 @@ function App() {
             </div>
           : 
             <div className="App">
-              <Navbar username={username} />
+              <NavbarStd username={username} />
             </div>
       }
     
@@ -58,6 +64,13 @@ function App() {
 
 
         <Route path="/admin/login" element={<Login />} />  
+
+
+
+        <Route path="/admin/users" element={<UsersTable />} />  
+
+
+        
 
         <Route
           path="/admin/movies"

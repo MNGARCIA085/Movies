@@ -39,10 +39,15 @@ def login_for_access_token(
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     # obtento la lista de grupos
     groups = get_groups_user(user.id,db)
+    
     # devuelvo el token
     access_token = create_access_token(
-        data={"sub": user.username, "groups":groups, "id":user.id}, expires_delta=access_token_expires
-    )
+        data={"sub": user.username, "groups":groups, "id":user.id}, 
+                expires_delta=access_token_expires)
+    # refresh token
+    
+    
+    
     response.set_cookie(
         key="access_token", value=f"Bearer {access_token}", httponly=True
     )

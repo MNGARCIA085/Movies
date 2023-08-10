@@ -7,7 +7,7 @@ from schemas.users import UserCreate,FilterUser
 from sqlalchemy.orm import Session
 from typing import List
 from db.models.groups import Groups
-
+import json
 
 
 
@@ -80,7 +80,24 @@ def get_users(db: Session,f:FilterUser):
     filters = and_(*filters)
     # consulta
     users = db.query(User).filter(filters).limit(f.limit).offset(f.offset).all()
-    return users
+
+
+    # le agrego count, page, limit
+    count = db.query(User).filter(filters).count()
+    data = [item.__dict__ for item in users]
+    data = [{key: value for key, value in item.items() if key != '_sa_instance_state'} for item in data]
+
+    # respuesta
+    response = {
+        'data': data,
+        'count': count,
+        'limit':f.limit,
+        'offset':f.offset
+    }
+
+    return response
+
+    #return users
 
 
 # add a group to an user
@@ -99,6 +116,16 @@ def get_groups_user(id:int,db:Session):
 
 
 
+
+# delete user
+def delete_user_by_id(id: int, db: Session):
+    existing_user = db.query(User).filter(User.id == id)
+    if not existing_user.first():
+        return 0
+    # borro el usuario
+    #existing_user.delete(synchronize_session=False) # ver esto
+    db.commit()
+    return 1
 
 
 

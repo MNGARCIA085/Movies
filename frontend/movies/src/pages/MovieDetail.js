@@ -9,6 +9,7 @@ import { Modal, Button } from 'react-bootstrap';
 import Review from '../components/Review';
 import { consume_service } from '../api/api';
 import { URL_MOVIES_BASE } from '../api/constantes';
+import { URL_REVIEWS_BASE } from '../api/constantes';
 
 
 const MovieDetail = () => {
@@ -22,10 +23,17 @@ const MovieDetail = () => {
         const [data, setData] = useState([]);
         const [rev, setRev] = useState([]);
 
+        const [score,setScore] = useState();
+
         
         React.useEffect(() => {
             const fetchData = async() => {
                 const response = await consume_service(`${URL_MOVIES_BASE}/${id}`,'get','',{},false);
+
+                const scoreData = await consume_service(`${URL_REVIEWS_BASE}/${id}/score`,
+                                    'get','',{},false);
+                setScore(scoreData.data);
+
                 setData(response.data);
                 setRev(response.data.reviews);
             }
@@ -88,7 +96,7 @@ const MovieDetail = () => {
 
                         <div class="row">
                             <div class="col-md-8 offset-md-2">
-                            <h3><font color='red'><center><h2>{data.title}</h2></center></font></h3>
+                            <h3><font color='red'><center><h2>{data.title}  : {score}</h2></center></font></h3>
                         <hr></hr>
                                 <center>
                                     <img src={data.image_link} alt='Description' 

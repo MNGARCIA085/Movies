@@ -11,8 +11,6 @@ from core.config import settings
 
 
 
-
-
 #oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/token")
 
