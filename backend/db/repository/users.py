@@ -80,13 +80,10 @@ def get_users(db: Session,f:FilterUser):
     filters = and_(*filters)
     # consulta
     users = db.query(User).filter(filters).limit(f.limit).offset(f.offset).all()
-
-
     # le agrego count, page, limit
     count = db.query(User).filter(filters).count()
     data = [item.__dict__ for item in users]
     data = [{key: value for key, value in item.items() if key != '_sa_instance_state'} for item in data]
-
     # respuesta
     response = {
         'data': data,
@@ -94,15 +91,17 @@ def get_users(db: Session,f:FilterUser):
         'limit':f.limit,
         'offset':f.offset
     }
-
     return response
 
-    #return users
 
 
 # add a group to an user
 def add_group_user(id:int,groups:List[int],db:Session):
+    # borro los viejos grupos de ese usuario
+    db.query(UserGroups).filter(UserGroups.user_id == id).delete()
+    # agrego los nuevos
     for g in groups:
+        print(g)
         group_user_object = UserGroups(user_id=id,group_id=g)
         db.add(group_user_object)
     db.commit()
@@ -117,13 +116,16 @@ def get_groups_user(id:int,db:Session):
 
 
 
-# delete user
-def delete_user_by_id(id: int, db: Session):
+# deactivate user
+def change_state_user_by_id(id: int, db: Session):
     existing_user = db.query(User).filter(User.id == id)
     if not existing_user.first():
         return 0
-    # borro el usuario
-    #existing_user.delete(synchronize_session=False) # ver esto
+    # lo desactivo
+    if existing_user.first().is_active:
+        existing_user.update({'is_active':False})
+    else:
+        existing_user.update({'is_active':True})
     db.commit()
     return 1
 

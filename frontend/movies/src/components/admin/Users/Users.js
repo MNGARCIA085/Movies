@@ -1,48 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTable } from 'react-table';
-import { Link } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import { Table, Button } from 'react-bootstrap';
-
 import { URL_USERS_BASE } from '../../../api/constantes';
+import { consume_service } from '../../../api/api';
+import './MyComponent.css';
+
+
+
+
+
 
 const UsersTable = () => {
-  const [data, setData] = useState([]);
   
-
-
-
+  
+  const navigate = useNavigate();
+  const [data, setData] = useState([]);
   const [limit, setLimit] = useState(10);
-
   const [count,setCount] = useState(0);
 
 
-  const fetchData = async (usernameFilter='',nameFilter='',emailFilter='') => {
+
+  // función que recupera los datos 
+  const fetchData = async (limit=10,usernameFilter='',nameFilter='',emailFilter='') => {
 
 
     console.log(usernameFilter);
-
     
-
-
     // obtengo los datos de los posibles filtros
     let query = `?limit=${limit}`; // dsp. agregar page
     if (usernameFilter !== ''){
         query += `&username__contains=${usernameFilter}`;
     }
     if (nameFilter !== ''){
-        query += `&first_name__contains=${nameFilter}`;
         query += `&last_name__contains=${nameFilter}`;
     }
     if (emailFilter !== ''){
         query += `&email__contains=${emailFilter}`;
     }
 
-    const response = await axios.get(`${URL_USERS_BASE}?${query}`);
+    const response = await axios.get(`${URL_USERS_BASE}${query}`);
     setData(response.data.data);
 
+
+    // cant. de registros
     setCount(response.data.count);
 
 
@@ -52,18 +56,31 @@ const UsersTable = () => {
     fetchData();
   }, []);
 
-  const handleDelete = (id) => {
-    //setData(prevData => prevData.filter(item => item.id !== id));
-    // mayb delete and re-fecth data
-    console.log('bla');
-    console.log(id);
+  const handleState = async(id) => {
+    //setData(prevData => prevData.filter(item => item.id !== id)); de borrar lo hace bien
+    const confirmacion = window.confirm("Are you sure?");
+          if (confirmacion) {            
+            try {
+              const jwtToken = localStorage.getItem('access_token');
+              const response = await consume_service(`${URL_USERS_BASE}/changestate/${id}`,'patch',
+                                      '',{},false);
+              // recargo
+              fetchData(limit,usernameFilter,nameFilter,emailFilter);
+            } catch (error) {
+              console.error("Error al eliminar el elemento:", error);
+            }
+          }
+  };
 
 
-    //setData(prevData => prevData.map(item => console.log(item)));
+  //
+  const handleDetail = async(id) => {
+    navigate(`/admin/users/${id}`, { replace: true });
+  };
 
-
-    setData(prevData => prevData.filter(item => item.id !== id));
-    // fetchData con la nueva query; pero trae todo de vuelta (lo paginado)
+  //
+  const handleEdit = async(id) => {
+    navigate(`/admin/users/edit/${id}`, { replace: true });
   };
 
 
@@ -73,110 +90,158 @@ const UsersTable = () => {
   const handleUsernameFilterChange = (event) => {
     //event.preventDefault();
     setUsernameFilter(event.target.value);
-    fetchData(event.target.value,nameFilter,emailFilter);
+    fetchData(limit,event.target.value,nameFilter,emailFilter);
   };
 
   const [nameFilter, setNameFilter] = useState('');
   const handleNameFilterChange = (event) => {
     setNameFilter(event.target.value);
-    fetchData(usernameFilter,event.target.value,emailFilter);
+    fetchData(limit,usernameFilter,event.target.value,emailFilter);
   };
 
   const [emailFilter, setEmailFilter] = useState('');
   const handleEmailFilterChange = (event) => {
     setEmailFilter(event.target.value);
-    fetchData(usernameFilter,nameFilter,event.target.value);
+    fetchData(limit,usernameFilter,nameFilter,event.target.value);
   };
 
-  
-
-
-
+  const handleSelectChange = (event) => {
+    const selectedValue = parseInt(event.target.value, 10);
+    setLimit(selectedValue);
+    fetchData(selectedValue,usernameFilter,nameFilter,emailFilter);
+  };
   
    
 
   return (
-    <div>
+    
+    
+    <div class="col-md-8 offset-2">
 
-    {count} <br></br>
+        <h2><font color='red'><center>ADMIN : USERS </center></font></h2>
 
+        <hr></hr>
 
-      <Table bordered hover>
-
-
-      
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-
-
-
-        <tfoot>
-          <tr>
-            <td></td>
-            <td>
-                <input
-                    type="text"
-                    class="form-control"
-                    value={usernameFilter}
-                    onChange={handleUsernameFilterChange}
-                    placeholder="Type something..."
-                />
-            </td>
-
-            <td>
-            <input
-                    type="text"
-                    class="form-control"
-                    value={nameFilter}
-                    onChange={handleNameFilterChange}
-                    placeholder="Type something..."
-                />
-            </td>
+            <div class="row">
+                <div class="col-md-2">
+                    
+                <select onChange={handleSelectChange} class="form-select">
+                    <option value={10}>10</option>
+                    <option value={1}>1</option>
+                    <option value={25}>25</option>
+                </select>
+                </div>
+            </div>
+            <br></br>
 
 
-            <td>
-            <input
-                    type="text"
-                    class="form-control"
-                    value={emailFilter}
-                    onChange={handleEmailFilterChange}
-                    placeholder="Type something..."
-                />
-            </td>
-            
-            <td></td>
-          </tr>
-        </tfoot>
+
+                <Table bordered hover>
+                    
+                    <thead>
+                        <tr>
+                
+                            <th>Username</th>
+                            <th>Last name</th>
+                            <th>Email</th>
+                            <td>Active</td>
+                            <th><center>Actions</center></th>
+                        </tr>
+                    </thead>
+
+                    <tfoot className="table-footer">
+                    <tr>
+                    
+                        <td>
+                            <input
+                                type="text"
+                                class="form-control"
+                                value={usernameFilter}
+                                onChange={handleUsernameFilterChange}
+                                placeholder="Type something..."
+                            />
+                        </td>
+
+                        <td>
+                        <input
+                                type="text"
+                                class="form-control"
+                                value={nameFilter}
+                                onChange={handleNameFilterChange}
+                                placeholder="Type something..."
+                            />
+                        </td>
+                        <td>
+                        <input
+                                type="text"
+                                class="form-control"
+                                value={emailFilter}
+                                onChange={handleEmailFilterChange}
+                                placeholder="Type something..."
+                            />
+                        </td>
+
+                        <td></td>
+                        
+                        <td></td>
+                    </tr>
+                    </tfoot>
 
 
-        <tbody>
-          {data.map((row) => {
-            return (
-              <tr>
-                <td> {row.id}</td>
-                <td> {row.username}</td>
-                <td> {row.first_name} {row.last_name}</td>
-                <td> {row.email}</td>
-                <td>
-                  <EditButton id={row.id} />
-                  
+                    <tbody>
+                    {data.map((row) => {
+                        return (
+                                                                                    
+                        <tr>    
+                            <td> {row.username}</td>
+                            <td> {row.last_name}</td>
+                            <td> {row.email}</td>
+                            <td> 
+                                {row.is_active === true ? (
+                                    <p>True</p>
+                                  ) : (
+                                    <p>False</p>
+                                  )}
+                            </td>
+                            <td>
 
 
-                  <button class="btn btn-danger" onClick={() => handleDelete(row.id)}>Click Me</button>
+                            <button class="btn btn-info btn-sm" onClick={() => handleDetail(row.id)}>
+                                        Detail</button>                                        
+                            
+                                        &nbsp; &nbsp;
+                            
+                            <button class="btn btn-warning btn-sm" onClick={() => handleEdit(row.id)}>
+                                        Edit Groups</button>
+                            
+                                        &nbsp; &nbsp; 
 
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+                                {row.is_active === true ? (
+                                    <button class="btn btn-danger btn-sm" onClick={() => handleState(row.id)}>
+                                    Deactivate</button>
+                                  ) : (
+                                    <button class="btn btn-success btn-sm" onClick={() => handleState(row.id)}>
+                                        Activate</button>
+                                  )}
+
+                            
+
+                            </td>
+                        </tr>
+                        );
+                    })}
+                    </tbody>
+                </Table>
+
+
+
+                {count} total records
+
+
+
+
+
+
     </div>
   );
 };

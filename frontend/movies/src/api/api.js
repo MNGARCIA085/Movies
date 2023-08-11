@@ -27,6 +27,13 @@ export const consume_service = async(url, method, jwtToken, data,auth=false) => 
                 config
             )
         }
+        else if (method==='patch'){
+            return await axios.patch(
+                url,
+                data,
+                config
+            )
+        }
         else if (method==='get'){
             return await axios.get(url);
         }

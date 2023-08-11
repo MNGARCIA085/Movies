@@ -14,6 +14,6 @@ def create_group(group:GroupCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/")
-def get_all_genres(db: Session = Depends(get_db)):
+def get_all_groups(db: Session = Depends(get_db)):
     return get_groups(db=db)
 

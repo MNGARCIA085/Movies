@@ -8,26 +8,16 @@ import MovieDetail from "./pages/MovieDetail";
 import AdminMovies from "./pages/admin/Movies";
 import MovieEditForm from "./components/admin/MovieEditForm";
 import jwt_decode from 'jwt-decode';
-
-
 import NavbarAdmin from "./components/NavbarAdmin";
-
 import { useState, useEffect } from "react";
-
 import { decodeToken } from "./utils";
-
 import Login from "./pages/login";
-
-
 import ProtectedRoute from "./components/ProtectedRoute";
 import SignUp from "./pages/SignUp";
-
-
 import NavbarStd from "./components/NavbarStd";
 import UsersTable from "./components/admin/Users/Users";
-
-
-
+import UserDetail from "./components/admin/Users/UserDetail";
+import UserEditForm from "./components/admin/Users/EditForm";
 
 
 
@@ -61,13 +51,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />     
         <Route path="/movies/:id" element={<MovieDetail />} />  
-
-
+        
+        
+        
         <Route path="/admin/login" element={<Login />} />  
-
-
-
-        <Route path="/admin/users" element={<UsersTable />} />  
+        <Route path="/admin/users" element={<UsersTable />} /> 
+        <Route path="/admin/users/:id" element={<UserDetail />} />  
+        <Route path="/admin/users/edit/:id" element={<UserEditForm />} /> 
 
 
         
