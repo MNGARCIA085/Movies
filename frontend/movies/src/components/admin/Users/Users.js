@@ -15,11 +15,16 @@ import './MyComponent.css';
 
 
 const UsersTable = () => {
+
+
   
   
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  
+  
   const [count,setCount] = useState(0);
 
 
@@ -27,9 +32,6 @@ const UsersTable = () => {
   // función que recupera los datos 
   const fetchData = async (limit=10,usernameFilter='',nameFilter='',emailFilter='') => {
 
-
-    console.log(usernameFilter);
-    
     // obtengo los datos de los posibles filtros
     let query = `?limit=${limit}`; // dsp. agregar page
     if (usernameFilter !== ''){
@@ -84,8 +86,14 @@ const UsersTable = () => {
   };
 
 
+  // page
+  const [currentPage,setCurrentPage] = useState(2);
+  const handlePage = async(page) => {
+    setCurrentPage(page);
+  };
 
 
+  //
   const [usernameFilter, setUsernameFilter] = useState('');
   const handleUsernameFilterChange = (event) => {
     //event.preventDefault();
@@ -110,6 +118,10 @@ const UsersTable = () => {
     setLimit(selectedValue);
     fetchData(selectedValue,usernameFilter,nameFilter,emailFilter);
   };
+
+
+
+  
   
    
 
@@ -236,6 +248,60 @@ const UsersTable = () => {
 
 
                 {count} total records
+
+                {currentPage}dfdsf
+
+
+                <button 
+                
+                
+                    class="btn btn-light btn-sm" onClick={() => handlePage(1)}>
+                                        1</button>
+
+
+
+                  {
+                    currentPage !== 2 && currentPage !== 1 && currentPage !== 3 ?
+                      '......':
+                      ''
+                  }
+
+
+                  {            
+                      currentPage !== 2 && currentPage !== 1 ?                     
+                          <button class="btn btn-light btn-sm" 
+                          onClick={() => handlePage(currentPage-1)}>
+                            {currentPage-1}</button> :
+                            ''
+                    }                
+
+                  
+                    {
+                      currentPage !== 1 ?
+                          <button class="btn btn-light btn-sm" 
+                          onClick={() => handlePage(currentPage)}>
+                            {currentPage}</button> :
+                            ''
+                    }
+
+
+                        <button class="btn btn-light btn-sm" 
+                          onClick={() => handlePage(currentPage+1)}>
+                            {currentPage+1}</button>
+
+
+                          ..............
+                            
+
+                
+
+
+
+
+
+                  
+                
+                
 
 
 
