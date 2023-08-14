@@ -19,6 +19,15 @@ from db.models.groups import Groups
 from db.models.user_groups import UserGroups
 
 
+ # more users with Faker
+from faker import Faker
+from sqlalchemy import insert
+    
+    
+fake = Faker()
+
+
+
 
 # large texts for descriptions
 
@@ -120,6 +129,41 @@ def init_db(db: Session) -> None:
         )
     u2 = users.create_new_user(user_in,db)
     users.add_group_user(u2.id,[group_ids[1]],db)
+
+
+
+   
+   # users with faker
+    data_users = [
+        users.create_new_user(schemas.users.UserCreate(
+            username=fake.unique.user_name(), 
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            email=fake.unique.email(), 
+            password=1234,
+            password2=1234),db)
+        for i in range(50)
+    ]
+
+    
+    """
+    # users with faker
+    data_users = [
+        users.create_new_user(schemas.users.UserCreate(
+            username=fake.unique.user_name(), 
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            email=fake.unique.email(), 
+            password=1234,
+            password2=1234),db)
+        for i in range(5)
+    ]
+
+    # bulk insert
+    stmt = insert(User).values(data_users)
+    db.execute(stmt)
+    """
+
 
 
 

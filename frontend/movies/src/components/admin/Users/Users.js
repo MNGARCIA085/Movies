@@ -57,7 +57,7 @@ const UsersTable = () => {
     setCount(response.data.count);
 
     // cant. de páginas
-    setTotalPages(Math.ceil(count / limit));
+    setTotalPages(Math.ceil(response.data.count / limit));
 
 
   };
@@ -105,8 +105,11 @@ const UsersTable = () => {
   //
   const [usernameFilter, setUsernameFilter] = useState('');
   const handleUsernameFilterChange = (event) => {
-    //event.preventDefault();
     setUsernameFilter(event.target.value);
+    // para que se actualicen al mismo tiempo
+    //setUsernameFilter(event.target.value, () => {
+    //  fetchData(limit,page,event.target.value,nameFilter,emailFilter,usernameFilter);
+    //});
     fetchData(limit,page,event.target.value,nameFilter,emailFilter);
   };
 
@@ -122,6 +125,8 @@ const UsersTable = () => {
     fetchData(limit,page,usernameFilter,nameFilter,event.target.value);
   };
 
+
+  // limit
   const handleSelectChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
     setLimit(selectedValue);
@@ -149,7 +154,7 @@ const UsersTable = () => {
                     
                 <select onChange={handleSelectChange} class="form-select">
                     <option value={10}>10</option>
-                    <option value={1}>1</option>
+                    <option value={15}>15</option>
                     <option value={25}>25</option>
                 </select>
                 </div>
