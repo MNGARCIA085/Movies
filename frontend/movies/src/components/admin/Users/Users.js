@@ -8,7 +8,7 @@ import { Table, Button } from 'react-bootstrap';
 import { URL_USERS_BASE } from '../../../api/constantes';
 import { consume_service } from '../../../api/api';
 import './MyComponent.css';
-
+import AdvancedPagination from './AdvancedPagination';
 
 
 
@@ -27,13 +27,18 @@ const UsersTable = () => {
   
   const [count,setCount] = useState(0);
 
+  const [totalPages,setTotalPages] = useState(Math.ceil(count / limit));
+
 
 
   // función que recupera los datos 
-  const fetchData = async (limit=10,usernameFilter='',nameFilter='',emailFilter='') => {
+  const fetchData = async (limit=10,page=1,usernameFilter='',nameFilter='',emailFilter='') => {
+
+
+    const offset = (page -1)*limit;
 
     // obtengo los datos de los posibles filtros
-    let query = `?limit=${limit}`; // dsp. agregar page
+    let query = `?limit=${limit}&offset=${offset}`; // dsp. agregar page
     if (usernameFilter !== ''){
         query += `&username__contains=${usernameFilter}`;
     }
@@ -50,6 +55,9 @@ const UsersTable = () => {
 
     // cant. de registros
     setCount(response.data.count);
+
+    // cant. de páginas
+    setTotalPages(Math.ceil(count / limit));
 
 
   };
@@ -87,9 +95,10 @@ const UsersTable = () => {
 
 
   // page
-  const [currentPage,setCurrentPage] = useState(2);
-  const handlePage = async(page) => {
+  const [currentPage,setCurrentPage] = useState(1);
+  const handlePageChange = async(page) => { // handlePageChnge
     setCurrentPage(page);
+    fetchData(limit,page,usernameFilter,nameFilter,emailFilter);
   };
 
 
@@ -98,25 +107,26 @@ const UsersTable = () => {
   const handleUsernameFilterChange = (event) => {
     //event.preventDefault();
     setUsernameFilter(event.target.value);
-    fetchData(limit,event.target.value,nameFilter,emailFilter);
+    fetchData(limit,page,event.target.value,nameFilter,emailFilter);
   };
 
   const [nameFilter, setNameFilter] = useState('');
   const handleNameFilterChange = (event) => {
     setNameFilter(event.target.value);
-    fetchData(limit,usernameFilter,event.target.value,emailFilter);
+    fetchData(limit,page,usernameFilter,event.target.value,emailFilter);
   };
 
   const [emailFilter, setEmailFilter] = useState('');
   const handleEmailFilterChange = (event) => {
     setEmailFilter(event.target.value);
-    fetchData(limit,usernameFilter,nameFilter,event.target.value);
+    fetchData(limit,page,usernameFilter,nameFilter,event.target.value);
   };
 
   const handleSelectChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
     setLimit(selectedValue);
-    fetchData(selectedValue,usernameFilter,nameFilter,emailFilter);
+    setTotalPages(Math.ceil(count / limit));
+    fetchData(selectedValue,page,usernameFilter,nameFilter,emailFilter);
   };
 
 
@@ -249,48 +259,13 @@ const UsersTable = () => {
 
                 {count} total records
 
-                {currentPage}dfdsf
-
-
-                <button 
-                
-                
-                    class="btn btn-light btn-sm" onClick={() => handlePage(1)}>
-                                        1</button>
 
 
 
-                  {
-                    currentPage !== 2 && currentPage !== 1 && currentPage !== 3 ?
-                      '......':
-                      ''
-                  }
-
-
-                  {            
-                      currentPage !== 2 && currentPage !== 1 ?                     
-                          <button class="btn btn-light btn-sm" 
-                          onClick={() => handlePage(currentPage-1)}>
-                            {currentPage-1}</button> :
-                            ''
-                    }                
-
-                  
-                    {
-                      currentPage !== 1 ?
-                          <button class="btn btn-light btn-sm" 
-                          onClick={() => handlePage(currentPage)}>
-                            {currentPage}</button> :
-                            ''
-                    }
-
-
-                        <button class="btn btn-light btn-sm" 
-                          onClick={() => handlePage(currentPage+1)}>
-                            {currentPage+1}</button>
-
-
-                          ..............
+                <AdvancedPagination currentPage={currentPage} 
+                      itemPerPage={limit}
+                      totalPages={totalPages}
+                      onPageChange={handlePageChange} />
                             
 
                 
