@@ -31,6 +31,12 @@ class Settings:
     FIRST_SUPERUSER: str
     FIRST_SUPERUSER_PASSWORD: str
 
+    # MAIL
+    EMAIL_SENDER : str = os.getenv("EMAIL_SENDER")
+    EMAIL_PASSWORD: str = os.getenv("EMAIL_PASSWORD")
+    EMAIL_SERVER:str = os.getenv("EMAIL_SERVER")
+    EMAIL_PORT:str = os.getenv("EMAIL_PORT")
+
 
 
 settings = Settings()

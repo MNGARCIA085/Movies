@@ -34,7 +34,15 @@ const Login = () => {
       console.log(location.pathname);
 
       if (location.pathname.includes('admin')){
-        window.location.href = '/admin';
+
+        // debo saber si tiene rol admin
+        const {user, groups} = decodeToken(access_token);
+        if (groups.includes('admin')){
+          window.location.href = '/admin';
+        }
+        else {
+          setMessage('Must be administrator');
+        }
       }
       else {
         window.location.href = '/movies';
@@ -85,10 +93,8 @@ const Login = () => {
 
         <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
       </form>
-      <p>{message}</p>
-
-
       <br></br>
+      <p><font color='red'>{message}</font></p>
 
 
       Don't have an account? <NavLink to="/signup">

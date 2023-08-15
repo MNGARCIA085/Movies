@@ -4,6 +4,10 @@ from fastapi import APIRouter,Depends
 from schemas.users import ShowUser,FilterUser,UserCreate
 from sqlalchemy.orm import Session
 from typing import List
+from core.celery_app import send_async_email
+
+
+
 
 router = APIRouter()
 
@@ -11,7 +15,15 @@ router = APIRouter()
 # create new user
 @router.post("/", response_model=ShowUser,  status_code=201)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    return create_new_user(user=user, db=db)
+    new_user = create_new_user(user=user, db=db)
+    # mail en segundo plano; mail debería ser el de admin
+    send_async_email.delay('mngarcia@mail.Antel.com.uy','A new user has been created',
+                           f"El nuevo usuario es {new_user.username}")
+    return new_user
+    #return create_new_user(user=user, db=db)
+
+
+
 
 
 # get all users
@@ -21,15 +33,10 @@ def get_all_users(db: Session = Depends(get_db),f: FilterUser = Depends()):
 
 
 
-
 # get user by id
 @router.get("/{id}",response_model=ShowUser)
 def get_user_by_id(id:int,db: Session = Depends(get_db)):
     return get_user(id=id,db=db)
-
-
-
-
 
 
 # add a group to an user

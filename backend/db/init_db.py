@@ -138,7 +138,7 @@ def init_db(db: Session) -> None:
         users.create_new_user(schemas.users.UserCreate(
             username=fake.unique.user_name(), 
             first_name=fake.first_name(),
-            last_name=fake.last_name(),
+            last_name=fake.name(),
             email=fake.unique.email(), 
             password=1234,
             password2=1234),db)

@@ -1,6 +1,5 @@
 from typing import Dict
 from typing import Optional
-
 from fastapi import HTTPException
 from fastapi import Request
 from fastapi import status
@@ -9,6 +8,8 @@ from fastapi.security import OAuth2
 from fastapi.security.utils import get_authorization_scheme_param
 
 
+
+# OAuth
 class OAuth2PasswordBearerWithCookie(OAuth2):
     def __init__(
         self,
@@ -38,3 +39,6 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
             else:
                 return None
         return param
+
+
+

@@ -101,7 +101,6 @@ def add_group_user(id:int,groups:List[int],db:Session):
     db.query(UserGroups).filter(UserGroups.user_id == id).delete()
     # agrego los nuevos
     for g in groups:
-        print(g)
         group_user_object = UserGroups(user_id=id,group_id=g)
         db.add(group_user_object)
     db.commit()
