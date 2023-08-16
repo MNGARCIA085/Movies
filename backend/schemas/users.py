@@ -39,7 +39,6 @@ class UserCreate(User):
     password: str = Field(..., min_length=4)
     password2: str = Field(..., min_length=4)
     
-    
     @validator('password2')
     def passwords_match(cls, v, values):
         if 'password' in values and v != values['password']:
@@ -47,6 +46,36 @@ class UserCreate(User):
         return v
     
     is_superuser: bool = False
+
+
+
+
+# update user
+class UserUpdate(User):
+    pass
+    """
+    si los quisiera opcionales
+    username: str | None
+    first_name: str | None
+    last_name: str | None
+    email: EmailStr | None
+    """
+
+
+
+# change password
+class ChangePassword(BaseModel):
+    password: str = Field(..., min_length=4)
+    password2: str = Field(..., min_length=4)
+    
+    @validator('password2')
+    def passwords_match(cls, v, values):
+        if 'password' in values and v != values['password']:
+            raise ValueError('Passwords do not match')
+        return v
+    
+
+
 
 
 # for filtering

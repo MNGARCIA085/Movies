@@ -16,8 +16,8 @@ const LogoutLink = () => {
     // Otros pasos para limpiar el estado de la sesión y redirigir al usuario a la página de inicio de sesión
 
     
-    //navigate('/login/', { replace: true });
-    window.location.href = '/login';
+    navigate('/login/', { replace: true });
+    //window.location.href = '/login';
 
   };
 

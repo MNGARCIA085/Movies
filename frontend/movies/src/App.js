@@ -17,16 +17,23 @@ import SignUp from "./pages/SignUp";
 import NavbarStd from "./components/NavbarStd";
 import UsersTable from "./components/admin/Users/Users";
 import UserDetail from "./components/admin/Users/UserDetail";
-import UserEditForm from "./components/admin/Users/EditForm";
 
 
+//import UserEditForm from "./components/admin/Users/EditForm";
+
+
+import UserEditForm from "./components/forms/EditUser";
+import ChangePasswordForm from "./components/forms/ChangePassword";
+
+
+import AddGroupUserForm from "./components/forms/AddGroupUser";
 
 
 
 function App() {
 
     const accessToken = localStorage.getItem('access_token');
-    const {username, groups} = decodeToken(accessToken);
+    const {username, id, groups} = decodeToken(accessToken);
 
  
   return (
@@ -57,7 +64,12 @@ function App() {
         <Route path="/admin/login" element={<Login />} />  
         <Route path="/admin/users" element={<UsersTable />} /> 
         <Route path="/admin/users/:id" element={<UserDetail />} />  
-        <Route path="/admin/users/edit/:id" element={<UserEditForm />} /> 
+
+        <Route path="/admin/users/addgroupuser/:id" element={<AddGroupUserForm />} />
+        
+        
+        <Route path="/users/edit" element={<UserEditForm />} /> 
+        <Route path="/users/changepassword" element={<ChangePasswordForm />} /> 
 
 
         

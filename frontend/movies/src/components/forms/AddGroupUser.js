@@ -6,15 +6,17 @@ import Select from 'react-select';
 import 'bootstrap-select/dist/css/bootstrap-select.min.css';
 import 'bootstrap-select/dist/js/bootstrap-select.min.js'; 
 import { useParams } from "react-router-dom";
-import './styles.css';
-import { consume_service } from '../../../api/api';
-import { URL_USERS_BASE ,URL_GROUPS_BASE } from '../../../api/constantes';
+//import './styles.css';
+import { consume_service } from '../../api/api';
+import { URL_USERS_BASE,URL_GROUPS_BASE } from '../../api/constantes';
 
 
 
+const AddGroupUserForm = () => {
 
 
-const UserEditForm = () => {
+
+    console.log('sdfdsf');
 
     let { id } = useParams();
 
@@ -182,7 +184,7 @@ const UserEditForm = () => {
   );
 };
 
-export default UserEditForm;
+export default AddGroupUserForm;
 
 
 

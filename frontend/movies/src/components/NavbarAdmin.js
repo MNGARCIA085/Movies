@@ -55,8 +55,11 @@ const NavbarAdmin = (props) => {
                                                       Welcome {props.username} 
                                           </Dropdown.Toggle>
                                           <Dropdown.Menu>
-                                          <NavLink to="/admin/movies/add" className="nav-link">
+                                          <NavLink to="/users/edit" className="nav-link">
                                                 Edit profile
+                                          </NavLink>
+                                          <NavLink to="/users/changepassword" className="nav-link">
+                                                Change password
                                           </NavLink>
                                                 &nbsp; <LogoutLink />                                 
                                           </Dropdown.Menu>

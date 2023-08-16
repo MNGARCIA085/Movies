@@ -6,12 +6,14 @@ export const decodeToken = (token) => {
     const decodedToken = jwt_decode(token);
     return {
              'username':decodedToken.sub, 
+             'id':decodedToken.id,
              'groups':decodedToken.groups,
            }
         }
   else {
     return {
         'username':null,
+        'id':null,
         'groups':[]
     }
   }

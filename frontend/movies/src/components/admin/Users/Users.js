@@ -90,7 +90,7 @@ const UsersTable = () => {
 
   //
   const handleEdit = async(id) => {
-    navigate(`/admin/users/edit/${id}`, { replace: true });
+    navigate(`/admin/users/addgroupuser/${id}`, { replace: true });
   };
 
 

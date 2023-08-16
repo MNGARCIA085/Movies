@@ -1,7 +1,7 @@
-from db.repository.users import get_user,create_new_user,get_users, add_group_user,get_user,change_state_user_by_id
+from db.repository.users import change_password_by_id,update_user_by_id,get_user,create_new_user,get_users, add_group_user,get_user,change_state_user_by_id
 from db.session import get_db
-from fastapi import APIRouter,Depends
-from schemas.users import ShowUser,FilterUser,UserCreate
+from fastapi import APIRouter,Depends, HTTPException, status
+from schemas.users import ShowUser,FilterUser,UserCreate,UserUpdate,ChangePassword
 from sqlalchemy.orm import Session
 from typing import List
 from core.celery_app import send_async_email
@@ -44,6 +44,34 @@ def get_user_by_id(id:int,db: Session = Depends(get_db)):
 def add_groups_user(id:int,groups:List[int],db: Session = Depends(get_db)):
     add_group_user(id,groups,db)
     return get_user(id,db)
+
+
+
+
+# edit an user
+@router.put("/{id}",status_code=201)
+def update_user(
+                id: int, 
+                user: UserUpdate, 
+                db: Session = Depends(get_db)):
+                #current_user: User = Depends(allow_create_resource)):
+    aux = update_user_by_id(id=id, user=user, db=db)
+    if not aux:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {id} not found"
+        )
+    return {"msg": "Successfully updated data."}
+
+
+
+
+# change password
+@router.patch("/changepassword/{id}")
+def change_password(id:int,password:ChangePassword, db:Session = Depends(get_db)):
+    change_password_by_id(id=id, password=password,db=db)
+    return {"detail": "Success"}
+
+
 
 
 # desactivar un usuario o activarlo (dsp. sólo admin)

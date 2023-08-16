@@ -3,7 +3,7 @@ from sqlalchemy import and_
 from core.hashing import Hasher
 from db.models.users import User
 from db.models.user_groups import UserGroups
-from schemas.users import UserCreate,FilterUser
+from schemas.users import UserCreate,FilterUser,UserUpdate,ChangePassword
 from sqlalchemy.orm import Session
 from typing import List
 from db.models.groups import Groups
@@ -95,6 +95,19 @@ def get_users(db: Session,f:FilterUser):
 
 
 
+# update user by id
+def update_user_by_id(id: int, user: UserUpdate, db: Session):
+    # cheque que exista el usuario con ese id
+    existing_user = db.query(User).filter(User.id == id)
+    if not existing_user.first():
+        return 0
+    # actualizo la peli y sus géneros
+    existing_user.update(user.dict(exclude_unset=True)) 
+    # commit
+    db.commit()
+    return 1
+
+
 # add a group to an user
 def add_group_user(id:int,groups:List[int],db:Session):
     # borro los viejos grupos de ese usuario
@@ -112,6 +125,18 @@ def get_groups_user(id:int,db:Session):
     groups_users = db.query(UserGroups, Groups).join(Groups).filter(UserGroups.user_id==id)
     return [g.description for _,g in groups_users]
 
+
+
+
+# change password
+def change_password_by_id(id: int, password:ChangePassword,db: Session):
+    existing_user = db.query(User).filter(User.id == id)
+    if not existing_user.first():
+        return 0
+    # actualizo el password (con su hash())
+    existing_user.update({'hashed_password':Hasher.get_password_hash(password.password)})
+    db.commit()
+    return 1
 
 
 
