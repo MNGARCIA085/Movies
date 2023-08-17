@@ -4,7 +4,11 @@ import { useParams } from "react-router-dom";
 import React, {useState} from 'react';
 import axios from "axios";
 import Reviews from '../components/Reviews';
-import MyForm from '../components/Form';
+
+
+import AddReviewForm from '../components/forms/AddReview';
+
+
 import { Modal, Button } from 'react-bootstrap';
 import Review from '../components/Review';
 import { consume_service } from '../api/api';
@@ -141,7 +145,7 @@ const MovieDetail = () => {
 
                                 {
                                     (auxModal === 'form') ?
-                                        <MyForm movie_id={id}  
+                                        <AddReviewForm movie_id={id}  
                                             myReview={myReview}
                                             onClose={handleCloseModal}/> :
 

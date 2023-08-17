@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { URL_USERS_BASE } from '../api/constantes';
-import { consume_service } from '../api/api';
+import { URL_USERS_BASE } from '../../api/constantes';
+import { consume_service } from '../../api/api';
 
-const SignUp = () => {
+const SignUpForm = () => {
 
   // CAMPOS
   const [username, setUsername] = useState('');
@@ -163,4 +163,4 @@ const SignUp = () => {
   );
 }
 
-export default SignUp;
+export default SignUpForm;

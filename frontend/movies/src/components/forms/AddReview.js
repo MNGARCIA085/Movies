@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { consume_service } from '../api/api';
-import { URL_REVIEWS_BASE } from '../api/constantes';
 import Select from 'react-select';
 import { ReactSelectBootstrap } from 'react-select-bootstrap';
+import { consume_service } from '../../api/api';
+import { URL_REVIEWS_BASE } from '../../api/constantes';
+
 
 
 //https://react-select.com/home
 
 
- const MyForm = (props) => {
+ const AddReviewForm = (props) => {
    
   
   
@@ -165,4 +166,4 @@ import { ReactSelectBootstrap } from 'react-select-bootstrap';
   );
 };
 
-export default MyForm;
+export default AddReviewForm;
