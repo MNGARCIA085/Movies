@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
 import { formatDateToString, parseStringToDate } from '../../common/common';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';

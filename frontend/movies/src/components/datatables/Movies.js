@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
 import DataTable from "react-data-table-component";
-import MovieFilterForm from "./MovieFilterForm";
+
+
+import MovieFilterForm from "../forms/MovieFilter";
+
+
 import { useNavigate, Link } from 'react-router-dom';
 import { URL_MOVIES_BASE } from "../../api/constantes";
 import { consume_service } from "../../api/api";

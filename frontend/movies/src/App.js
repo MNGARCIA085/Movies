@@ -5,15 +5,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Movies from "./pages/Movies";
 import MovieDetail from "./pages/MovieDetail";
 import AdminMovies from "./pages/admin/Movies";
-import MovieEditForm from "./components/admin/MovieEditForm";
+import MovieEditForm from "./components/forms/MovieEdit";
 import jwt_decode from 'jwt-decode';
 import { useState, useEffect } from "react";
 import { decodeToken } from "./utils";
 import Login from "./pages/login";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import SignUpForm from "./components/forms/SignUp";
-import UsersTable from "./components/admin/Users/Users";
-import UserDetail from "./components/admin/Users/UserDetail";
+import UsersDataTable from "./components/datatables/UsersDatatable";
+import UserDetail from "./components/cards/UserDetail";
 import UserEditForm from "./components/forms/EditUser";
 import ChangePasswordForm from "./components/forms/ChangePassword";
 import AddGroupUserForm from "./components/forms/AddGroupUser";
@@ -53,7 +53,7 @@ function App() {
         
         
         <Route path="/admin/login" element={<Login />} />  
-        <Route path="/admin/users" element={<UsersTable />} /> 
+        <Route path="/admin/users" element={<UsersDataTable />} /> 
         <Route path="/admin/users/:id" element={<UserDetail />} />  
 
         <Route path="/admin/users/addgroupuser/:id" element={<AddGroupUserForm />} />

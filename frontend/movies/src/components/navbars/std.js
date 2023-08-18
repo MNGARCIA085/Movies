@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Dropdown } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap';
-import LogoutLink from "../LogoutLink";
+import LogoutLink from "../auth/LogoutLink";
 import './styles.css';
 
 

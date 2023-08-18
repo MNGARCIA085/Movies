@@ -5,8 +5,8 @@ import { useNavigate,Link } from 'react-router-dom';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import { Table, Button } from 'react-bootstrap';
-import { URL_USERS_BASE } from '../../../api/constantes';
-import { consume_service } from '../../../api/api';
+import { URL_USERS_BASE } from '../../api/constantes';
+import { consume_service } from '../../api/api';
 import './MyComponent.css';
 import AdvancedPagination from './AdvancedPagination';
 
@@ -14,7 +14,7 @@ import AdvancedPagination from './AdvancedPagination';
 
 
 
-const UsersTable = () => {
+const UsersDataTable = () => {
 
 
   
@@ -275,21 +275,8 @@ const UsersTable = () => {
 
                 
 
-
-
-
-
-                  
-                
-                
-
-
-
-
-
-
     </div>
   );
 };
 
-export default UsersTable;
+export default UsersDataTable;

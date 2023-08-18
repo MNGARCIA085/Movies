@@ -1,12 +1,12 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MovieImage from "./MovieImage";
+import MovieCard from "../cards/MovieCard";
 
 
 const MovieList = (props) => {
 
     const movies = props.movies.map ( ( movie) => {
-        return <MovieImage movie={movie}/>
+        return <MovieCard movie={movie}/>
     })
     
     return (

@@ -13,3 +13,7 @@
   .selected {
     background-color: #28a745;
   }
+  .errormsg{
+    color:red;
+    font-size: small;
+}

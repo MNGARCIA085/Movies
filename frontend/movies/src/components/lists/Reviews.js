@@ -1,13 +1,12 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MovieCard from "./MovieCard";
-import MovieImage from "./MovieImage";
-import Review from "./Review";
+import ReviewCard from "../cards/Review";
+
 
 const Reviews  = (props) => {
 
     const reviews = props.reviews.map ( ( review) => {
-        return <Review review={review}></Review>
+        return <ReviewCard review={review}></ReviewCard>
     })
     
     return (

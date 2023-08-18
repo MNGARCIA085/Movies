@@ -1,8 +1,7 @@
 
-import axios from "axios";
 import React,{useState} from "react";
-import MoviesTable from "../../components/admin/Movies";
-import MovieFilterForm from "../../components/admin/MovieFilterForm";
+import MoviesTable from "../../components/datatables/Movies";
+
 
 const AdminMovies = () => {
 

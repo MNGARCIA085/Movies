@@ -1,6 +1,6 @@
 
 import React,{useState} from "react";
-import UsersTable from "../../components/admin/Users/Users";
+import UsersDataTable from "../../components/datatables/UsersDatatable";
 
 
 const AdminUsers = () => {
@@ -11,7 +11,7 @@ const AdminUsers = () => {
                 <hr></hr>
                 <div class="row">
                     <div class="col-md-10">
-                    <UsersTable/>
+                    <UsersDataTable/>
                     </div>
                 </div>
           </div>

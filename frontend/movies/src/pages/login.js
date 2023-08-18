@@ -14,11 +14,13 @@ const Login = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+
+  console.log('here');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(URL_LOGIN_TOKEN,
-      
             {username:username,password:password},
             {
                     headers: {
@@ -31,14 +33,13 @@ const Login = () => {
       setMessage('Inicio de sesión exitoso');
       // decodifico el token y según si estoy en login u admin/login a dónde voy
       //const {user, groups} = decodeToken(access_token);
-      console.log(location.pathname);
+      //console.log(location.pathname);
 
       if (location.pathname.includes('admin')){
-
         // debo saber si tiene rol admin
         const {user, groups} = decodeToken(access_token);
         if (groups.includes('admin')){
-          window.location.href = '/admin';
+             window.location.href = '/admin';
         }
         else {
           setMessage('Must be administrator');

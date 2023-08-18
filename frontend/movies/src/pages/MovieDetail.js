@@ -2,15 +2,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useParams } from "react-router-dom";
 import React, {useState} from 'react';
-import axios from "axios";
-import Reviews from '../components/Reviews';
-
+import Reviews from '../components/lists/Reviews';
 
 import AddReviewForm from '../components/forms/AddReview';
 
-
 import { Modal, Button } from 'react-bootstrap';
-import Review from '../components/Review';
+import ReviewCard from '../components/cards/Review';
+
 import { consume_service } from '../api/api';
 import { URL_MOVIES_BASE } from '../api/constantes';
 import { URL_REVIEWS_BASE } from '../api/constantes';
@@ -126,7 +124,7 @@ const MovieDetail = () => {
     
                                 {aux &&
                                     <font color='green'>
-                                        <Review review={myrev}></Review>
+                                        <ReviewCard review={myrev}></ReviewCard>
                                     </font>
                                 }
 

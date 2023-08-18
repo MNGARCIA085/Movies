@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { consume_service } from '../../../api/api';
-import { URL_USERS_BASE } from '../../../api/constantes';
+import { consume_service } from '../../api/api';
+import { URL_USERS_BASE } from '../../api/constantes';
 import { useParams } from "react-router-dom";
 
 

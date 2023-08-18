@@ -2,7 +2,7 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const Review = (props) => {
+const ReviewCard = (props) => {
 
     
 
@@ -53,4 +53,4 @@ const Review = (props) => {
 
 }
 
-export default Review;
+export default ReviewCard;

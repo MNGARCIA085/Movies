@@ -1,6 +1,6 @@
 
 import React,{useState} from "react";
-import MovieList from "../components/MovieList";
+import MovieList from "../components/lists/Movies";
 import { consume_service } from "../api/api";
 import { URL_MOVIES_BASE } from "../api/constantes";
 

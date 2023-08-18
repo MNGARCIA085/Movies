@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import { ReactSelectBootstrap } from 'react-select-bootstrap';
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'; // Estilos del Bootstrap Select Picker
 import 'bootstrap-select/dist/js/bootstrap-select.min.js'; 
 import { useParams } from "react-router-dom";
@@ -19,9 +17,7 @@ import { URL_MOVIES_BASE, URL_GENRES_BASE } from '../../api/constantes';
 
 
 
-
-
-const MovieEditForm = (props) => {
+const MovieEditForm = () => {
 
     let { id } = useParams();
 
@@ -61,7 +57,6 @@ const MovieEditForm = (props) => {
       setTextareaValue(event.target.value);
     };
 
-
     // ERRORES
     const [titleError, setTitleError] = useState('');
     const [descriptionError, setDescriptionError] = useState('');
@@ -69,16 +64,11 @@ const MovieEditForm = (props) => {
     const [imageLinkError, setImageLinkError] = useState('');
     const [genresError, setGenresError] = useState('');
 
-    
-
-  
     // para cargar los valores iniciales
     useEffect(() => {
-
         // géneros
         const fetchOptions = async () => {
             try {
-              //const response = await axios.get('http://127.0.0.1:8000/genres/');
               const response = await consume_service(URL_GENRES_BASE,'get','',{},false);
               const data = await response.data;
               setOptions(data);
@@ -90,8 +80,6 @@ const MovieEditForm = (props) => {
 
 
         // initial data
-
-
         if (id !== undefined){
               const fetchData = async () => {
                 try {

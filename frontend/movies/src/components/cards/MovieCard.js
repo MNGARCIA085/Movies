@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 
-const MovieImage = (props) => {
+const MovieCard = (props) => {
 
         const movie = props.movie;
 
@@ -32,4 +32,4 @@ const MovieImage = (props) => {
 
 }
 
-export default MovieImage;
+export default MovieCard;
