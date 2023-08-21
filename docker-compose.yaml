@@ -1,0 +1,40 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    #environment:
+    #  - FASTAPI_ENV=production
+    depends_on:
+      - redis
+      - celery
+
+  celery:
+    build:
+      context: ./backend  # Agrega el contexto aquí
+      #dockerfile: Dockerfile  # Ajusta la ruta del Dockerfile si es
+    image: "celery:latest"
+    command: celery -A core.celery_app worker --loglevel=info
+    depends_on:
+      - redis
+
+
+  flower:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A core.celery_app flower
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+
+
+
+  redis:
+    image: "redis:latest"
+
+

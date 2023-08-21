@@ -10,8 +10,10 @@ from email.mime.text import MIMEText
 # celery app
 celery = Celery(
     "core.celery_app",
-    broker="redis://localhost:6379/0",
-    backend="redis://localhost:6379/0",
+    #broker="redis://localhost:6379/0",
+    #backend="redis://localhost:6379/0",
+    broker='redis://redis:6379/0',
+    backend='redis://redis:6379/0',
 )
 
 # inicio: celery -A core.celery_app worker --loglevel=info

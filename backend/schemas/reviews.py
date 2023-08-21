@@ -50,10 +50,10 @@ class ShowReview(ReviewBase):
 # for filtering
 class FilterReview(Pagination):
     score: Optional[List[str]] = Field(Query([])) #https://github.com/tiangolo/fastapi/issues/4445
-    movie_id:int | None = None
-    movie_title:str | None = None
-    movie_title__contains:str | None = None
-    user_id:int | None = None
+    movie_id: Optional[int]
+    movie_title: Optional[str] 
+    movie_title__contains: Optional[str]
+    user_id: Optional[int] 
     date:Optional[date]
     date__gte:Optional[date]
     date__lte:Optional[date]

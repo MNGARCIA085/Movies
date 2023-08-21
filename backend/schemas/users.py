@@ -80,14 +80,14 @@ class ChangePassword(BaseModel):
 
 # for filtering
 class FilterUser(Pagination):
-    username: str| None=None
-    username__contains: str| None=None
-    email: str | None = None
-    email__contains: str | None = None
-    first_name: str| None=None
-    first_name__contains: str| None=None
-    last_name: str| None=None
-    last_name__contains: str| None=None
+    username: Optional[str]  
+    username__contains: Optional[str] 
+    email: Optional[str] 
+    email__contains: Optional[str]
+    first_name: Optional[str]
+    first_name__contains: Optional[str]
+    last_name: Optional[str] 
+    last_name__contains: Optional[str] 
 
 
 #fast api pag: https://uriyyo-fastapi-pagination.netlify.app/
