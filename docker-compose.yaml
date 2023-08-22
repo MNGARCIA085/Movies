@@ -4,10 +4,12 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "80:80"
+    #ports:
+    #  - "80:80"
     #environment:
     #  - FASTAPI_ENV=production
+    #expose:
+    #  - 8000
     depends_on:
       - redis
       - celery
@@ -25,7 +27,7 @@ services:
   flower:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      #dockerfile: Dockerfile
     command: celery -A core.celery_app flower
     ports:
       - "5555:5555"
@@ -33,8 +35,20 @@ services:
       - redis
 
 
-
   redis:
     image: "redis:latest"
 
 
+  nginx:
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    ports:
+    - 1340:80
+    - 443:443
+    depends_on:
+    - app
+
+
+
+#docker-compose up --build

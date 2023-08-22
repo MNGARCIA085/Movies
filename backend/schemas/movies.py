@@ -62,8 +62,8 @@ class ShowMovie(MovieBase):
 
 # for filtering
 class FilterMovie(Pagination):
-    title: str #| None = None
-    title__contains: str #| None = None
+    title: Optional[str] #| None = None
+    title__contains: Optional[str]
     date: Optional[date]
     date__gte: Optional[date]
     date__lte: Optional[date]
