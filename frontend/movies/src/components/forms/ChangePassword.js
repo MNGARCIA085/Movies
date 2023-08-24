@@ -43,7 +43,7 @@ const ChangePasswordForm = () => {
             try {
                 // consumo el servicio
                 const jwtToken = localStorage.getItem('access_token');
-                const response = await consume_service(`${URL_USERS_BASE}/changepassword/${id}`,
+                const response = await consume_service(`${URL_USERS_BASE}changepassword/${id}`,
                                     'patch',jwtToken,formData,true);
                 //
                 setErrores('');

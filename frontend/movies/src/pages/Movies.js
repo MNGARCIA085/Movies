@@ -19,7 +19,7 @@ const Movies = () => {
         // datos filtrados o no según corresponda
         let url = URL_MOVIES_BASE;
         if (e.target.value.length > 0) {
-            url += `/?title__contains=${e.target.value}`;  
+            url += `?title__contains=${e.target.value}`;  //  /?..
         }
         const response = await consume_service(url,'get','',{},false);
         setPelis(response.data);

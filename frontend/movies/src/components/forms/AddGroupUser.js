@@ -58,7 +58,7 @@ const AddGroupUserForm = () => {
         if (id !== undefined){
               const fetchData = async () => {
                 try {
-                  const response = await consume_service(`${URL_USERS_BASE}/${id}`,'get','',{},false);
+                  const response = await consume_service(`${URL_USERS_BASE}${id}`,'get','',{},false);
                   const data = await response.data;
                   setUsername(data.username);
 
@@ -95,7 +95,7 @@ const AddGroupUserForm = () => {
               }
             // consumo el servicio
             const jwtToken = localStorage.getItem('access_token');
-            const response = await consume_service(`${URL_USERS_BASE}/addgroups/${id}`,
+            const response = await consume_service(`${URL_USERS_BASE}addgroups/${id}`,
                     'post',jwtToken,groups_ids,true);
             // todo ok, redirect a ver todos los datos
             navigate('/admin/users/', { replace: true });

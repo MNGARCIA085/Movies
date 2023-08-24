@@ -88,7 +88,7 @@ const MovieEditForm = () => {
                   const response = await fetch(API_URL);
                   const data = await response.json();
                   */
-                  const response = await consume_service(`${URL_MOVIES_BASE}/${id}`,'get','',{},false);
+                  const response = await consume_service(`${URL_MOVIES_BASE}${id}`,'get','',{},false);
                   const data = await response.data;
                   //setFormData(data);
                   setFormData(
@@ -142,7 +142,7 @@ const MovieEditForm = () => {
             const jwtToken = localStorage.getItem('access_token');
             // dependiendo si es post o put
             if (id !== undefined){
-                const response = await consume_service(`${URL_MOVIES_BASE}/${id}`,'put',jwtToken,aux,true);
+                const response = await consume_service(`${URL_MOVIES_BASE}${id}`,'put',jwtToken,aux,true);
             }
             else {
                 const response = await consume_service(URL_MOVIES_BASE,'post',jwtToken,aux,true);

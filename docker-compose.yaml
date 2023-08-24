@@ -1,11 +1,14 @@
 version: '3'
 services:
+  
   app:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    
     #ports:
-    #  - "80:80"
+    #  - "8000:8000"
+    
     #environment:
     #  - FASTAPI_ENV=production
     #expose:
@@ -44,11 +47,35 @@ services:
       context: ./nginx
       dockerfile: Dockerfile.nginx
     ports:
-    - 1340:80
+    - 1340:80 # 1340:80 y luego voy a localhost:1340
     - 443:443
     depends_on:
     - app
 
 
+  frontend:
+    build:
+      context: ./frontend/movies
+      dockerfile: Dockerfile # .react
+    ports:
+     - "3000:3000" # 3000:80 con nginx
+
+
+
+
+
+  #nginx-react:
+  #  build:
+  #    context: ./nginx-react
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - "3000:80"
+  #  depends_on:
+  #    - frontend
+    #networks:
+    #  - app_network
+
+
 
 #docker-compose up --build
+# 4200 guardia

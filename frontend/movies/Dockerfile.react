@@ -1,0 +1,27 @@
+# Utiliza la imagen oficial de Node.js como base para construir la aplicación React
+FROM node:14 as build
+
+# Establece el directorio de trabajo en el contenedor
+WORKDIR /app
+
+# Copia los archivos de configuración y dependencias
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copia el resto de los archivos de la aplicación
+COPY . .
+
+# Construye la aplicación React
+RUN npm run build
+
+# Utiliza la imagen oficial de Nginx como base para servir la aplicación React
+FROM nginx:latest
+
+# Copia los archivos construidos de la aplicación React al directorio del servidor Nginx
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Expone el puerto 80
+EXPOSE 80
+
+# Ejecuta Nginx en primer plano
+CMD ["nginx", "-g", "daemon off;"]

@@ -30,9 +30,9 @@ const MovieDetail = () => {
         
         React.useEffect(() => {
             const fetchData = async() => {
-                const response = await consume_service(`${URL_MOVIES_BASE}/${id}`,'get','',{},false);
+                const response = await consume_service(`${URL_MOVIES_BASE}${id}`,'get','',{},false);
 
-                const scoreData = await consume_service(`${URL_REVIEWS_BASE}/${id}/score`,
+                const scoreData = await consume_service(`${URL_REVIEWS_BASE}${id}/score`,
                                     'get','',{},false);
                 setScore(scoreData.data);
 

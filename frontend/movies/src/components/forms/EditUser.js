@@ -48,7 +48,7 @@ const UserEditForm = (props) => {
         const fetchData = async () => {
         try {
             // consumo la API
-            const response = await consume_service(`${URL_USERS_BASE}/${id}`,'get','',{},false);
+            const response = await consume_service(`${URL_USERS_BASE}${id}`,'get','',{},false);
             const data = await response.data;
             //setFormData(data);
             setFormData(
@@ -78,7 +78,7 @@ const UserEditForm = (props) => {
             try {
                 // consumo el servicio
                 const jwtToken = localStorage.getItem('access_token');
-                const response = await consume_service(`${URL_USERS_BASE}/${id}`,
+                const response = await consume_service(`${URL_USERS_BASE}${id}`,
                                     'put',jwtToken,formData,true);
                 //
                 setErrores('');

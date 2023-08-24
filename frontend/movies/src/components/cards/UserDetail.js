@@ -19,7 +19,7 @@ const UserDetail = () => {
     // obtengo los datos
     React.useEffect(() => {
         const fetchData = async() => {
-            const response = await consume_service(`${URL_USERS_BASE}/${id}`,'get','',{},false);
+            const response = await consume_service(`${URL_USERS_BASE}${id}`,'get','',{},false);
             setData(response.data);
             setGroups(response.data.groups);
 

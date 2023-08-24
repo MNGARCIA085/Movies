@@ -20,6 +20,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
+
+      //console.log(URL_LOGIN_TOKEN);
+
       const response = await axios.post(URL_LOGIN_TOKEN,
             {username:username,password:password},
             {
@@ -30,7 +34,7 @@ const Login = () => {
       );
       const { access_token } = response.data;
       localStorage.setItem('access_token', access_token);
-      setMessage('Inicio de sesión exitoso');
+      //setMessage('Inicio de sesión exitoso');
       // decodifico el token y según si estoy en login u admin/login a dónde voy
       //const {user, groups} = decodeToken(access_token);
       //console.log(location.pathname);

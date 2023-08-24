@@ -72,7 +72,7 @@ const UsersDataTable = () => {
           if (confirmacion) {            
             try {
               const jwtToken = localStorage.getItem('access_token');
-              const response = await consume_service(`${URL_USERS_BASE}/changestate/${id}`,'patch',
+              const response = await consume_service(`${URL_USERS_BASE}changestate/${id}`,'patch',
                                       '',{},false);
               // recargo
               fetchData(limit,usernameFilter,nameFilter,emailFilter);

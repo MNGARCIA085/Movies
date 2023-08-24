@@ -63,7 +63,7 @@ const MoviesTable = () => {
         });
 
         // obtengo los datos
-        const response = await consume_service(`${URL_MOVIES_BASE}/${search}`,'get','',{},false);
+        const response = await consume_service(`${URL_MOVIES_BASE}${search}`,'get','',{},false);
 
         // ......
         setData(response.data); //response.data.data
@@ -82,9 +82,9 @@ const MoviesTable = () => {
           if (confirmacion) {            
             try {
               const jwtToken = localStorage.getItem('access_token');
-              const response_del = await consume_service(`${URL_MOVIES_BASE}/${row.id}`,'delete',
+              const response_del = await consume_service(`${URL_MOVIES_BASE}${row.id}`,'delete',
                                       jwtToken,{},true);
-              const response = await consume_service(`${URL_MOVIES_BASE}/?limit=${perPage}&offset=${currentPage}`,
+              const response = await consume_service(`${URL_MOVIES_BASE}?limit=${perPage}&offset=${currentPage}`,
                     'get','',{},false);
               // lo borra, pero ojo que devuelve 422
               setData(removeItem(response.data, row));
