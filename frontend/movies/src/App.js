@@ -7,7 +7,7 @@ import MovieDetail from "./pages/MovieDetail";
 import AdminMovies from "./pages/admin/Movies";
 import MovieEditForm from "./components/forms/MovieEdit";
 import jwt_decode from 'jwt-decode';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLocation } from "react";
 import { decodeToken } from "./utils";
 import Login from "./pages/login";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -21,52 +21,60 @@ import NavbarAdmin from "./components/navbars/admin";
 import NavbarStd from "./components/navbars/std";
 
 
+
+
+
+
+
+
+
 function App() {
 
     const accessToken = localStorage.getItem('access_token');
     const {username, groups} = decodeToken(accessToken); // no hace falta ponga id,desestructuro
 
+
+    const ruta = window.location.pathname;
+    let aux=false;
+    if (ruta.startsWith('/admin')) {
+      aux = true;
+    }
+
+    // no necestio los grupos, sólo el path, porue las rutasd e admin ya están protegdias
+
+
+
+      
+              
  
   return (
     <Router>
 
-      {
-        groups.includes('admin') ? 
-            <div className="App">
-              <NavbarAdmin  username={username} />
-            </div>
-          : 
-            <div className="App">
-              <NavbarStd username={username} />
-            </div>
-      }
-    
+        {  aux === true ? <NavbarAdmin username={username}/> : <NavbarStd username={username}/> } 
 
-
+ 
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUpForm />} />
-        <Route path="/" element={<Home />} />
+        
         <Route path="/movies" element={<Movies />} />     
         <Route path="/movies/:id" element={<MovieDetail />} />  
-        
-        
-        
-        <Route path="/admin/login" element={<Login />} />  
-        <Route path="/admin/users" element={<UsersDataTable />} /> 
-        <Route path="/admin/users/:id" element={<UserDetail />} />  
-
-        <Route path="/admin/users/addgroupuser/:id" element={<AddGroupUserForm />} />
-        
-        
+ 
         <Route path="/users/edit" element={<UserEditForm />} /> 
         <Route path="/users/changepassword" element={<ChangePasswordForm />} /> 
 
-
         
 
+
+
+        <Route path="admin/login" element={<Login />} />  
+        <Route path="admin/users" element={<UsersDataTable />} /> 
+        <Route path="admin/users/:id" element={<UserDetail />} />  
+        <Route path="admin/users/addgroupuser/:id" element={<AddGroupUserForm />} />
+
         <Route
-          path="/admin/movies"
+          path="admin/movies"
           element={
             <ProtectedRoute user={username} groups={groups}>
               <AdminMovies />
@@ -75,7 +83,7 @@ function App() {
         />
 
         <Route
-          path="/admin/movies/add"
+          path="admin/movies/add"
           element={
             <ProtectedRoute user={username} groups={groups}>
               <MovieEditForm />
@@ -84,13 +92,16 @@ function App() {
         />
 
       <Route
-          path="/admin/movies/edit/:id"
+          path="admin/movies/edit/:id"
           element={
             <ProtectedRoute user={username} groups={groups}>
               <MovieEditForm />
             </ProtectedRoute>
           }
         />
+
+
+
 
              
       

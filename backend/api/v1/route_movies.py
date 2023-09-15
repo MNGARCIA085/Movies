@@ -40,7 +40,7 @@ def read_movie(id: int, db: Session = Depends(get_db)):
     return movie
 
 
-@router.get("/", response_model=List[ShowMovie])
+@router.get("/") #, response_model=List[ShowMovie]
 def read_movies(f: FilterMovie = Depends(),db: Session = Depends(get_db)):
     return list_movies(db=db,f=f)
 

@@ -51,3 +51,4 @@ def send_async_email(email, subject,message):
 
 
 
+#https://jairoandres.com/hablemos-un-poco-de-tareas-en-background/

@@ -31,6 +31,10 @@ def retreive_movie(id: int, db: Session):
     return db.query(Movie).filter(Movie.id == id).first()
 
 
+
+#http://127.0.0.1:8000/movies/?date__lte=218-07-03&date__lte=2018-07-03
+#http://127.0.0.1:8000/movies/?date__gte=2022-09-21&date__lte=2022-09-21#
+
 def list_movies(db: Session,f:FilterMovie):
 
     filters = [Movie.id>0]
@@ -51,12 +55,46 @@ def list_movies(db: Session,f:FilterMovie):
     if f.date__lte:
         filters.append( Movie.date <=  f.date__lte)
 
+
+    
+
     # junto todo
     filters = and_(*filters)
+
+
+    print(filters)
     
+    
+    query = db.query(Movie).join(Movie.genres).filter(filters).limit(f.limit).offset(f.offset-1).all()
+     # le agrego count, page, limit
+    count = db.query(Movie).filter(filters).count() # join en la cuenta??
+    
+    #
+    data = [
+        {
+            'id':d.id,
+            'title': d.title,
+            'date': d.date,
+            'description': d.description,
+            'genres': [{'description':t.description,'id':t.id} for t in d.genres]
+        }
+        for d in query
+    ]
+
+
+
     # respuesta
-    return db.query(Movie).join(Movie.genres).filter(filters).limit(f.limit).offset(f.offset-1).all()
-                # ver bien el offset!!!!!!
+    response = {
+        'data': data,
+        'count': count,
+        'limit':f.limit,
+        'offset':f.offset
+    }
+    return response
+
+
+
+
 
 
 

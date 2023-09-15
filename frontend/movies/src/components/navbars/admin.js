@@ -4,9 +4,12 @@ import { Dropdown } from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap';
 import LogoutLink from "../auth/LogoutLink";
 
+import { decodeToken } from "../../utils";
 
 
 const NavbarAdmin = (props) => {
+
+   
 
 
   return (
@@ -14,6 +17,9 @@ const NavbarAdmin = (props) => {
       <Link to="/" className="navbar-brand fs-3 ubuntu">
             MOVIES
       </Link>
+
+
+     
       
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end my-custom-margin">

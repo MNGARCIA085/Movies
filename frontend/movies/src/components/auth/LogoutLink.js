@@ -1,10 +1,12 @@
 import React from 'react';
-import { useNavigate} from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 
 
 const LogoutLink = () => {
 
    const navigate = useNavigate(); // for navigation
+
+   const location = useLocation();
 
 
   const handleLogout = () => {
@@ -17,7 +19,11 @@ const LogoutLink = () => {
 
     
     //navigate('/login/', { replace: true });
-    window.location.href = '/login';
+    if (location.pathname.includes('admin')){
+        window.location.href = '/admin/login';
+    } else{
+      window.location.href = '/login';
+    }
 
   };
 

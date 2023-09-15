@@ -21,12 +21,19 @@ def create_review(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user_from_token),
 ):
+    
+    
     # sólo puedo tener una review por usuario y por peli
-    if db.query(Review).filter_by(user_id=current_user.id,movie_id=review.movie_id).first():
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, 
-                            detail="Only one review can be done")
+    if db.query(Review).filter_by(user_id=current_user.id,
+                                  movie_id=review.movie_id).first():
+        raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, 
+                detail="Only one review can be done")
+    
+    
     # respuesta
-    return create_new_review(review=review, user_id=current_user.id, db=db)   #owner_id=current_user.id
+    return create_new_review(review=review, 
+                             user_id=current_user.id, db=db)   #owner_id=current_user.id
 
 
 

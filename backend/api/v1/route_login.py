@@ -46,8 +46,6 @@ def login_for_access_token(
                 expires_delta=access_token_expires)
     # refresh token
     
-    
-    
     response.set_cookie(
         key="access_token", value=f"Bearer {access_token}", httponly=True
     )

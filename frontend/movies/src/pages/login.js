@@ -15,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
 
 
-  console.log('here');
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,6 +44,7 @@ const Login = () => {
         const {user, groups} = decodeToken(access_token);
         if (groups.includes('admin')){
              window.location.href = '/admin';
+             //navigate('/admin',{ replace: true });
         }
         else {
           setMessage('Must be administrator');
@@ -51,6 +52,7 @@ const Login = () => {
       }
       else {
         window.location.href = '/movies';
+        //navigate('/movies',{ replace: true });
       }
 
       // quizás acá deba decodificar
