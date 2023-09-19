@@ -2,7 +2,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap";
 import React  from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+
 import Movies from "./pages/Movies";
+
+
 import MovieDetail from "./pages/MovieDetail";
 import AdminMovies from "./pages/admin/Movies";
 import MovieEditForm from "./components/forms/MovieEdit";
@@ -22,7 +26,7 @@ import NavbarStd from "./components/navbars/std";
 
 
 
-
+import MoviesTable from "./components/datatables/Movies";
 
 
 

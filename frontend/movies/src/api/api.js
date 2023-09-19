@@ -3,6 +3,8 @@ import axios from 'axios';
 
 export const consume_service = async(url, method, jwtToken, data,auth=false) => {
 
+
+
    
         let config = {};
         if (auth){

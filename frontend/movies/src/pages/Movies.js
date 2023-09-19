@@ -28,7 +28,7 @@ const Movies = () => {
     React.useEffect(() => {
         const fetchData = async() => {
             const response = await consume_service(URL_MOVIES_BASE,'get','',{},false);
-            setPelis(response.data);
+            setPelis(response.data.data);
         }
         fetchData();
     }, []);

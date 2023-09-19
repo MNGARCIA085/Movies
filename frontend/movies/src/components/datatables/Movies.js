@@ -110,6 +110,22 @@ const MoviesTable = () => {
     navigate(`/admin/movies/edit/${id}`, { replace: true });
   };
 
+  //
+  const handleDelete = async(id) => {
+    //setData(prevData => prevData.filter(item => item.id !== id)); de borrar lo hace bien
+    const confirmacion = window.confirm("Are you sure?");
+          if (confirmacion) {            
+            try {
+              const jwtToken = localStorage.getItem('access_token');
+              await consume_service(`${URL_MOVIES_BASE}${id}`,'delete',jwtToken,{},true);
+              // recargo
+              fetchData(limit,page,titleFilter,dateFilter,genresFilter);
+            } catch (error) {
+              console.error("Error al eliminar el elemento:", error);
+            }
+          }
+  };
+
 
   // page
   const [currentPage,setCurrentPage] = useState(1);
@@ -175,11 +191,9 @@ const MoviesTable = () => {
   return (
     
     
-    <div class="col-md-8 offset-2">
+    <div class="col-md-12 offset-0">
 
-        <h2><font color='red'><center>ADMIN : MOVIES oihfidsfhdsohif</center></font></h2>
-
-        <hr></hr>
+        
 
             <div class="row">
                 <div class="col-md-2">
@@ -222,14 +236,26 @@ const MoviesTable = () => {
 
                         <td>
                         
-                            <label htmlFor="datePicker">Fecha Inicial</label>
+                            
                                       <DatePicker
-                                        id="datePicker"
-                                        selected={dateFilter} //selectedDate
-                                        onChange={handleDateFilterChange} //handleDateChange
-                                        dateFormat="yyyy-MM-dd"
-                                        className="form-control"
-                              />
+                                          id="datePicker"
+                                          selected={dateFilter} //selectedDate
+                                          onChange={handleDateFilterChange} //handleDateChange
+                                          dateFormat="yyyy-MM-dd"
+                                          className="form-control"
+                                          placeholderText='Initial Date'
+                                      />
+
+
+                                      <DatePicker
+                                          id="datePicker2"
+                                          selected={dateFilter} //selectedDate
+                                          onChange={handleDateFilterChange} //handleDateChange
+                                          dateFormat="yyyy-MM-dd"
+                                          className="form-control"
+                                          placeholderText='Final Date'
+                                      />
+
                         </td>
                         
                         
@@ -254,8 +280,8 @@ const MoviesTable = () => {
 
                         <td></td>
                         
-                        <td></td>
-                    </tr>
+                        
+                      </tr>
                     </tfoot>
 
 
@@ -289,7 +315,7 @@ const MoviesTable = () => {
                             
                                         &nbsp; &nbsp;     
 
-                            <button class="btn btn-danger btn-sm" onClick={() => handleEdit(row.id)}>
+                            <button class="btn btn-danger btn-sm" onClick={() => handleDelete(row.id)}>
                                   Delete</button>
                 
                             &nbsp; &nbsp;                          
