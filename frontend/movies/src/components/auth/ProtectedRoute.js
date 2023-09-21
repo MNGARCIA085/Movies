@@ -10,8 +10,6 @@ const ProtectedRoute = ({
 
 
 
-
-
     if (!user) {
       return <Navigate to={redirectPath} replace />;
     }

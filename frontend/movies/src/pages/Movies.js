@@ -22,7 +22,7 @@ const Movies = () => {
             url += `?title__contains=${e.target.value}`;  //  /?..
         }
         const response = await consume_service(url,'get','',{},false);
-        setPelis(response.data);
+        setPelis(response.data.data);
     };
 
     React.useEffect(() => {

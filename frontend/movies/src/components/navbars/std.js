@@ -11,6 +11,9 @@ import './styles.css';
 const NavbarStd = (props) => {
 
 
+
+
+
   return (
     <Navbar bg="light" expand="lg">
       <Link to="/" className="navbar-brand fs-3 ubuntu">
@@ -37,14 +40,45 @@ const NavbarStd = (props) => {
                     { 
                         props.username !== null ?
                             <Dropdown>
+
+
+
+
+                                {  props.mostrar === 'si' ?
+                                                <Dropdown.Toggle variant="light" id="dropdown-basic" 
+                                                className="nav-link fs-5">
+                                                            Welcome {props.mostrar}
+                                                </Dropdown.Toggle>        
+                                                :
+                                                ''
+                        
+                                        }
+
+                                
+                                    
+                                    
+                                    
+                                    
+                                        {}
+
+
                                     <Dropdown.Toggle variant="light" id="dropdown-basic" 
-                                        className="nav-link fs-5">
+                                    className="nav-link fs-5">
                                                 Welcome {props.username}
                                     </Dropdown.Toggle>
+                                    
+
+
+
+
+                                    
                                     <Dropdown.Menu>
                                     <NavLink to="/users/edit" className="nav-link">
                                         &nbsp; Edit profile
                                     </NavLink>
+                                    
+                                    
+                                    
                                     <NavLink to="/users/changepassword" className="nav-link">
                                     &nbsp; Change password
                                     </NavLink>
@@ -61,11 +95,6 @@ const NavbarStd = (props) => {
                 
 
                 
-
-
-                
-
-
 
         </Nav>
       </Navbar.Collapse>

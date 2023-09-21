@@ -21,6 +21,11 @@ const AdminMovies = () => {
 
 
                     <MoviesTable/>
+
+                    
+                    
+                    
+                    
                     </div>
                 </div>
           </div>

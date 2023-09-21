@@ -55,15 +55,8 @@ def list_movies(db: Session,f:FilterMovie):
     if f.date__lte:
         filters.append( Movie.date <=  f.date__lte)
 
-
-    
-
     # junto todo
     filters = and_(*filters)
-
-
-    print(filters)
-    
     
     query = db.query(Movie).join(Movie.genres).filter(filters).limit(f.limit).offset(f.offset-1).all()
      # le agrego count, page, limit
@@ -76,6 +69,7 @@ def list_movies(db: Session,f:FilterMovie):
             'title': d.title,
             'date': d.date,
             'description': d.description,
+            'image_link':d.image_link,
             'genres': [{'description':t.description,'id':t.id} for t in d.genres]
         }
         for d in query

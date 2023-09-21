@@ -26,6 +26,7 @@ const MovieCard = (props) => {
                         </center>
                     </div>
                 </div>
+
                 <br></br>
             </div>
         )

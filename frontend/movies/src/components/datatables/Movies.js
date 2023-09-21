@@ -15,6 +15,7 @@ import { formatDateToString, parseStringToDate } from '../../common/common';
 const MoviesTable = () => {
 
 
+
   
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -27,6 +28,9 @@ const MoviesTable = () => {
 
   // función que recupera los datos 
   const fetchData = async (limit=10,page=1,title='',date='',genres=[]) => {
+
+
+    
 
 
     const offset = (page -1)*limit;
@@ -57,7 +61,7 @@ const MoviesTable = () => {
     };
     */
 
-    console.log(search);
+    
 
     // obtengo los datos
     const response = await consume_service(`${URL_MOVIES_BASE}${search}`,'get','',{},false);
@@ -86,8 +90,6 @@ const MoviesTable = () => {
     }
   };
   
-
-
 
 
 
@@ -192,6 +194,11 @@ const MoviesTable = () => {
     
     
     <div class="col-md-12 offset-0">
+
+
+          
+          <br></br><br></br>
+
 
         
 

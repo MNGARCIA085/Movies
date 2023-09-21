@@ -26,7 +26,6 @@ import NavbarStd from "./components/navbars/std";
 
 
 
-import MoviesTable from "./components/datatables/Movies";
 
 
 
@@ -47,24 +46,30 @@ function App() {
     // no necestio los grupos, sólo el path, porue las rutasd e admin ya están protegdias
 
 
-
-      
-              
  
   return (
+    
+    
     <Router>
 
         {  aux === true ? <NavbarAdmin username={username}/> : <NavbarStd username={username}/> } 
+
+
+
+
+       
+
+
+
+        
 
  
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUpForm />} />
-        
         <Route path="/movies" element={<Movies />} />     
         <Route path="/movies/:id" element={<MovieDetail />} />  
- 
         <Route path="/users/edit" element={<UserEditForm />} /> 
         <Route path="/users/changepassword" element={<ChangePasswordForm />} /> 
 
