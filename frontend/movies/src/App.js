@@ -2,11 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap";
 import React  from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-
 import Movies from "./pages/Movies";
-
-
 import MovieDetail from "./pages/MovieDetail";
 import AdminMovies from "./pages/admin/Movies";
 import MovieEditForm from "./components/forms/MovieEdit";
@@ -23,8 +19,10 @@ import ChangePasswordForm from "./components/forms/ChangePassword";
 import AddGroupUserForm from "./components/forms/AddGroupUser";
 import NavbarAdmin from "./components/navbars/admin";
 import NavbarStd from "./components/navbars/std";
+import AdminGenres from "./pages/admin/Genres";
+import GenresTable from "./components/datatables/Genres";
 
-
+import GenreUpsert from "./components/forms/GenreUpsert";
 
 
 
@@ -55,14 +53,6 @@ function App() {
         {  aux === true ? <NavbarAdmin username={username}/> : <NavbarStd username={username}/> } 
 
 
-
-
-       
-
-
-
-        
-
  
       <Routes>
         <Route path="/" element={<Home />} />
@@ -81,6 +71,12 @@ function App() {
         <Route path="admin/users" element={<UsersDataTable />} /> 
         <Route path="admin/users/:id" element={<UserDetail />} />  
         <Route path="admin/users/addgroupuser/:id" element={<AddGroupUserForm />} />
+
+
+        <Route path="admin/genres" element={<AdminGenres />} /> 
+        <Route path="admin/genres/upsert" element={<GenreUpsert/>} /> 
+        <Route path="admin/genres/upsert/:id" element={<GenreUpsert />} /> 
+
 
         <Route
           path="admin/movies"

@@ -60,7 +60,7 @@ const NavbarAdmin = (props) => {
                                             <NavLink to="/admin/movies" className="nav-link">
                                                 Movies
                                             </NavLink>
-                                            <NavLink to="/admin/users" className="nav-link">
+                                            <NavLink to="/admin/genres" className="nav-link">
                                                 Genres
                                             </NavLink>
                                             </Dropdown.Menu>
