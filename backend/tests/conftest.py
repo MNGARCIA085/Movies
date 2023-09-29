@@ -99,10 +99,18 @@ def add_user(db_session:SessionTesting):
 
 
 
-"""
+# crear un género para poder ingresar una peli
+
+
+
+
+# para las rutas que requieren auth
+
+
+from tests.utils import authentication_token_from_email
+
 @pytest.fixture(scope="function")
 def normal_user_token_headers(client: TestClient, db_session: Session):
     return authentication_token_from_email(
-        client=client, email=settings.TEST_USER_EMAIL, db=db_session
+        client=client, email='admin@mail.com', db=db_session
     )
-"""

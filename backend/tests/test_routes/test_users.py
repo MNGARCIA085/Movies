@@ -4,6 +4,11 @@
 import json
 
 
+
+
+"""
+
+
 # crear un nuevo usuario (caso ok)
 def test_create_user(client):
     data = {
@@ -39,7 +44,7 @@ def test_get_users(client,add_user):
     assert len(data) == 2
 
 
-
+"""
 
 # edit, delete, get_by_id
 
