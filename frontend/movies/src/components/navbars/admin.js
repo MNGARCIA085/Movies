@@ -45,7 +45,7 @@ const NavbarAdmin = (props) => {
                                             <NavLink to="/admin/users" className="nav-link">
                                                 Users
                                             </NavLink>
-                                            <NavLink to="/admin/users" className="nav-link">
+                                            <NavLink to="/admin/groups" className="nav-link">
                                                 Groups
                                             </NavLink>
                                             </Dropdown.Menu>

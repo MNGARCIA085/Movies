@@ -20,9 +20,9 @@ import AddGroupUserForm from "./components/forms/AddGroupUser";
 import NavbarAdmin from "./components/navbars/admin";
 import NavbarStd from "./components/navbars/std";
 import AdminGenres from "./pages/admin/Genres";
-import GenresTable from "./components/datatables/Genres";
-
 import GenreUpsert from "./components/forms/GenreUpsert";
+import AdminGroups from "./pages/admin/Groups";
+import GroupUpsert from "./components/forms/GroupUpsert";
 
 
 
@@ -76,6 +76,10 @@ function App() {
         <Route path="admin/genres" element={<AdminGenres />} /> 
         <Route path="admin/genres/upsert" element={<GenreUpsert/>} /> 
         <Route path="admin/genres/upsert/:id" element={<GenreUpsert />} /> 
+
+        <Route path="admin/groups" element={<AdminGroups />} /> 
+        <Route path="admin/groups/upsert" element={<GroupUpsert/>} /> 
+        <Route path="admin/groups/upsert/:id" element={<GroupUpsert />} /> 
 
 
         <Route
