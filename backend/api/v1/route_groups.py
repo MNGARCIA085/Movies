@@ -36,14 +36,14 @@ def read_group(id: int, db: Session = Depends(get_db)):
 
 # UPDATE
 @router.put("/{id}",status_code=201)
-def update_genre(
+def update_group(
                 id: int, 
                 group: GroupCreate, 
                 db: Session = Depends(get_db)):
     aux = update_group_by_id(id=id, group=group, db=db)
     if not aux:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"Genre with id {id} not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Group with id {id} not found"
         )
     return {"msg": "Successfully updated data."}
 

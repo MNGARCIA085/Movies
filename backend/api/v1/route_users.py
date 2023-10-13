@@ -17,10 +17,10 @@ router = APIRouter()
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     new_user = create_new_user(user=user, db=db)
     # mail en segundo plano; mail debería ser el de admin
-    send_async_email.delay('mngarcia@mail.Antel.com.uy','A new user has been created',
-                           f"El nuevo usuario es {new_user.username}")
+    #send_async_email.delay('mngarcia@mail.Antel.com.uy','A new user has been created',
+    #                       f"El nuevo usuario es {new_user.username}")
     return new_user
-    #return create_new_user(user=user, db=db)
+
 
 
 
@@ -36,7 +36,12 @@ def get_all_users(db: Session = Depends(get_db),f: FilterUser = Depends()):
 # get user by id
 @router.get("/{id}",response_model=ShowUser)
 def get_user_by_id(id:int,db: Session = Depends(get_db)):
-    return get_user(id=id,db=db)
+    user = get_user(id=id,db=db)
+    if not user:
+        raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {id} not found"
+            )
+    return user
 
 
 # add a group to an user
@@ -60,7 +65,7 @@ def update_user(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"User with id {id} not found"
         )
-    return {"msg": "Successfully updated data."}
+    return {"msg": "Successfully updated data.","data":aux}
 
 
 

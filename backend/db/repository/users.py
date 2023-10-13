@@ -105,7 +105,7 @@ def update_user_by_id(id: int, user: UserUpdate, db: Session):
     existing_user.update(user.dict(exclude_unset=True)) 
     # commit
     db.commit()
-    return 1
+    return user
 
 
 # add a group to an user

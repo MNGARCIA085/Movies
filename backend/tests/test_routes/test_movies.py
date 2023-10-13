@@ -24,6 +24,15 @@ def test_create_movie(client):
 
 
 
+"""
+
+
+OK
+
+"""
+
+
+
 
 # no puedde dejar a alguien std a un admin si
 def test_create_movie_std(client, normal_user_token_headers):
