@@ -17,7 +17,20 @@ from db.base import Base
 from db.session import get_db
 from api.base import api_router
 from core.config import settings
-#from tests.utils.users import authentication_token_from_email
+
+
+# paar crear un nuevo usuario
+from db.models.users import User
+
+# nuevo género
+from db.models.genres import Genre
+
+# nueva peli
+from db.models.movies import Movie
+
+# para las rutas que requieren auth
+from tests.utils import authentication_token_from_email
+
 
 
 def start_application():
@@ -81,8 +94,6 @@ def client(
 @pytest.fixture(scope='function')
 def add_user(db_session:SessionTesting):
     def _add_user(username,first_name, last_name,email,password):
-        from db.models.users import User
-
         db_user = User(username=username,
                        first_name=first_name,
                        last_name=last_name,
@@ -97,20 +108,53 @@ def add_user(db_session:SessionTesting):
 
 
 
-
-
 # crear un género para poder ingresar una peli
+# fixture para agregar un usuario (quizás luego en un lugar separado)
+@pytest.fixture(scope='function')
+def add_genre(db_session:SessionTesting):
+    def _add_genre(description):
+        db_genre = Genre(description=description)
+        db_session.add(db_genre)
+        db_session.commit()
+        db_session.refresh(db_genre)
+        return db_genre
+    return _add_genre
 
 
 
 
-# para las rutas que requieren auth
+# crear una peli (para usar luego con las reviews)
+@pytest.fixture(scope='function')
+def add_movie(db_session:SessionTesting):
+    def _add_movie(title,description,date,image_link,genres):
+        db_movie = Movie(
+                            title=title,
+                            description=description,
+                            date=date,
+                            image_link=image_link,
+                            #genres=genres
+                        )
+        db_movie.genres = genres
+        db_session.add(db_movie)
+        db_session.commit()
+        db_session.refresh(db_movie)
+        return db_movie
+    return _add_movie
 
 
-from tests.utils import authentication_token_from_email
 
+
+# admin token
+@pytest.fixture(scope="function")
+def admin_user_token_headers(client: TestClient, db_session: Session):
+    return authentication_token_from_email(
+        client=client, email='admin@mail.com', rol='admin',db=db_session
+    )
+
+
+# normal user token
 @pytest.fixture(scope="function")
 def normal_user_token_headers(client: TestClient, db_session: Session):
     return authentication_token_from_email(
-        client=client, email='admin@mail.com', db=db_session
+        client=client, email='std@mail.com', rol='std', db=db_session
     )

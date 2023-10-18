@@ -28,7 +28,7 @@ def test_create_user(client):
 def test_create_user_error(client):
     
     # given
-    data = {
+    create_data = {
         "first_name": "n1",
         "last_name": "a1",
         "email": "testuser@nofoobar.com",
@@ -38,7 +38,7 @@ def test_create_user_error(client):
     
     
     # when
-    response = client.post("/users/", data=json.dumps(data))
+    response = client.post("/users/", data=json.dumps(create_data))
     
     
     # then

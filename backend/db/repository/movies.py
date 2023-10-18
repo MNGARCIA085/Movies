@@ -7,7 +7,7 @@ from db.models.reviews import Review
 from sqlalchemy import or_,and_
 
 
-
+# create movie
 def create_new_movie(movie: MovieCreate,db: Session):
     # obtengo el dict; le separo los ids de los géneros y luego inserto apropiadamente
     data = movie.dict()
@@ -27,6 +27,7 @@ def create_new_movie(movie: MovieCreate,db: Session):
     return movie_object
 
 
+# retrieve movie by id
 def retreive_movie(id: int, db: Session):
     return db.query(Movie).filter(Movie.id == id).first()
 
@@ -91,7 +92,7 @@ def list_movies(db: Session,f:FilterMovie):
 
 
 
-
+# update by id
 def update_movie_by_id(id: int, movie: MovieCreate, db: Session):
 
     existing_movie = db.query(Movie).filter(Movie.id == id)
