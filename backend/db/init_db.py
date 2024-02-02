@@ -1,13 +1,9 @@
 from sqlalchemy.orm import Session
-
 import schemas
 from .repository import users,movies,reviews,genres,groups
 from core.config import settings
-
-
 # make sure all SQL Alchemy models are imported (app.db.base) before initializing DB
 # otherwise, SQL Alchemy might fail to initialize relationships properly
-
 
 
 from db.models.users import User
@@ -17,7 +13,6 @@ from db.models.genres import Genre
 from db.models.movie_genre import MovieGenre
 from db.models.groups import Groups
 from db.models.user_groups import UserGroups
-
 
  # more users with Faker
 from faker import Faker
@@ -142,7 +137,7 @@ def init_db(db: Session) -> None:
             email=fake.unique.email(), 
             password=1234,
             password2=1234),db)
-        for i in range(50)
+        for i in range(15)
     ]
 
     
@@ -164,17 +159,11 @@ def init_db(db: Session) -> None:
     db.execute(stmt)
     """
 
-
-
-
-
     # genres
     genre_in = schemas.genres.GenreCreate(description='action')
     g1 = genres.create_new_genre(genre=genre_in,db=db)
     genre_in = schemas.genres.GenreCreate(description='comedy')
     g2 = genres.create_new_genre(genre=genre_in,db=db)
-
-
 
     # movies
     movie_in = schemas.movies.MovieCreate(

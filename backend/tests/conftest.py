@@ -147,9 +147,14 @@ def add_movie(db_session:SessionTesting):
 # admin token
 @pytest.fixture(scope="function")
 def admin_user_token_headers(client: TestClient, db_session: Session):
-    return authentication_token_from_email(
+    aux = authentication_token_from_email(
         client=client, email='admin@mail.com', rol='admin',db=db_session
     )
+    return aux
+    
+
+
+
 
 
 # normal user token

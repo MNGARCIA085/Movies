@@ -68,15 +68,20 @@ def test_create_movie_std(client,normal_user_token_headers,add_genre):
         "image_link": "string",
         "genres":[genre1.id]
     }
-    
     response = client.post("/movies/", data=json.dumps(create_data),headers=normal_user_token_headers)
-
     assert response.status_code == 403
     assert response.json()['detail'] == 'Operation not permitted'
 
 
+
+
+
+
+
 # create movie with errors in the data
 def test_create_movie_error_data(client, admin_user_token_headers):
+
+
     # data
     create_data = {
         "description": "python",

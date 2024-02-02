@@ -7,4 +7,4 @@
 #alembic upgrade head
 
 # Create initial data in DB
-python initial_data.py
+python3 initial_data.py

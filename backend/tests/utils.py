@@ -35,14 +35,11 @@ def authentication_token_from_email(client: TestClient, email: str, rol:str, db:
                                     password2=password)
         user = create_new_user(user=user_in_create, db=db)
 
+    # ROL (admin o std)
+    group = GroupCreate(description=rol)
+    g = create_new_group(group,db)
 
-        # ROL (admin o std)
-        group = GroupCreate(description=rol)
-        g = create_new_group(group,db)
-
-
-        # lo agrego a su grupo
-        add_group_user(user.id,[g.id],db)
-
+    # lo agrego a su grupo
+    add_group_user(user.id,[g.id],db)
 
     return user_authentication_headers(client=client, email=email, password=password)
