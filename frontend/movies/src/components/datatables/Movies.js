@@ -84,7 +84,7 @@ const MoviesTable = () => {
       const response = await consume_service(URL_GENRES_BASE,'get',{});
       const data = await response.data;
       console.log(response.data);
-      setOptions(data);
+      setOptions(data.data);
     } catch (error) {
       console.error('Error fetching options from API:', error);
     }

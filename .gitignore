@@ -10,4 +10,4 @@ nginx/my-site.cert
 nginx/my-site.key
 backend/sql_app.db
 backend/test_db.db
-alembic/version
+alembic/versions

@@ -47,7 +47,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile.nginx
     ports:
-    - 1340:80 # 1340:80 y luego voy a localhost:1340
+    - 1340:80 #    1340:80 y luego voy a localhost:1340; es otra opción
     - 443:443
     depends_on:
     - app
@@ -77,5 +77,3 @@ services:
 
 
 
-#docker-compose up --build
-# 4200 guardia

@@ -51,7 +51,7 @@ const MovieFilterForm = (props) => {
           try {
             const response = await consume_service(URL_GENRES_BASE,'get','',{},false);
             const data = await response.data;
-            setOptions(data);
+            setOptions(data.data); //data
           } catch (error) {
             console.error('Error fetching options from API:', error);
           }

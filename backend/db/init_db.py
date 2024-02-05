@@ -167,19 +167,19 @@ def init_db(db: Session) -> None:
 
     # movies
     movie_in = schemas.movies.MovieCreate(
-        title='Smile',
+        title='Scream',
         description=smile_des,
         genres=[g1.id,g2.id],
         date='2018-07-03',
-        image_link='https://i0.wp.com/imgs.hipertextual.com/wp-content/uploads/2022/09/Smile.png?fit=1200%2C598&quality=50&strip=all&ssl=1',
+        image_link='https://images.unsplash.com/photo-1635125534074-b39bf6fb9a97?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHNtaWxlJTIwbW92aWV8ZW58MHx8MHx8fDA%3D',
     )
     m1 = movies.create_new_movie(movie_in,db)
     movie_in = schemas.movies.MovieCreate(
-        title='matrix reloaded',
+        title='Matrix',
         description=matrix_des,
         genres=[g1.id],
         date='2016-07-03',
-        image_link='https://www.slashfilm.com/img/gallery/the-wachowskis-wanted-the-matrix-trilogy-to-change-the-way-we-watch-movies/l-intro-1657156429.jpg'
+        image_link='https://plus.unsplash.com/premium_photo-1673688152102-b24caa6e8725?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWF0cml4fGVufDB8fDB8fHww'
     )
     m2 = movies.create_new_movie(movie_in,db)
 

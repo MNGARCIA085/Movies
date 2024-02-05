@@ -71,7 +71,8 @@ const MovieEditForm = () => {
             try {
               const response = await consume_service(URL_GENRES_BASE,'get','',{},false);
               const data = await response.data;
-              setOptions(data);
+              console.log(data);
+              setOptions(data.data);
             } catch (error) {
               console.error('Error fetching options from API:', error);
             }

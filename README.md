@@ -1,4 +1,4 @@
-Comience por clonar el repo
+Start by cloning the repo:
 
 
 git clone https://github.com/MNGARCIA085/Movies.git
@@ -9,7 +9,7 @@ git clone https://github.com/MNGARCIA085/Movies.git
 
 ### 1.1. BACKEND
 
-Crear .env en el root
+Create .env in the root:
 
 USE_SQLITE_DB=True
 FIRST_SUPERUSER=****
@@ -21,7 +21,7 @@ EMAIL_SERVER=*****
 EMAIL_PORT=******
 
 
-Create virtual env and install dependencies
+Create virtual environment and install dependencies:
 
 
 ..$ cd backend
@@ -33,36 +33,34 @@ Create virtual env and install dependencies
 ...backend$ pip install -r requirements.txt
 
 
-Crear y ejecutar las migraciones iniciales (se trabajará por sencillez con SQLite,
-pero puede usar cualquier otra definiendo la base, usuario y password en el .env
-y configurando apropiadamente db/session.py)
 
+
+Create and execute initial migrations (SQLite will be used for simplicity, but you can use any other 
+by defining the database, user, and password in .env and configuring db/session.py appropriately):
 
 
 alembic revision --autogenerate -m "Initial migration"
 alembic upgrade head
 
 
-Carga inicial de datos (opcional) (Entre otras cosas, esto creará un usuario "admin" con password "1234")
+Initial data load (optional) (Among other things, this will create an "admin" user with password "1234"
+and (among others) standard user "u1" with password "1234"):
 
 ....backend$ ./pre-start.sh 
 
 
 
-Iniciar el backend:
+Start the backend (we will use port 1340):
 
-.....frontend $ uvicorn main:app --reload
+(The --reload flag is useful for development)
 
-(el --reload es útil para desarrollo)
+You can view the app documentation at:
 
-
-Puede ver la documentación de la app funcionando en:
-
-htpp://127.0.0.1:8000/docs
+htpp://127.0.0.1:1340/docs
 
 
 
-Los tests puede ejecutarlos de la siguiente forma:
+You can run the tests as follows:
 
 ....backend$ pytest
 
@@ -71,52 +69,64 @@ Los tests puede ejecutarlos de la siguiente forma:
 
 ### 1.2. FRONTEND
 
-En otra pestaña:
+In another tab:
 
 ...$ cd frontend/movies
 
 ....movies $ npm install
 
 
-Iniciar el frontend
+Start the frontend
 
 ....$ npm start
 
 
-Puede acceder a él en localhost:3000
+You can access it at localhost:3000
 
-
-Puede encontrar una descripción de uso de la app en ......(link al uso)
+You can find a description of app usage at ......(link to usage)
 
 
 ## 2. CON DOCKER
 
 
 
-Como vamos a servirlo por https deben generarse los certificados SSL, como es un ejemplo
-aquí serán self-signed:
+As we will serve it over https, SSL certificates must be generated.
+
+You can generate self-signed certificates on Linux using the following commands:
 
 
-Una vez generados, los guardamos en.....
+openssl genrsa 2048 > my-site.key
+chmod 400 my-site.key
+openssl req -new -x509 -nodes -sha256 -days 365 -key my-site.key -out my-site.cert
+
+The nginx folder should look like this:
+
+nginx
+ └── Dockerfile.nginx
+ └── my-site.cert
+ └── my-site.key
+ └── nginx.conf
 
 
-Construimos la imagen:
+
+Build the image:
 
 ...$ sudo docker-compose -f docker-compose.yaml up -d --build
 
 
-Levantamos el contenedor:
+Start the container:
 
 
 .....$ sudo docker-compose up -d
 
-
-Vemos los logs:
+View the logs:
 
 ....$sudo docker-compose logs -f
 
 
+You can access the backend at localhost:1340 and the frontend at localhost:3000."
 
-Puede acceder al backend en localhost:1340 y al frontend en localhost:3000.
+
+You can also access the backend via https://localhost/docs
 
 
